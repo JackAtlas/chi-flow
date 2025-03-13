@@ -97,16 +97,14 @@ function CreateWorkflowDialog({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex gap-1 items-center">
-                      Description
-                      <p className="text-xs text-emerald-500">
-                        (required)
-                      </p>
+                      名称
+                      <p className="text-xs text-primary">(必填)</p>
                     </FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
                     <FormDescription>
-                      Choose a descriptive and unique name
+                      名称是不可重复的
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -115,24 +113,22 @@ function CreateWorkflowDialog({
 
               <FormField
                 control={form.control}
-                name="name"
+                name="description"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex gap-1 items-center">
-                      Description
+                      描述
                       <p className="text-xs text-muted-foreground">
-                        (optional)
+                        (可选)
                       </p>
                     </FormLabel>
                     <FormControl>
                       <Textarea {...field} />
                     </FormControl>
                     <FormDescription>
-                      Provide a brief description of what your
-                      workflow does.
+                      写一段关于该工作流是做什么的描述。
                       <br />
-                      This is optional but can help you remember the
-                      workflow&apos;s purpose.
+                      这不是必须的，但可以帮你记住该工作流的目标。
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -141,10 +137,10 @@ function CreateWorkflowDialog({
 
               <Button
                 type="submit"
-                className="w-full bg-emerald-500"
+                className="w-full bg-primary"
                 disabled={isPending}
               >
-                {!isPending && 'Proceed'}
+                {!isPending && '新建'}
                 {isPending && <Loader2 className="animate-spin" />}
               </Button>
             </form>
