@@ -77,20 +77,30 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
             <ShuffleIcon size={16} />
             编辑
           </Link>
-          <WorkflowActions workflowName={workflow.name} />
+          <WorkflowActions
+            workflowId={workflow.id}
+            workflowName={workflow.name}
+          />
         </div>
       </CardContent>
     </Card>
   )
 }
 
-function WorkflowActions({ workflowName }: { workflowName: string }) {
+function WorkflowActions({
+  workflowName,
+  workflowId
+}: {
+  workflowId: string
+  workflowName: string
+}) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   return (
     <>
       <DeleteWorkflowDialog
         open={showDeleteDialog}
         setOpen={setShowDeleteDialog}
+        workflowId={workflowId}
         workflowName={workflowName}
       ></DeleteWorkflowDialog>
       <DropdownMenu>

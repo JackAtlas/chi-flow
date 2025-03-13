@@ -1,5 +1,6 @@
 'use client'
 
+import { DeleteWorkflow } from '@/actions/workflows/deleteWorkflow'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,21 +12,39 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 import { Input } from '@/components/ui/input'
+import { WorkflowDeleteResultText } from '@/types/workflow'
+import { useMutation } from '@tanstack/react-query'
 
 import React, { useState } from 'react'
+import { toast } from 'sonner'
 
 interface Props {
   open: boolean
   setOpen: (open: boolean) => void
+  workflowId: string
   workflowName: string
 }
 
 function DeleteWorkflowDialog({
   open,
   setOpen,
+  workflowId,
   workflowName
 }: Props) {
   const [confirmText, setConfirmText] = useState('')
+  const deleteMutation = useMutation({
+    mutationFn: DeleteWorkflow,
+    onSuccess: () => {
+      toast.success(WorkflowDeleteResultText.DELETE_SUCCESS, {
+        id: workflowId
+      })
+    },
+    onError: () => {
+      toast.error(WorkflowDeleteResultText.DELETE_FAIL, {
+        id: workflowId
+      })
+    }
+  })
   return (
     <AlertDialog
       open={open}
@@ -52,8 +71,16 @@ function DeleteWorkflowDialog({
         <AlertDialogFooter>
           <AlertDialogCancel>取消</AlertDialogCancel>
           <AlertDialogAction
-            disabled={confirmText !== workflowName}
+            disabled={
+              confirmText !== workflowName || deleteMutation.isPending
+            }
             className="bg-destructive hover:bg-destructive/90"
+            onClick={() => {
+              toast.loading(WorkflowDeleteResultText.DELETING, {
+                id: workflowId
+              })
+              deleteMutation.mutate(workflowId)
+            }}
           >
             确认删除
           </AlertDialogAction>
