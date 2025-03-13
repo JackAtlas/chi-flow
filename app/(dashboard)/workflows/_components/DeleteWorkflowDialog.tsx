@@ -27,7 +27,13 @@ function DeleteWorkflowDialog({
 }: Props) {
   const [confirmText, setConfirmText] = useState('')
   return (
-    <AlertDialog open={open} onOpenChange={setOpen}>
+    <AlertDialog
+      open={open}
+      onOpenChange={(value) => {
+        setConfirmText('')
+        setOpen(value)
+      }}
+    >
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>确定要删除？</AlertDialogTitle>
