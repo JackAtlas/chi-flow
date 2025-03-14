@@ -44,7 +44,7 @@ function TaskMenuBtn({ taskType }: { taskType: TaskType }) {
   }
   return (
     <Button
-      value="secondary"
+      variant="secondary"
       className="flex justify-between items-center gap-2 border w-full"
       draggable
       onDragStart={(event) => onDragStart(event, taskType)}
