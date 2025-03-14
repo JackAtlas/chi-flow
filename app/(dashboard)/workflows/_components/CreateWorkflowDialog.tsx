@@ -41,7 +41,10 @@ function CreateWorkflowDialog({
 
   const form = useForm<z.infer<typeof createWorkflowSchema>>({
     resolver: zodResolver(createWorkflowSchema),
-    defaultValues: {}
+    defaultValues: {
+      name: '',
+      description: ''
+    }
   })
 
   const { mutate, isPending } = useMutation({
@@ -51,10 +54,18 @@ function CreateWorkflowDialog({
         id: 'create-workflow'
       })
     },
-    onError: () => {
-      toast.error(WorkflowCreateResultText.CREATE_FAIL, {
-        id: 'create-workflow'
-      })
+    onError: (err) => {
+      // https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating
+      // redirect internally throws an error
+      if (JSON.stringify(err).includes('NEXT_REDIRECT')) {
+        toast.success(WorkflowCreateResultText.CREATE_SUCCESS, {
+          id: 'create-workflow'
+        })
+      } else {
+        toast.error(WorkflowCreateResultText.CREATE_FAIL, {
+          id: 'create-workflow'
+        })
+      }
     }
   })
 
