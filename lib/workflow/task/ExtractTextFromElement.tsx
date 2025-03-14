@@ -11,11 +11,13 @@ export const ExtractTypeFromElement = {
   inputs: [
     {
       name: 'Html',
+      text: 'Html',
       type: TaskParamType.STRING,
       required: true
     },
     {
       name: 'Selector',
+      text: '选择器',
       type: TaskParamType.STRING,
       required: true
     }
