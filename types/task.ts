@@ -5,14 +5,12 @@ export enum TaskType {
 
 export enum TaskParamType {
   STRING = 'STRING',
-  BROWSER_INSTANCE = 'BROWSER_INSTANCE',
-  NUMBER = 'NUMBER',
-  BOOLEAN = 'BOOLEAN'
+  BROWSER_INSTANCE = 'BROWSER_INSTANCE'
 }
 
 export interface TaskParam {
   name: string
-  text: string
+  text?: string
   type: TaskParamType
   helperText?: string
   required?: boolean
