@@ -7,7 +7,7 @@ import { useEffect, useId, useState } from 'react'
 
 function StringParam({
   param,
-  value,
+  value = '',
   updateNodeParamValue
 }: ParamProps) {
   const [internalValue, setInternalValue] = useState(value)
