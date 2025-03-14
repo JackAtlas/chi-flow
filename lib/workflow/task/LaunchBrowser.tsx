@@ -10,7 +10,8 @@ export const LaunchBrowserTask = {
   isEntryPoint: true,
   inputs: [
     {
-      name: '网址',
+      name: 'Website Url',
+      text: '网址',
       type: TaskParamType.STRING,
       helperText: 'eg: https://www.taobao.com',
       required: true,
