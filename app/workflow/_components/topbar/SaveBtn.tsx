@@ -43,7 +43,7 @@ function SaveBtn({ workflowId }: { workflowId: string }) {
       }}
     >
       <CheckIcon size={16} className="stroke-primary" />
-      Save
+      保存
     </Button>
   )
 }
