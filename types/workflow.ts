@@ -48,3 +48,11 @@ export enum WorkflowStatusText {
   NOT_DRAFT = '工作流不是草稿状态',
   NOT_PUBLISHED = '工作流未发布'
 }
+
+export enum WorkflowRunResultText {
+  ID = '缺失工作流 ID',
+  NOT_FOUND = '工作流不存在',
+  NO_DEFINITION = '工作流未定义',
+  INVALID_DEFINITION = '工作流定义不合法',
+  NO_EXECUTION_PLAN = '执行计划未生成'
+}
