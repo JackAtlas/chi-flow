@@ -54,5 +54,26 @@ export enum WorkflowRunResultText {
   NOT_FOUND = '工作流不存在',
   NO_DEFINITION = '工作流未定义',
   INVALID_DEFINITION = '工作流定义不合法',
-  NO_EXECUTION_PLAN = '执行计划未生成'
+  NO_EXECUTION_PLAN = '执行计划未生成',
+  STARTED = '开始执行',
+  FAILED = '执行失败'
+}
+
+export enum WorkflowExecutionStatus {
+  PENDING = 'PENDING',
+  RUNNING = 'RUNNING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED'
+}
+
+export enum ExecutionPhaseStatus {
+  CREATED = 'CREATED',
+  PENDING = 'PENDING',
+  RUNNING = 'RUNNING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED'
+}
+
+export enum WorkflowExecutionTrigger {
+  MANUAL = 'MANUAL'
 }

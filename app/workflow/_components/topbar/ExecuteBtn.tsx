@@ -3,6 +3,7 @@
 import { RunWorkflow } from '@/actions/workflows/runWorkflow'
 import useExecutionPlan from '@/components/hooks/useExecutionPlan'
 import { Button } from '@/components/ui/button'
+import { WorkflowRunResultText } from '@/types/workflow'
 import { useMutation } from '@tanstack/react-query'
 import { useReactFlow } from '@xyflow/react'
 import { PlayIcon } from 'lucide-react'
@@ -20,10 +21,22 @@ export default function ExecuteBtn({
   const mutation = useMutation({
     mutationFn: RunWorkflow,
     onSuccess: () => {
-      toast.success('开始执行', { id: 'flow-execution' })
+      toast.success(WorkflowRunResultText.STARTED, {
+        id: 'flow-execution'
+      })
     },
-    onError: () => {
-      toast.error('执行失败', { id: 'flow-execution' })
+    onError: (err) => {
+      // https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating
+      // redirect internally throws an error
+      if (JSON.stringify(err).includes('NEXT_REDIRECT')) {
+        toast.success(WorkflowRunResultText.STARTED, {
+          id: 'flow-execution'
+        })
+      } else {
+        toast.error(WorkflowRunResultText.FAILED, {
+          id: 'flow-execution'
+        })
+      }
     }
   })
   return (
