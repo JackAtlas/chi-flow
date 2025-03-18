@@ -12,6 +12,8 @@ import { AppNode } from '@/types/appNode'
 import { TaskRegistry } from './task/registry'
 import { ExecutorRegistry } from './executor/registry'
 import { Environment, ExecutionEnvironment } from '@/types/executor'
+import { TaskParamType } from '@/types/task'
+import { Browser, Page } from 'puppeteer'
 
 export async function ExecuteWorkflow(executionId: string) {
   const execution = await prisma.workflowExecution.findUnique({
@@ -51,7 +53,8 @@ export async function ExecuteWorkflow(executionId: string) {
     executionFailed,
     creditsConsumed
   )
-  // TODO: clean up environment
+
+  await cleanupEnvironment(environment)
 
   revalidatePath('/workflows/runs')
 }
@@ -140,7 +143,8 @@ async function executeWorkflowPhase(
     where: { id: phase.id },
     data: {
       status: ExecutionPhaseStatus.RUNNING,
-      startedAt
+      startedAt,
+      inputs: JSON.stringify(environment.phases[node.id].inputs)
     }
   })
 
@@ -154,12 +158,17 @@ async function executeWorkflowPhase(
 
   const success = await executePhase(phase, node, environment)
 
-  await finalizePhase(phase.id, success)
+  const outputs = environment.phases[node.id].outputs
+  await finalizePhase(phase.id, success, outputs)
 
   return { success }
 }
 
-async function finalizePhase(phaseId: string, success: boolean) {
+async function finalizePhase(
+  phaseId: string,
+  success: boolean,
+  outputs: any
+) {
   const finalStatus = success
     ? ExecutionPhaseStatus.COMPLETED
     : ExecutionPhaseStatus.FAILED
@@ -168,7 +177,8 @@ async function finalizePhase(phaseId: string, success: boolean) {
     where: { id: phaseId },
     data: {
       status: finalStatus,
-      completedAt: new Date()
+      completedAt: new Date(),
+      outputs: JSON.stringify(outputs)
     }
   })
 }
@@ -200,6 +210,7 @@ function setupEnvironmentForPhase(
 
   const inputs = TaskRegistry[node.data.type].inputs
   for (const input of inputs) {
+    if (input.value === TaskParamType.BROWSER_INSTANCE) continue
     const inputValue = node.data.inputs[input.name]
     if (inputValue) {
       environment.phases[node.id].inputs[input.name] = inputValue
@@ -213,10 +224,31 @@ function setupEnvironmentForPhase(
 function createExecutionEnvironment(
   node: AppNode,
   environment: Environment
-) {
+): ExecutionEnvironment<any> {
   return {
     getInput(name: string) {
       return environment.phases[node.id]?.inputs[name]
+    },
+    setOutput(name: string, value: string) {
+      environment.phases[node.id].outputs[name] = value
+    },
+
+    getBrowser: () => environment.browser,
+    setBrowser: (browser: Browser) => {
+      environment.browser = browser
+    },
+
+    getPage: () => environment.page,
+    setPage: (page: Page) => {
+      environment.page = page
     }
+  }
+}
+
+async function cleanupEnvironment(environment: Environment) {
+  if (environment.browser) {
+    await environment.browser
+      .close()
+      .catch((err) => console.error('无法关闭浏览器：', err))
   }
 }
