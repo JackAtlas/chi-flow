@@ -1,5 +1,5 @@
 import { TaskType } from '@/types/task'
-import { ExtractTypeFromElement } from './ExtractTextFromElement'
+import { ExtractTextFromElement } from './ExtractTextFromElement'
 import { LaunchBrowserTask } from './LaunchBrowser'
 import { PageToHtmlTask } from './PageToHTML'
 import { WorkflowTask } from '@/types/workflow'
@@ -11,5 +11,5 @@ type Registry = {
 export const TaskRegistry: Registry = {
   LAUNCH_BROWSER: LaunchBrowserTask,
   PAGE_TO_HTML: PageToHtmlTask,
-  EXTRACT_TEXT_FROM_ELEMENT: ExtractTypeFromElement
+  EXTRACT_TEXT_FROM_ELEMENT: ExtractTextFromElement
 }

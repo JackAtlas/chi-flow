@@ -2,7 +2,7 @@ import { TaskParamType, TaskType } from '@/types/task'
 import { WorkflowTask } from '@/types/workflow'
 import { LucideProps, TextIcon } from 'lucide-react'
 
-export const ExtractTypeFromElement = {
+export const ExtractTextFromElement = {
   type: TaskType.EXTRACT_TEXT_FROM_ELEMENT,
   label: '从页面元素中提取文本',
   icon: (props: LucideProps) => (
