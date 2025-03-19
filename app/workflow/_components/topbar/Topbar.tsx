@@ -15,13 +15,15 @@ interface Props {
   subtitle?: string
   workflowId: string
   hideButtons?: boolean
+  isPublished?: boolean
 }
 
 function Topbar({
   title,
   subtitle,
   workflowId,
-  hideButtons = false
+  hideButtons = false,
+  isPublished
 }: Props) {
   const router = useRouter()
   return (
@@ -50,8 +52,12 @@ function Topbar({
         {!hideButtons && (
           <>
             <ExecuteBtn workflowId={workflowId} />
-            <SaveBtn workflowId={workflowId} />
-            <PublishBtn workflowId={workflowId} />
+            {!isPublished && (
+              <>
+                <SaveBtn workflowId={workflowId} />
+                <PublishBtn workflowId={workflowId} />
+              </>
+            )}
           </>
         )}
       </div>
