@@ -31,7 +31,7 @@ export default function UserAvailableCreditsBadge() {
         {!query.isLoading && query.data && (
           <ReactCountUpWrapper value={query.data} />
         )}
-        {!query.isLoading && !query.data && '-'}
+        {!query.isLoading && query.data === undefined && '-'}
       </span>
     </Link>
   )
