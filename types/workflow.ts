@@ -55,6 +55,7 @@ export enum WorkflowRunResultText {
   NO_DEFINITION = '工作流未定义',
   INVALID_DEFINITION = '工作流定义不合法',
   NO_EXECUTION_PLAN = '执行计划未生成',
+  PENDING = '准备中……',
   STARTED = '开始执行',
   FAILED = '执行失败'
 }
