@@ -83,3 +83,9 @@ export enum WorkflowPublishResultText {
   PUBLISH_SUCCESS = '工作流已发布',
   PUBLISH_FAIL = '工作流发布失败'
 }
+
+export enum WorkflowUnpublishResultText {
+  UNPUBLISHING = '正在取消发布工作流……',
+  UNPUBLISH_SUCCESS = '工作流已取消发布',
+  UNPUBLISH_FAIL = '工作流取消发布失败'
+}

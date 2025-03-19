@@ -10,7 +10,8 @@ import {
   WorkflowExecutionPlan,
   WorkflowExecutionStatus,
   WorkflowExecutionTrigger,
-  WorkflowRunResultText
+  WorkflowRunResultText,
+  WorkflowStatus
 } from '@/types/workflow'
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
@@ -28,9 +29,6 @@ export async function RunWorkflow(form: {
   if (!workflowId) {
     throw new Error(WorkflowRunResultText.ID)
   }
-  if (!flowDefinition) {
-    throw new Error(WorkflowRunResultText.NO_DEFINITION)
-  }
 
   const workflow = await prisma.workflow.findUnique({
     where: {
@@ -44,17 +42,27 @@ export async function RunWorkflow(form: {
   }
 
   let executionPlan: WorkflowExecutionPlan
-  const flow = JSON.parse(flowDefinition)
-  const result = FlowToExecutionPlan(flow.nodes, flow.edges)
-  if (result.error) {
-    throw new Error(WorkflowRunResultText.INVALID_DEFINITION)
-  }
+  if (workflow.status === WorkflowStatus.PUBLISHED) {
+    if (!workflow.executionPlan) {
+      throw new Error(WorkflowRunResultText.NO_EXECUTION_PLAN)
+    }
+    executionPlan = JSON.parse(workflow.executionPlan)
+  } else {
+    if (!flowDefinition) {
+      throw new Error(WorkflowRunResultText.NO_DEFINITION)
+    }
+    const flow = JSON.parse(flowDefinition)
+    const result = FlowToExecutionPlan(flow.nodes, flow.edges)
+    if (result.error) {
+      throw new Error(WorkflowRunResultText.INVALID_DEFINITION)
+    }
 
-  if (!result.executionPlan) {
-    throw new Error(WorkflowRunResultText.NO_EXECUTION_PLAN)
-  }
+    if (!result.executionPlan) {
+      throw new Error(WorkflowRunResultText.NO_EXECUTION_PLAN)
+    }
 
-  executionPlan = result.executionPlan
+    executionPlan = result.executionPlan
+  }
 
   const execution = await prisma.workflowExecution.create({
     data: {
