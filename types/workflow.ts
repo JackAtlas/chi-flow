@@ -77,3 +77,9 @@ export enum ExecutionPhaseStatus {
 export enum WorkflowExecutionTrigger {
   MANUAL = 'MANUAL'
 }
+
+export enum WorkflowPublishResultText {
+  PUBLISHING = '正在发布工作流……',
+  PUBLISH_SUCCESS = '工作流已发布',
+  PUBLISH_FAIL = '工作流发布失败'
+}
