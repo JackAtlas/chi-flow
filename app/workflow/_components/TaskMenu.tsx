@@ -17,8 +17,17 @@ function TaskMenu() {
       <Accordion
         type="multiple"
         className="w-full"
-        defaultValue={['extraction']}
+        defaultValue={['extraction', 'interactions']}
       >
+        <AccordionItem value="interactions">
+          <AccordionTrigger className="font-bold">
+            用户交互
+          </AccordionTrigger>
+          <AccordionContent>
+            <TaskMenuBtn taskType={TaskType.FILL_INPUT} />
+            <TaskMenuBtn taskType={TaskType.CLICK_ELEMENT} />
+          </AccordionContent>
+        </AccordionItem>
         <AccordionItem value="extraction">
           <AccordionTrigger className="font-bold">
             数据提取
