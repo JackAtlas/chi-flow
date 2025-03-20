@@ -31,6 +31,12 @@ export enum WorkflowCreateResultText {
   CREATE_FAIL = '工作流创建失败'
 }
 
+export enum WorkflowDuplicateResultText {
+  DUPLICATING = '正在复制工作流……',
+  DUPLICATE_SUCCESS = '工作流已复制',
+  DUPLICATE_FAIL = '工作流复制失败'
+}
+
 export enum WorkflowUpdateResultText {
   UPDATING = '正在更新工作流……',
   UPDATE_SUCCESS = '工作流已更新',

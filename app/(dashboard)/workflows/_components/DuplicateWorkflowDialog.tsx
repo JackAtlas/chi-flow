@@ -8,13 +8,12 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog'
 import {
-  createWorkflowSchema,
-  createWorkflowSchemaType
+  duplicateWorkflowSchema,
+  duplicateWorkflowSchemaType
 } from '@/schema/workflow'
-import { Layers2Icon, Loader2 } from 'lucide-react'
+import { CopyIcon, Layers2Icon, Loader2 } from 'lucide-react'
 import React, { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Form,
@@ -28,51 +27,54 @@ import {
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useMutation } from '@tanstack/react-query'
-import { CreateWorkflow } from '@/actions/workflows/createWorkflow'
 import { toast } from 'sonner'
-import { WorkflowCreateResultText } from '@/types/workflow'
+import { WorkflowDuplicateResultText } from '@/types/workflow'
+import { DuplicateWorkflow } from '@/actions/workflows/duplicateWorkflow'
+import { cn } from '@/lib/utils'
 
-function CreateWorkflowDialog({
-  triggerText
+function DuplicateWorkflowDialog({
+  workflowId
 }: {
-  triggerText?: string
+  workflowId?: string
 }) {
   const [open, setOpen] = useState(false)
 
-  const form = useForm<createWorkflowSchemaType>({
-    resolver: zodResolver(createWorkflowSchema),
+  const form = useForm<duplicateWorkflowSchemaType>({
+    resolver: zodResolver(duplicateWorkflowSchema),
     defaultValues: {
       name: '',
-      description: ''
+      description: '',
+      workflowId
     }
   })
 
   const { mutate, isPending } = useMutation({
-    mutationFn: CreateWorkflow,
+    mutationFn: DuplicateWorkflow,
     onSuccess: () => {
-      toast.success(WorkflowCreateResultText.CREATE_SUCCESS, {
-        id: 'create-workflow'
+      toast.success(WorkflowDuplicateResultText.DUPLICATE_SUCCESS, {
+        id: 'duplicate-workflow'
       })
+      setOpen((prev) => !prev)
     },
     onError: (err) => {
       // https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating
       // redirect internally throws an error
       if (JSON.stringify(err).includes('NEXT_REDIRECT')) {
-        toast.success(WorkflowCreateResultText.CREATE_SUCCESS, {
-          id: 'create-workflow'
+        toast.success(WorkflowDuplicateResultText.DUPLICATE_SUCCESS, {
+          id: 'duplicate-workflow'
         })
       } else {
-        toast.error(WorkflowCreateResultText.CREATE_FAIL, {
-          id: 'create-workflow'
+        toast.error(WorkflowDuplicateResultText.DUPLICATE_FAIL, {
+          id: 'duplicate-workflow'
         })
       }
     }
   })
 
   const onSubmit = useCallback(
-    (values: createWorkflowSchemaType) => {
-      toast.loading(WorkflowCreateResultText.CREATING, {
-        id: 'create-workflow'
+    (values: duplicateWorkflowSchemaType) => {
+      toast.loading(WorkflowDuplicateResultText.DUPLICATING, {
+        id: 'duplicate-workflow'
       })
       mutate(values)
     },
@@ -88,13 +90,20 @@ function CreateWorkflowDialog({
       }}
     >
       <DialogTrigger asChild>
-        <Button>{triggerText ?? '创建工作流'}</Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className={cn(
+            'ml-2 transition-opacity duration-200 opacity-0 group-hover/card:opacity-100'
+          )}
+        >
+          <CopyIcon className="w-4 h-4 text-muted-foreground cursor-pointer" />
+        </Button>
       </DialogTrigger>
       <DialogContent className="px-0">
         <CustomDialogHeader
           icon={Layers2Icon}
-          title="创建工作流"
-          subTitle="开始构建你的工作流"
+          title="复制工作流"
         ></CustomDialogHeader>
         <div className="p-6">
           <Form {...form}>
@@ -162,4 +171,4 @@ function CreateWorkflowDialog({
   )
 }
 
-export default CreateWorkflowDialog
+export default DuplicateWorkflowDialog

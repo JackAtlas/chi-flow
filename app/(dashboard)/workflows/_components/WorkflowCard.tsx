@@ -40,6 +40,7 @@ import ExecutionStatusIndicator, {
 } from '@/app/workflow/runs/[workflowId]/_components/ExecutionStatusIndicator'
 import { format, formatDistanceToNow } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
+import DuplicateWorkflowDialog from './DuplicateWorkflowDialog'
 
 function WorkflowCard({ workflow }: { workflow: Workflow }) {
   const isDraft = workflow.status === WorkflowStatus.DRAFT
@@ -48,7 +49,7 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
     [WorkflowStatus.PUBLISHED]: 'bg-emerald-500'
   }
   return (
-    <Card className="border border-separate shadow-sm rounded-lg overflow-hidden hover:shadow-md dark:shadow-primary/30">
+    <Card className="border border-separate shadow-sm rounded-lg overflow-hidden hover:shadow-md dark:shadow-primary/30 group/card">
       <CardContent className="p-4 flex items-center justify-between h-[100px]">
         <div className="flex items-center justify-end space-x-3">
           <div
@@ -65,17 +66,20 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
           </div>
           <div>
             <h3 className="text-base font-bold text-muted-foreground flex items-flex">
-              <Link
-                href={`/workflow/editor/${workflow.id}`}
-                className="flex items-center hover:underline"
-              >
-                {workflow.name}
-              </Link>
+              <TooltipWrapper content={workflow.description}>
+                <Link
+                  href={`/workflow/editor/${workflow.id}`}
+                  className="flex items-center hover:underline"
+                >
+                  {workflow.name}
+                </Link>
+              </TooltipWrapper>
               {isDraft && (
                 <span className="flex items-center ml-2 px-2 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
                   草稿
                 </span>
               )}
+              <DuplicateWorkflowDialog workflowId={workflow.id} />
             </h3>
             <ScheduleSection
               isDraft={isDraft}
