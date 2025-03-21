@@ -21,7 +21,8 @@ function TaskMenu() {
           'extraction',
           'interactions',
           'timing',
-          'results'
+          'results',
+          'storage'
         ]}
       >
         <AccordionItem value="interactions">
@@ -43,6 +44,16 @@ function TaskMenu() {
               taskType={TaskType.EXTRACT_TEXT_FROM_ELEMENT}
             />
             <TaskMenuBtn taskType={TaskType.EXTRACT_DATA_WITH_AI} />
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="storage">
+          <AccordionTrigger className="font-bold">
+            数据存储
+          </AccordionTrigger>
+          <AccordionContent>
+            <TaskMenuBtn
+              taskType={TaskType.READ_PROPERTY_FROM_JSON}
+            />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="timing">
