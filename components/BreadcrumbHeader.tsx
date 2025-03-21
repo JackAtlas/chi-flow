@@ -21,9 +21,6 @@ function BreadcrumbHeader() {
         <BreadcrumbList>
           {paths.map((path, index) => (
             <React.Fragment key={index}>
-              {path !== '' && (
-                <BreadcrumbSeparator></BreadcrumbSeparator>
-              )}
               <BreadcrumbItem>
                 <BreadcrumbLink
                   className="capitalize"
@@ -32,6 +29,7 @@ function BreadcrumbHeader() {
                   {path === '' ? 'Home' : `${path}`}
                 </BreadcrumbLink>
               </BreadcrumbItem>
+              {index !== paths.length - 1 && <BreadcrumbSeparator />}
             </React.Fragment>
           ))}
         </BreadcrumbList>
