@@ -29,7 +29,8 @@ function TaskMenu() {
           <AccordionTrigger className="font-bold">
             用户交互
           </AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="flex flex-col gap-1">
+            <TaskMenuBtn taskType={TaskType.NAVIGATE_URL} />
             <TaskMenuBtn taskType={TaskType.FILL_INPUT} />
             <TaskMenuBtn taskType={TaskType.CLICK_ELEMENT} />
           </AccordionContent>
@@ -38,7 +39,7 @@ function TaskMenu() {
           <AccordionTrigger className="font-bold">
             数据提取
           </AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="flex flex-col gap-1">
             <TaskMenuBtn taskType={TaskType.PAGE_TO_HTML} />
             <TaskMenuBtn
               taskType={TaskType.EXTRACT_TEXT_FROM_ELEMENT}
@@ -50,7 +51,7 @@ function TaskMenu() {
           <AccordionTrigger className="font-bold">
             数据存储
           </AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="flex flex-col gap-1">
             <TaskMenuBtn
               taskType={TaskType.READ_PROPERTY_FROM_JSON}
             />
@@ -61,7 +62,7 @@ function TaskMenu() {
           <AccordionTrigger className="font-bold">
             时间控制
           </AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="flex flex-col gap-1">
             <TaskMenuBtn taskType={TaskType.WAIT_FOR_ELEMENT} />
           </AccordionContent>
         </AccordionItem>
@@ -69,7 +70,7 @@ function TaskMenu() {
           <AccordionTrigger className="font-bold">
             发送结果
           </AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="flex flex-col gap-1">
             <TaskMenuBtn taskType={TaskType.DELIVER_VIA_WEBHOOK} />
           </AccordionContent>
         </AccordionItem>
