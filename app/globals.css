@@ -206,3 +206,13 @@
   margin-inline: auto;
   padding-inline: 2rem;
 }
+
+.react-flow__attribution {
+  background: transparent !important;
+}
+
+.dark {
+  .react-flow__controls-button {
+    @apply !bg-accent;
+  }
+}
