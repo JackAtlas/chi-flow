@@ -10,10 +10,15 @@ export async function LaunchBrowserExecutor(
     const websiteUrl = environment.getInput('Website Url')
     const browser = await puppeteer.launch({
       headless: true
+      // args: ["--proxy-server=brd.superproxy.io:22225"] use proxy server to change IP to bypass robot detection
     })
     environment.log.info('Launched browser successfully.')
     environment.setBrowser(browser)
     const page = await browser.newPage()
+    // await page.authenticate({ // user info for proxy server
+    //   username: "",
+    //   password: ""
+    // })
     await page.goto(websiteUrl)
     environment.setPage(page)
     environment.log.info(`Opened page at: ${websiteUrl}`)
