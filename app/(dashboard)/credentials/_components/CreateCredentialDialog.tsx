@@ -7,7 +7,7 @@ import {
   DialogContent,
   DialogTrigger
 } from '@/components/ui/dialog'
-import { Layers2Icon, Loader2, ShieldEllipsis } from 'lucide-react'
+import { Loader2, ShieldEllipsis } from 'lucide-react'
 import React, { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -52,6 +52,7 @@ function CreateCredentialDialog({
       toast.success(CredentialCreateResultText.CREATE_SUCCESS, {
         id: 'create-credential'
       })
+      setOpen(false)
     },
     onError: (err) => {
       // https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating
