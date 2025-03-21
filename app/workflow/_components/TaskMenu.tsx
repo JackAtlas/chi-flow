@@ -54,6 +54,7 @@ function TaskMenu() {
             <TaskMenuBtn
               taskType={TaskType.READ_PROPERTY_FROM_JSON}
             />
+            <TaskMenuBtn taskType={TaskType.ADD_PROPERTY_TO_JSON} />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="timing">
