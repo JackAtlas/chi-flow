@@ -24,7 +24,7 @@ function Logo({
           className="stroke-white"
         />
       </div>
-      <div>
+      <div className="flex items-center">
         <span className="bg-gradient-to-r from-violet-500 to-violet-600 bg-clip-text text-transparent">
           Chi
         </span>
