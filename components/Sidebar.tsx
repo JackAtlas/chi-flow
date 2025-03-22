@@ -59,7 +59,7 @@ function DesktopSidebar() {
       <div className="p-2">
         <UserAvailableCreditsBadge />
       </div>
-      <div className="flex flex-col p-2">
+      <div className="flex flex-col p-2 gap-2">
         {routes.map((route) => (
           <Link
             key={route.href}
