@@ -22,6 +22,7 @@ export async function LaunchBrowserExecutor(
     environment.setPage(page)
     environment.log.info(`Opened page at: ${websiteUrl}`)
     return true
+    // eslint-disable-next-line
   } catch (error: any) {
     environment.log.error(error.message)
     return false

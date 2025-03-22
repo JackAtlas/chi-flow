@@ -13,6 +13,7 @@ export async function NavigateUrlExecutor(
     await environment.getPage()!.goto(url)
     environment.log.info('Navigated to ' + url)
     return true
+    // eslint-disable-next-line
   } catch (error: any) {
     environment.log.error(error.message)
     return false

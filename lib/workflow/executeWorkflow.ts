@@ -96,10 +96,12 @@ async function initializeWorkflowExecution(
   })
 }
 
+// eslint-disable-next-line
 async function initializePhaseStatus(execution: any) {
   await prisma.executionPhase.updateMany({
     where: {
       id: {
+        // eslint-disable-next-line
         in: execution.phases.map((phase: any) => phase.id)
       }
     },
@@ -199,6 +201,7 @@ async function executeWorkflowPhase(
 async function finalizePhase(
   phaseId: string,
   success: boolean,
+  // eslint-disable-next-line
   outputs: any,
   logCollector: LogCollector,
   creditsConsumed: number
@@ -239,6 +242,7 @@ async function executePhase(
     return false
   }
 
+  // eslint-disable-next-line
   const executionEnviroment: ExecutionEnvironment<any> =
     createExecutionEnvironment(node, environment, logCollector)
 
@@ -292,6 +296,7 @@ function createExecutionEnvironment(
   node: AppNode,
   environment: Environment,
   logCollector: LogCollector
+  // eslint-disable-next-line
 ): ExecutionEnvironment<any> {
   return {
     getInput(name: string) {

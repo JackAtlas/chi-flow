@@ -57,6 +57,7 @@ function NodeHeader({
                   const node = getNode(nodeId) as AppNode
                   const newX = node.position.x
                   const newY =
+                    // eslint-disable-next-line
                     node.position.y + node.measured?.height! + 20
                   const newNode = CreateFlowNode(node.data.type, {
                     x: newX,

@@ -17,6 +17,7 @@ export async function FillInputExecutor(
 
     await environment.getPage()!.type(selector, value)
     return true
+    // eslint-disable-next-line
   } catch (error: any) {
     environment.log.error(error.message)
     return false

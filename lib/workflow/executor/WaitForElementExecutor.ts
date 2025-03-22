@@ -22,6 +22,7 @@ export async function WaitForElementExecutor(
     environment.log.info(`Element ${selector} is ${visibility}.`)
 
     return true
+    // eslint-disable-next-line
   } catch (error: any) {
     environment.log.error(error.message)
     return false

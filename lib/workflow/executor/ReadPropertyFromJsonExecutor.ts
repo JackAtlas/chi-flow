@@ -26,6 +26,7 @@ export async function ReadPropertyFromJsonExecutor(
     environment.setOutput('Property value', propertyValue)
 
     return true
+    // eslint-disable-next-line
   } catch (error: any) {
     environment.log.error(error.message)
     return false

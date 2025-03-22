@@ -14,6 +14,7 @@ const useExecutionPlan = () => {
   const { setInvalidInputs, clearErrors } = useFlowValidation()
 
   const handleError = useCallback(
+    // eslint-disable-next-line
     (error: any) => {
       switch (error.type) {
         case FlowToExecutionPlanValidationError.NO_ENTRY_POINT:

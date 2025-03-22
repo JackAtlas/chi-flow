@@ -26,6 +26,7 @@ export async function AddPropertyToJsonExecutor(
     environment.setOutput('Updated JSON', JSON.stringify(json))
 
     return true
+    // eslint-disable-next-line
   } catch (error: any) {
     environment.log.error(error.message)
     return false

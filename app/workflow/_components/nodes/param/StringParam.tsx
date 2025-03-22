@@ -18,6 +18,7 @@ function StringParam({
     setInternalValue(value)
   }, [value])
 
+  // eslint-disable-next-line
   let Component: any = Input
   if (param.variant === 'textarea') {
     Component = Textarea
@@ -35,8 +36,12 @@ function StringParam({
         className="text-xs"
         value={internalValue}
         placeholder="请输入"
-        onChange={(e: any) => setInternalValue(e.target.value)}
-        onBlur={(e: any) => updateNodeParamValue(e.target.value)}
+        onChange={(
+          e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        ) => setInternalValue(e.currentTarget.value)}
+        onBlur={(
+          e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+        ) => updateNodeParamValue(e.target.value)}
       />
       {param.helperText && (
         <p className="text-xs text-muted-foreground">

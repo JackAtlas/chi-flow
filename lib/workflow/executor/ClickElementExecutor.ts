@@ -12,6 +12,7 @@ export async function ClickElementExecutor(
 
     await environment.getPage()!.click(selector)
     return true
+    // eslint-disable-next-line
   } catch (error: any) {
     environment.log.error(error.message)
     return false

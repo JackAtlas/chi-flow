@@ -38,6 +38,7 @@ export async function ExtractTextFromElementExecutor(
     environment.setOutput('Extracted text', extractedText)
 
     return true
+    // eslint-disable-next-line
   } catch (error: any) {
     environment.log.error(error.message)
     return false

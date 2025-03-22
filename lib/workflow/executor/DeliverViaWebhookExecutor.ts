@@ -31,6 +31,7 @@ export async function DeliverViaWebhookExecutor(
     environment.log.info(JSON.stringify(responseBody, null, 4))
 
     return true
+    // eslint-disable-next-line
   } catch (error: any) {
     environment.log.error(error.message)
     return false
