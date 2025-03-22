@@ -8,7 +8,6 @@ import {
   getSmoothStepPath,
   useReactFlow
 } from '@xyflow/react'
-import { CircleX } from 'lucide-react'
 
 export default function DeletableEdge(props: EdgeProps) {
   const [edgePath, labelX, labelY] = getSmoothStepPath(props)

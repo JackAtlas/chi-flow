@@ -60,6 +60,7 @@ export default function SchedulerDialog(props: {
       setValidCron(true)
       setReadableCron(humanCronStr)
     } catch (error) {
+      console.error(error)
       setValidCron(false)
     }
   }, [cron])

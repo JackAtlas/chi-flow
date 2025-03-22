@@ -19,6 +19,7 @@ function isValidSecret(secret: string) {
       Buffer.from(API_SECRET)
     )
   } catch (error) {
+    console.error(error)
     return false
   }
 }
@@ -98,6 +99,7 @@ export async function GET(request: Request) {
     await ExecuteWorkflow(execution.id, nextRun)
     return Response.json(null, { status: 200 })
   } catch (error) {
+    console.error(error)
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }

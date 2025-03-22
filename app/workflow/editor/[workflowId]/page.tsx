@@ -1,4 +1,3 @@
-import { waitFor } from '@/lib/helper/waitFor'
 import prisma from '@/lib/prisma'
 import { AuthErrorText } from '@/types/auth'
 import { auth } from '@clerk/nextjs/server'

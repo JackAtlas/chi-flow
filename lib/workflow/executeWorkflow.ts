@@ -140,6 +140,7 @@ async function finalizeWorkflowExecution(
     })
     .catch((err) => {
       // ignore
+      console.error(err)
     })
 }
 
@@ -334,6 +335,7 @@ async function decrementCredits(
     })
     return true
   } catch (error) {
+    console.error(error)
     logCollector.error('insufficient balance')
     return false
   }
