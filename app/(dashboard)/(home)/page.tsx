@@ -1,7 +1,6 @@
 import { GetPeriods } from '@/actions/analytics/getPeriods'
 import React, { Suspense } from 'react'
 import PeriodSelector from './_components/PeriodSelector'
-import { SearchParams } from 'next/dist/server/request/search-params'
 import { Period } from '@/types/analytics'
 import { Skeleton } from '@/components/ui/skeleton'
 import { GetStatsCardsValues } from '@/actions/analytics/getStatsCardsValues'
