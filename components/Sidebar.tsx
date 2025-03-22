@@ -21,28 +21,29 @@ import {
 } from './ui/sheet'
 import UserAvailableCreditsBadge from './UserAvailableCreditsBadge'
 
-const routes = [
+export const routes = [
   {
     href: '',
-    label: 'Home',
+    label: '首页',
     icon: HomeIcon
   },
   {
     href: 'workflows',
-    label: 'Workflows',
+    label: '工作流',
     icon: Layers2Icon
   },
   {
     href: 'credentials',
-    label: 'Credentials',
+    label: '凭证',
     icon: ShieldCheckIcon
   },
   {
     href: 'billing',
-    label: 'Billing',
+    label: '账单',
     icon: CoinsIcon
   }
-]
+] as const
+
 function DesktopSidebar() {
   const pathname = usePathname()
   const activeRoute =

@@ -178,7 +178,7 @@ function ScheduleSection({
         key={`${cron}-${workflowId}`}
       />
       <MoveRightIcon className="h-4 w-4 text-muted-foreground" />
-      <TooltipWrapper content="Credit consumption for full run">
+      <TooltipWrapper content="一次运行消耗的全部额度">
         <div className="flex items-center gap-3">
           <Badge
             variant="outline"
@@ -211,7 +211,7 @@ function LastRunDetails({ workflow }: { workflow: Workflow }) {
             href={`/workflow/runs/${workflow.id}/${lastRunId}`}
             className="flex items-center text-sm gap-2 group"
           >
-            <span>Last run:</span>
+            <span>上次运行:</span>
             <ExecutionStatusIndicator
               status={lastRunStatus as WorkflowExecutionStatus}
             />
@@ -225,12 +225,12 @@ function LastRunDetails({ workflow }: { workflow: Workflow }) {
             />
           </Link>
         )}
-        {!lastRunAt && <span>No runs yet</span>}
+        {!lastRunAt && <span>未运行过</span>}
       </div>
       {nextRunAt && (
         <div className="flex items-center text-sm gap-2">
           <ClockIcon />
-          <span>Next run at:</span>
+          <span>下次运行:</span>
           <span>{nextSchedule}</span>
           <span className="text-xs">({nextScheduleUTC} UTC)</span>
         </div>

@@ -17,12 +17,12 @@ export default function NavigationTabs({
       <TabsList className="grid w-full grid-cols-2">
         <Link href={`/workflow/editor/${workflowId}`}>
           <TabsTrigger value="editor" className="w-full">
-            Editor
+            编辑器
           </TabsTrigger>
         </Link>
         <Link href={`/workflow/runs/${workflowId}`}>
           <TabsTrigger value="runs" className="w-full">
-            Runs
+            运行统计
           </TabsTrigger>
         </Link>
       </TabsList>

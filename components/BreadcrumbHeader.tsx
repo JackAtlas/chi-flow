@@ -9,6 +9,7 @@ import {
   BreadcrumbSeparator
 } from './ui/breadcrumb'
 import { MobileSidebar } from './Sidebar'
+import { routes } from './Sidebar'
 
 function BreadcrumbHeader() {
   const pathname = usePathname()
@@ -19,19 +20,26 @@ function BreadcrumbHeader() {
       <MobileSidebar />
       <Breadcrumb>
         <BreadcrumbList>
-          {paths.map((path, index) => (
-            <React.Fragment key={index}>
-              <BreadcrumbItem>
-                <BreadcrumbLink
-                  className="capitalize"
-                  href={`/${path}`}
-                >
-                  {path === '' ? 'Home' : `${path}`}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              {index !== paths.length - 1 && <BreadcrumbSeparator />}
-            </React.Fragment>
-          ))}
+          {paths.map((path, index) => {
+            const label = routes.find(
+              (route) => route.href === path
+            )?.label
+            return (
+              <React.Fragment key={index}>
+                <BreadcrumbItem>
+                  <BreadcrumbLink
+                    className="capitalize"
+                    href={`/${path}`}
+                  >
+                    {label}
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                {index !== paths.length - 1 && (
+                  <BreadcrumbSeparator />
+                )}
+              </React.Fragment>
+            )
+          })}
         </BreadcrumbList>
       </Breadcrumb>
     </div>

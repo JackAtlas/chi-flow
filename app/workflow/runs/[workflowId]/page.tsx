@@ -17,8 +17,8 @@ export default async function ExecutionsPage({
       <Topbar
         workflowId={workflowId}
         hideButtons
-        title="All runs"
-        subtitle="List of all your workflow runs"
+        title="运行"
+        subtitle="工作流的所有运行统计"
       />
       <Suspense
         fallback={
@@ -52,11 +52,9 @@ async function ExecutionTableWrapper({
             <InboxIcon size={40} className="stroke-primary" />
           </div>
           <div className="flex flex-col gap-1 text-center">
-            <p className="font-bold">
-              No runs have been triggered yet for this workflow
-            </p>
+            <p className="font-bold">这个工作流还没运行过</p>
             <p className="text-sm text-muted-foreground">
-              You can trigger a new run in the editor page
+              您可以在编辑器界面发起运行
             </p>
           </div>
         </div>

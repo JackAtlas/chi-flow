@@ -22,20 +22,17 @@ export default function CredentialPage() {
     <div className="flex flex-1 flex-col h-full">
       <div className="flex justify-between">
         <div className="flex flex-col">
-          <h1 className="text-3xl font-bold">Credentials</h1>
-          <p className="text-muted-foreground">
-            Manage your credentials
-          </p>
+          <h1 className="text-3xl font-bold">凭证</h1>
+          <p className="text-muted-foreground">管理您的凭证</p>
         </div>
         <CreateCredentialDialog />
       </div>
       <div className="h-full py-6 space-y-8">
         <Alert>
           <ShieldIcon className="w-4 h-4 stroke-primary" />
-          <AlertTitle className="text-primary">Encryption</AlertTitle>
+          <AlertTitle className="text-primary">加密</AlertTitle>
           <AlertDescription>
-            All information is securely encrypted, ensuring your data
-            remains safe
+            所有信息都经过加密，保证您的资料安全。
           </AlertDescription>
         </Alert>
 

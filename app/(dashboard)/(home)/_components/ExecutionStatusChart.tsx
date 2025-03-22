@@ -44,10 +44,10 @@ export default function ExecutionStatusChart({
       <CardHeader>
         <CardTitle className="text-2xl font-bold flex items-center gap-2">
           <Layers2 className="w-6 h-6 text-primary" />
-          Workflow execution status
+          工作流运行统计
         </CardTitle>
         <CardDescription>
-          Daily number of successfull and failed workflow executions
+          每日工作流运行统计（包含运行成功和失败）
         </CardDescription>
       </CardHeader>
       <CardContent>

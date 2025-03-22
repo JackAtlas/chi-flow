@@ -17,7 +17,7 @@ function page() {
       <div className="flex justify-between">
         <div className="flex flex-col">
           <h1 className="text-3xl font-bold">工作流</h1>
-          <p className="text-muted-foreground">管理你的工作流</p>
+          <p className="text-muted-foreground">管理您的工作流</p>
         </div>
         <CreateWorkflowDialog />
       </div>

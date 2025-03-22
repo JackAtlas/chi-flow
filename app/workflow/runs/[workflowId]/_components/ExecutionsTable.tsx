@@ -42,10 +42,10 @@ export default function ExecutionsTable({
         <TableHeader className="bg-muted">
           <TableRow>
             <TableHead>Id</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Consumed</TableHead>
+            <TableHead>状态</TableHead>
+            <TableHead>消耗额度</TableHead>
             <TableHead className="text-right text-xs text-muted-foreground">
-              Started at (desc)
+              起始时间 (降序)
             </TableHead>
           </TableRow>
         </TableHeader>

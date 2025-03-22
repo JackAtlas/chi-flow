@@ -79,17 +79,17 @@ async function StatsCards({
   return (
     <div className="grid gap-3 lg:gap-8 lg:grid-cols-3 min-h-[120px]">
       <StatsCard
-        title="Workflow executions"
+        title="工作流运行"
         value={data.workflowExecutions}
         icon={CirclePlayIcon}
       />
       <StatsCard
-        title="Phase executions"
+        title="小任务运行"
         value={data.phaseExecutions}
         icon={WaypointsIcon}
       />
       <StatsCard
-        title="Credits executions"
+        title="消耗额度"
         value={data.creditsConsumed}
         icon={CoinsIcon}
       />

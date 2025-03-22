@@ -87,20 +87,19 @@ export default function SchedulerDialog(props: {
           )}
           {!workflowHasValidCron && (
             <div className="flex items-center gap-1">
-              <TriangleAlertIcon className="h-3 w-3" /> Set schedule
+              <TriangleAlertIcon className="h-3 w-3" /> 设置日程
             </div>
           )}
         </Button>
       </DialogTrigger>
       <DialogContent className="px-0">
         <CustomDialogHeader
-          title="Schedule workflow execution"
+          title="安排运行日程"
           icon={CalendarIcon}
         />
         <div className="p-6 space-y-4">
           <p className="text-muted-foreground text-sm">
-            Specify a cron expression to schedule periodic workflow
-            execution. All times are in UTC.
+            用 cron 表达式设置一个运行周期，所有时间都是 UTC。
           </p>
           <Input
             placeholder="E.g. * * * * *"
@@ -115,7 +114,7 @@ export default function SchedulerDialog(props: {
                 : 'border-destructive text-destructive'
             )}
           >
-            {validCron ? readableCron : 'Not a valid cron expression'}
+            {validCron ? readableCron : '不是合规的 cron 表达式'}
           </div>
 
           {workflowHasValidCron && (
@@ -129,13 +128,13 @@ export default function SchedulerDialog(props: {
                     removeScheduleMutation.isPending
                   }
                   onClick={() => {
-                    toast.loading('Removing schedule...', {
+                    toast.loading('正在删除...', {
                       id: 'cron'
                     })
                     removeScheduleMutation.mutate(props.workflowId)
                   }}
                 >
-                  Remove current schedule
+                  删除日程
                 </Button>
                 <Separator className="my-4" />
               </div>
@@ -145,7 +144,7 @@ export default function SchedulerDialog(props: {
         <DialogFooter className="px-6 gap-2">
           <DialogClose asChild>
             <Button className="flex-1" variant="secondary">
-              Cancel
+              取消
             </Button>
           </DialogClose>
           <DialogClose asChild>
@@ -160,7 +159,7 @@ export default function SchedulerDialog(props: {
                 })
               }}
             >
-              Save
+              保存
             </Button>
           </DialogClose>
         </DialogFooter>
