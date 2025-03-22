@@ -18,7 +18,7 @@ import CreditUsageChart from '../billing/_components/CreditUsageChart'
 async function HomePage({
   searchParams
 }: {
-  searchParams: { month?: string; year?: string }
+  searchParams: Promise<{ [key: string]: string | undefined }>
 }) {
   const currentDate = new Date()
   const { month, year } = await searchParams

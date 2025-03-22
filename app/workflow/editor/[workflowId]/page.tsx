@@ -5,7 +5,11 @@ import { auth } from '@clerk/nextjs/server'
 import React from 'react'
 import Editor from '../../_components/Editor'
 
-async function page({ params }: { params: { workflowId: string } }) {
+async function page({
+  params
+}: {
+  params: Promise<{ workflowId: string }>
+}) {
   const { workflowId } = await params
   const { userId } = await auth()
   if (!userId) return <div>{AuthErrorText.UNAUTHENTICATED}</div>
