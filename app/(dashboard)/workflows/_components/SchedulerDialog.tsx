@@ -54,14 +54,16 @@ export default function SchedulerDialog(props: {
   })
 
   useEffect(() => {
-    try {
-      CronExpressionParser.parse(cron)
-      const humanCronStr = cronstrue.toString(cron)
-      setValidCron(true)
-      setReadableCron(humanCronStr)
-    } catch (error) {
-      console.error(error)
-      setValidCron(false)
+    if (cron.length !== 0) {
+      try {
+        CronExpressionParser.parse(cron)
+        const humanCronStr = cronstrue.toString(cron)
+        setValidCron(true)
+        setReadableCron(humanCronStr)
+      } catch (error) {
+        console.error(error)
+        setValidCron(false)
+      }
     }
   }, [cron])
 
