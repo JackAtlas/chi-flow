@@ -8,6 +8,7 @@ export async function LaunchBrowserExecutor(
   try {
     const websiteUrl = environment.getInput('Website Url')
     const browser = await puppeteer.launch({
+      args: ['--no-sandbox'],
       headless: true
       // args: ["--proxy-server=brd.superproxy.io:22225"] use proxy server to change IP to bypass robot detection
     })
