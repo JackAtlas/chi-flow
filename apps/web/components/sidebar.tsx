@@ -5,13 +5,20 @@ import {
   HomeIcon,
   Layers2Icon,
   LucideIcon,
+  MenuIcon,
   ShieldCheckIcon,
 } from "lucide-react"
 import Logo from "./logo"
 import Link from "next/link"
-import { buttonVariants } from "@workspace/ui/components/button"
+import { Button, buttonVariants } from "@workspace/ui/components/button"
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@workspace/ui/components/sheet"
 import { usePathname } from "next/navigation"
 import { cn } from "@workspace/ui/lib/utils"
+import { useState } from "react"
 
 type Route = {
   href: string
@@ -72,6 +79,50 @@ export default function DesktopSidebar() {
           </Link>
         ))}
       </div>
+    </div>
+  )
+}
+
+export function MobileSidebar() {
+  const [isOpen, setOpen] = useState(false)
+  const pathname = usePathname()
+  const activeRoute: Route =
+    routes.find(
+      (routes) => routes.href.length > 0 && pathname.includes(routes.href)
+    ) || routes[0]
+  return (
+    <div className="block border-separate bg-background md:hidden">
+      <nav className="container flex items-center justify-between px-8">
+        <Sheet open={isOpen} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <MenuIcon />
+            </Button>
+          </SheetTrigger>
+          <SheetContent className="w-100 space-y-4 sm:w-135" side="left">
+            <Logo />
+            <div className="flex flex-col gap-1">
+              {routes.map((route) => (
+                <Link
+                  key={route.href}
+                  href={route.href}
+                  className={cn(
+                    buttonVariants(),
+                    "justify-start gap-2",
+                    activeRoute!.href === route.href
+                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                      : "bg-transparent text-secondary-foreground hover:bg-primary/80 hover:text-primary-foreground"
+                  )}
+                  onClick={() => setOpen((prev) => !prev)}
+                >
+                  <route.icon size={20} />
+                  {route.label}
+                </Link>
+              ))}
+            </div>
+          </SheetContent>
+        </Sheet>
+      </nav>
     </div>
   )
 }

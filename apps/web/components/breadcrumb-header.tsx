@@ -8,6 +8,7 @@ import {
   BreadcrumbList,
 } from "@workspace/ui/components/breadcrumb"
 import { Fragment } from "react"
+import { MobileSidebar } from "./sidebar"
 
 export default function BreadcrumbHeader() {
   const pathname = usePathname()
@@ -15,6 +16,7 @@ export default function BreadcrumbHeader() {
 
   return (
     <div className="flex items-center justify-start">
+      <MobileSidebar />
       <Breadcrumb>
         <BreadcrumbList>
           {paths.map((path, index) => (
