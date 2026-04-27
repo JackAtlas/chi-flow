@@ -19,12 +19,19 @@ import {
   FieldLabel,
 } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@workspace/ui/components/input-group"
 import { Button } from "@workspace/ui/components/button"
 import { authClient } from "@/lib/auth/auth-client"
 import { redirect } from "next/navigation"
+import { EyeClosedIcon, EyeIcon } from "lucide-react"
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const form = useForm({
     defaultValues: {
       email: "",
@@ -124,17 +131,26 @@ export default function SignUpForm() {
                 return (
                   <Field data-invalid={isInvalid}>
                     <FieldLabel htmlFor={field.name}>密码</FieldLabel>
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      type="password"
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      aria-invalid={isInvalid}
-                      placeholder="请输入密码"
-                      autoComplete="off"
-                    />
+                    <InputGroup>
+                      <InputGroupInput
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        type={showPassword ? "text" : "password"}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        aria-invalid={isInvalid}
+                        placeholder="请输入密码"
+                        autoComplete="off"
+                      />
+                      <InputGroupAddon
+                        className="cursor-pointer pl-2"
+                        align="inline-end"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <EyeIcon /> : <EyeClosedIcon />}
+                      </InputGroupAddon>
+                    </InputGroup>
                     {isInvalid && (
                       <FieldError errors={field.state.meta.errors} />
                     )}
@@ -149,17 +165,26 @@ export default function SignUpForm() {
                 return (
                   <Field data-invalid={isInvalid}>
                     <FieldLabel htmlFor={field.name}>确认密码</FieldLabel>
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      type="password"
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      aria-invalid={isInvalid}
-                      placeholder="请重复输入密码"
-                      autoComplete="off"
-                    />
+                    <InputGroup>
+                      <InputGroupInput
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        type={showPassword ? "text" : "password"}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        aria-invalid={isInvalid}
+                        placeholder="请重复输入密码"
+                        autoComplete="off"
+                      />
+                      <InputGroupAddon
+                        className="cursor-pointer pl-2"
+                        align="inline-end"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <EyeIcon /> : <EyeClosedIcon />}
+                      </InputGroupAddon>
+                    </InputGroup>
                     {isInvalid && (
                       <FieldError errors={field.state.meta.errors} />
                     )}
