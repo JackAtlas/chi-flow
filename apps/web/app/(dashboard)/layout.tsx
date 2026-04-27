@@ -2,7 +2,7 @@ import { ReactNode } from "react"
 import { Separator } from "@workspace/ui/components/separator"
 import DesktopSidebar from "@/components/sidebar"
 import BreadcrumbHeader from "@/components/breadcrumb-header"
-import { ModeToggle } from "@/components/themeModeSwitcher"
+import { ModeToggle } from "@/components/theme-mode-switcher"
 
 export default function layout({ children }: { children: ReactNode }) {
   return (
