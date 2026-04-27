@@ -3,6 +3,7 @@ import { Separator } from "@workspace/ui/components/separator"
 import DesktopSidebar from "@/components/sidebar"
 import BreadcrumbHeader from "@/components/breadcrumb-header"
 import { ModeToggle } from "@/components/theme-mode-switcher"
+import { SignOutButton } from "@/components/sign-out-button"
 
 export default function layout({ children }: { children: ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export default function layout({ children }: { children: ReactNode }) {
           <BreadcrumbHeader />
           <div className="flex items-center gap-1">
             <ModeToggle />
+            <SignOutButton />
           </div>
         </header>
         <Separator />
