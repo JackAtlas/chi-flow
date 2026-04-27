@@ -13,3 +13,8 @@ export const signUpSchema = z
   })
 
 export type SignUpInput = z.infer<typeof signUpSchema>
+
+export const signInSchema = z.object({
+  email: z.email("请输入有效的邮箱地址"),
+  password: z.string(),
+})

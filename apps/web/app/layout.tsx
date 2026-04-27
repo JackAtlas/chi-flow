@@ -1,4 +1,4 @@
-import "@workspace/ui/globals.css"
+import "./styles.css"
 import { AppProviders } from "@/components/providers/app-providers"
 import { Toaster } from "sonner"
 
