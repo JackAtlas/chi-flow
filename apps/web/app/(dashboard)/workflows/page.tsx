@@ -1,7 +1,7 @@
-import { Suspense } from "react"
-import UserWorkflowsSkeleton from "./_components/user-workflows-skeleton"
-import UserWorkflows from "./_components/user-workflows"
-import CreateWorkflowDialog from "./_components/create-workflow-dialog"
+import { Suspense } from 'react'
+import UserWorkflowsSkeleton from './_components/user-workflows-skeleton'
+import UserWorkflows from './_components/user-workflows'
+import CreateWorkflowDialog from './_components/create-workflow-dialog'
 
 export default function WorkflowPage() {
   return (

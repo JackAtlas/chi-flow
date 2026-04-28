@@ -1,46 +1,46 @@
-"use client"
+'use client'
 
-import { signUpSchema } from "@/schema/validation"
-import { useForm } from "@tanstack/react-form"
-import { toast } from "sonner"
-import { useState } from "react"
+import { signUpSchema } from '@/schema/validation'
+import { useForm } from '@tanstack/react-form'
+import { toast } from 'sonner'
+import { useState } from 'react'
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@workspace/ui/components/card"
+  CardTitle
+} from '@workspace/ui/components/card'
 import {
   Field,
   FieldError,
   FieldGroup,
-  FieldLabel,
-} from "@workspace/ui/components/field"
-import { Input } from "@workspace/ui/components/input"
+  FieldLabel
+} from '@workspace/ui/components/field'
+import { Input } from '@workspace/ui/components/input'
 import {
   InputGroup,
   InputGroupAddon,
-  InputGroupInput,
-} from "@workspace/ui/components/input-group"
-import { Button } from "@workspace/ui/components/button"
-import { authClient } from "@/lib/auth/auth-client"
-import { redirect } from "next/navigation"
-import { EyeClosedIcon, EyeIcon } from "lucide-react"
+  InputGroupInput
+} from '@workspace/ui/components/input-group'
+import { Button } from '@workspace/ui/components/button'
+import { authClient } from '@/lib/auth/auth-client'
+import { redirect } from 'next/navigation'
+import { EyeClosedIcon, EyeIcon } from 'lucide-react'
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const form = useForm({
     defaultValues: {
-      email: "",
-      name: "",
-      password: "",
-      confirmPassword: "",
+      email: '',
+      name: '',
+      password: '',
+      confirmPassword: ''
     },
     validators: {
-      onSubmit: signUpSchema,
+      onSubmit: signUpSchema
     },
     onSubmit: async ({ value }) => {
       setIsLoading(true)
@@ -48,17 +48,17 @@ export default function SignUpForm() {
         email: value.email,
         password: value.password,
         name: value.name,
-        callbackURL: "/",
+        callbackURL: '/'
       })
 
       if (error) {
         toast.error(error.message)
         setIsLoading(false)
       } else {
-        toast.success("注册成功，正在跳转……")
-        redirect("/")
+        toast.success('注册成功，正在跳转……')
+        redirect('/')
       }
-    },
+    }
   })
 
   return (
@@ -136,7 +136,7 @@ export default function SignUpForm() {
                         id={field.name}
                         name={field.name}
                         value={field.state.value}
-                        type={showPassword ? "text" : "password"}
+                        type={showPassword ? 'text' : 'password'}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
                         aria-invalid={isInvalid}
@@ -170,7 +170,7 @@ export default function SignUpForm() {
                         id={field.name}
                         name={field.name}
                         value={field.state.value}
-                        type={showPassword ? "text" : "password"}
+                        type={showPassword ? 'text' : 'password'}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
                         aria-invalid={isInvalid}
@@ -201,7 +201,7 @@ export default function SignUpForm() {
             重置
           </Button>
           <Button type="submit" form="sign-up-form" disabled={isLoading}>
-            {isLoading ? "请稍候……" : "提交"}
+            {isLoading ? '请稍候……' : '提交'}
           </Button>
         </Field>
       </CardFooter>

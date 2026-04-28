@@ -1,21 +1,21 @@
-"use client"
+'use client'
 
-import { getDemoUsers } from "@/lib/actions/auth/users"
-import { authClient } from "@/lib/auth/auth-client"
-import { Button } from "@workspace/ui/components/button"
+import { getDemoUsers } from '@/lib/actions/auth/users'
+import { authClient } from '@/lib/auth/auth-client'
+import { Button } from '@workspace/ui/components/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@workspace/ui/components/card"
-import { cn } from "@workspace/ui/lib/utils"
-import { Loader2Icon } from "lucide-react"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
+  CardTitle
+} from '@workspace/ui/components/card'
+import { cn } from '@workspace/ui/lib/utils'
+import { Loader2Icon } from 'lucide-react'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 type DemoUser = Awaited<ReturnType<typeof getDemoUsers>>[number]
 
@@ -27,8 +27,8 @@ export default function SignInForm() {
 
   const { data: session } = authClient.useSession()
 
-  const DEMO_PASSWORD = process.env["NEXT_PUBLIC_DEMO_PASSWORD"] as string
-  const AVATAR_URL = process.env["NEXT_PUBLIC_AVATAR_URL"] as string
+  const DEMO_PASSWORD = process.env['NEXT_PUBLIC_DEMO_PASSWORD'] as string
+  const AVATAR_URL = process.env['NEXT_PUBLIC_AVATAR_URL'] as string
 
   useEffect(() => {
     getDemoUsers()
@@ -42,15 +42,15 @@ export default function SignInForm() {
     const { error } = await authClient.signIn.email({
       email,
       password: DEMO_PASSWORD,
-      callbackURL: "/",
+      callbackURL: '/'
     })
 
     if (error) {
-      toast.error(error.message || "登录失败")
+      toast.error(error.message || '登录失败')
       setLoadingUser(null)
     } else {
-      toast.success("登录成功，欢迎回来")
-      router.push("/")
+      toast.success('登录成功，欢迎回来')
+      router.push('/')
     }
   }
 
@@ -75,10 +75,10 @@ export default function SignInForm() {
             return (
               <Button
                 key={user.id}
-                variant={isCurrent ? "secondary" : "outline"}
+                variant={isCurrent ? 'secondary' : 'outline'}
                 className={cn(
-                  "group flex h-auto items-center justify-between gap-4 p-4 transition-all hover:border-primary",
-                  !isDisabled && "cursor-pointer"
+                  'group flex h-auto items-center justify-between gap-4 p-4 transition-all hover:border-primary',
+                  !isDisabled && 'cursor-pointer'
                 )}
                 disabled={isDisabled}
                 onClick={() => handleSignIn(user.email)}
@@ -87,7 +87,7 @@ export default function SignInForm() {
                   <div className="flex items-center gap-3">
                     <div className="flex size-10 items-center justify-center overflow-hidden rounded-full bg-secondary">
                       <Image
-                        src={AVATAR_URL + "?seed=" + user.name}
+                        src={AVATAR_URL + '?seed=' + user.name}
                         alt={user.name}
                         width={40}
                         height={40}

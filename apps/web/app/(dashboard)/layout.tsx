@@ -1,9 +1,9 @@
-import { ReactNode } from "react"
-import { Separator } from "@workspace/ui/components/separator"
-import DesktopSidebar from "@/components/sidebar"
-import BreadcrumbHeader from "@/components/breadcrumb-header"
-import { ModeToggle } from "@/components/theme-mode-switcher"
-import { SignOutButton } from "@/components/sign-out-button"
+import { ReactNode } from 'react'
+import { Separator } from '@workspace/ui/components/separator'
+import DesktopSidebar from '@/components/sidebar'
+import BreadcrumbHeader from '@/components/breadcrumb-header'
+import { ModeToggle } from '@/components/theme-mode-switcher'
+import { SignOutButton } from '@/components/sign-out-button'
 
 export default function layout({ children }: { children: ReactNode }) {
   return (

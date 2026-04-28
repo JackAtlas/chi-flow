@@ -1,10 +1,10 @@
-import { cn } from "@workspace/ui/lib/utils"
-import { SquareDashedMousePointerIcon } from "lucide-react"
-import Link from "next/link"
+import { cn } from '@workspace/ui/lib/utils'
+import { SquareDashedMousePointerIcon } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Logo({
-  fontSize = "2xl",
-  iconSize = 20,
+  fontSize = '2xl',
+  iconSize = 20
 }: {
   fontSize?: string
   iconSize?: number
@@ -13,7 +13,7 @@ export default function Logo({
     <Link
       href="/"
       className={cn(
-        "flex items-center gap-2 font-extrabold",
+        'flex items-center gap-2 font-extrabold',
         `text-${fontSize}`
       )}
     >

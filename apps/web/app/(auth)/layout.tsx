@@ -1,5 +1,5 @@
-import Logo from "@/components/logo"
-import { ReactNode } from "react"
+import Logo from '@/components/logo'
+import { ReactNode } from 'react'
 
 export default function layout({ children }: { children: ReactNode }) {
   return (

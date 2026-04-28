@@ -1,61 +1,61 @@
-"use client"
+'use client'
 
-import { signInSchema } from "@/schema/validation"
-import { authClient } from "@/lib/auth/auth-client"
-import { useForm } from "@tanstack/react-form"
-import { Button } from "@workspace/ui/components/button"
+import { signInSchema } from '@/schema/validation'
+import { authClient } from '@/lib/auth/auth-client'
+import { useForm } from '@tanstack/react-form'
+import { Button } from '@workspace/ui/components/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
-} from "@workspace/ui/components/card"
+  CardTitle
+} from '@workspace/ui/components/card'
 import {
   Field,
   FieldError,
   FieldGroup,
-  FieldLabel,
-} from "@workspace/ui/components/field"
-import { Input } from "@workspace/ui/components/input"
+  FieldLabel
+} from '@workspace/ui/components/field'
+import { Input } from '@workspace/ui/components/input'
 import {
   InputGroup,
   InputGroupAddon,
-  InputGroupInput,
-} from "@workspace/ui/components/input-group"
-import { EyeClosedIcon, EyeIcon } from "lucide-react"
-import { redirect } from "next/navigation"
-import { useState } from "react"
-import { toast } from "sonner"
+  InputGroupInput
+} from '@workspace/ui/components/input-group'
+import { EyeClosedIcon, EyeIcon } from 'lucide-react'
+import { redirect } from 'next/navigation'
+import { useState } from 'react'
+import { toast } from 'sonner'
 
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const form = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: ''
     },
     validators: {
-      onSubmit: signInSchema,
+      onSubmit: signInSchema
     },
     onSubmit: async ({ value }) => {
       setIsLoading(true)
       const { error } = await authClient.signIn.email({
         email: value.email,
         password: value.password,
-        callbackURL: "/",
+        callbackURL: '/'
       })
 
       if (error) {
         toast.error(error.message)
         setIsLoading(false)
       } else {
-        toast.success("登录成功，正在跳转")
-        redirect("/")
+        toast.success('登录成功，正在跳转')
+        redirect('/')
       }
-    },
+    }
   })
   return (
     <Card className="w-full sm:max-w-md">
@@ -110,7 +110,7 @@ export default function SignInForm() {
                         id={field.name}
                         name={field.name}
                         value={field.state.value}
-                        type={showPassword ? "text" : "password"}
+                        type={showPassword ? 'text' : 'password'}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
                         aria-invalid={isInvalid}
@@ -138,7 +138,7 @@ export default function SignInForm() {
             重置
           </Button>
           <Button type="submit" form="sign-in-form" disabled={isLoading}>
-            {isLoading ? "请稍候……" : "提交"}
+            {isLoading ? '请稍候……' : '提交'}
           </Button>
         </Field>
       </CardFooter>

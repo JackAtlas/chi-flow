@@ -1,22 +1,22 @@
-"use server"
+'use server'
 
-import prisma from "@/lib/prisma"
+import prisma from '@/lib/prisma'
 
 export async function getDemoUsers() {
   const users = await prisma.user.findMany({
-    where: { role: "user" },
+    where: { role: 'user' },
     include: {
       sessions: {
         where: {
-          expiresAt: { gt: new Date() },
+          expiresAt: { gt: new Date() }
         },
-        take: 1,
-      },
-    },
+        take: 1
+      }
+    }
   })
 
   return users.map((u) => ({
     ...u,
-    isOnline: u.sessions.length > 0,
+    isOnline: u.sessions.length > 0
   }))
 }

@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   CoinsIcon,
@@ -6,19 +6,19 @@ import {
   Layers2Icon,
   LucideIcon,
   MenuIcon,
-  ShieldCheckIcon,
-} from "lucide-react"
-import Logo from "./logo"
-import Link from "next/link"
-import { Button, buttonVariants } from "@workspace/ui/components/button"
+  ShieldCheckIcon
+} from 'lucide-react'
+import Logo from './logo'
+import Link from 'next/link'
+import { Button, buttonVariants } from '@workspace/ui/components/button'
 import {
   Sheet,
   SheetContent,
-  SheetTrigger,
-} from "@workspace/ui/components/sheet"
-import { usePathname } from "next/navigation"
-import { cn } from "@workspace/ui/lib/utils"
-import { useState } from "react"
+  SheetTrigger
+} from '@workspace/ui/components/sheet'
+import { usePathname } from 'next/navigation'
+import { cn } from '@workspace/ui/lib/utils'
+import { useState } from 'react'
 
 type Route = {
   href: string
@@ -28,25 +28,25 @@ type Route = {
 
 const routes = [
   {
-    href: "",
-    label: "Home",
-    icon: HomeIcon,
+    href: '',
+    label: 'Home',
+    icon: HomeIcon
   },
   {
-    href: "workflows",
-    label: "Workflows",
-    icon: Layers2Icon,
+    href: 'workflows',
+    label: 'Workflows',
+    icon: Layers2Icon
   },
   {
-    href: "credentials",
-    label: "Credentials",
-    icon: ShieldCheckIcon,
+    href: 'credentials',
+    label: 'Credentials',
+    icon: ShieldCheckIcon
   },
   {
-    href: "billing",
-    label: "Billing",
-    icon: CoinsIcon,
-  },
+    href: 'billing',
+    label: 'Billing',
+    icon: CoinsIcon
+  }
 ] as const
 
 export default function DesktopSidebar() {
@@ -68,10 +68,10 @@ export default function DesktopSidebar() {
             href={route.href}
             className={cn(
               buttonVariants(),
-              "justify-start gap-2",
+              'justify-start gap-2',
               activeRoute!.href === route.href
-                ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                : "bg-transparent text-secondary-foreground hover:bg-primary/80 hover:text-primary-foreground"
+                ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                : 'bg-transparent text-secondary-foreground hover:bg-primary/80 hover:text-primary-foreground'
             )}
           >
             <route.icon size={20} />
@@ -108,10 +108,10 @@ export function MobileSidebar() {
                   href={route.href}
                   className={cn(
                     buttonVariants(),
-                    "justify-start gap-2",
+                    'justify-start gap-2',
                     activeRoute!.href === route.href
-                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                      : "bg-transparent text-secondary-foreground hover:bg-primary/80 hover:text-primary-foreground"
+                      ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                      : 'bg-transparent text-secondary-foreground hover:bg-primary/80 hover:text-primary-foreground'
                   )}
                   onClick={() => setOpen((prev) => !prev)}
                 >
