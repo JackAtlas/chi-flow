@@ -1,6 +1,6 @@
 "use client"
 
-import { signInSchema } from "@/lib/actions/auth/validation"
+import { signInSchema } from "@/schema/validation"
 import { authClient } from "@/lib/auth/auth-client"
 import { useForm } from "@tanstack/react-form"
 import { Button } from "@workspace/ui/components/button"

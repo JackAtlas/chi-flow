@@ -1,6 +1,6 @@
 "use client"
 
-import { signUpSchema } from "@/lib/actions/auth/validation"
+import { signUpSchema } from "@/schema/validation"
 import { useForm } from "@tanstack/react-form"
 import { toast } from "sonner"
 import { useState } from "react"
