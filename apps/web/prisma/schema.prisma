@@ -26,6 +26,7 @@ model User {
   banExpires    DateTime?
   sessions      Session[]
   accounts      Account[]
+  workflows     Workflow[]
 
   @@unique([email])
   @@map("user")
@@ -78,4 +79,20 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model Workflow {
+  id String @id @default(cuid())
+  name String
+  description String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId String
+
+  definition String
+  status String
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  @@unique([name, userId])
 }
