@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card"
+import { cn } from "@workspace/ui/lib/utils"
 import { Loader2Icon } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -54,14 +55,14 @@ export default function SignInForm() {
   }
 
   return (
-    <Card className="w-full sm:max-w-md">
+    <Card className="w-full md:max-w-lg">
       <CardHeader>
         <CardTitle>选择账号登录</CardTitle>
         <CardDescription>
           演示环境：点击下方离线用户卡片即可登录
         </CardDescription>
       </CardHeader>
-      <CardContent className="grid gap-3">
+      <CardContent className="grid grid-cols-3 gap-3">
         {isInitialLoading ? (
           <div className="flex flex-col items-center justify-center gap-2 py-10">
             <Loader2Icon className="size-6 animate-spin text-primary" />
@@ -70,12 +71,16 @@ export default function SignInForm() {
         ) : (
           users.map((user) => {
             const isCurrent = session?.user.id === user.id
+            const isDisabled = !!loadingUser || user.isOnline
             return (
               <Button
                 key={user.id}
                 variant={isCurrent ? "secondary" : "outline"}
-                className="group flex h-auto items-center justify-between gap-4 p-4 transition-all hover:border-primary"
-                disabled={!!loadingUser || user.isOnline}
+                className={cn(
+                  "group flex h-auto items-center justify-between gap-4 p-4 transition-all hover:border-primary",
+                  !isDisabled && "cursor-pointer"
+                )}
+                disabled={isDisabled}
                 onClick={() => handleSignIn(user.email)}
               >
                 <div className="flex flex-1 items-center justify-between">
