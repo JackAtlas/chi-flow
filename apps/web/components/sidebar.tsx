@@ -53,7 +53,7 @@ export default function DesktopSidebar() {
   const pathname = usePathname()
   const activeRoute: Route =
     routes.find(
-      (routes) => routes.href.length > 0 && pathname.includes(routes.href)
+      (route) => route.href.length > 0 && pathname.includes(route.href)
     ) || routes[0]
   return (
     <div className="relative hidden h-screen w-full max-w-70 border-separate overflow-hidden border-r-2 bg-primary/5 text-muted-foreground md:block dark:bg-secondary/30 dark:text-foreground">
