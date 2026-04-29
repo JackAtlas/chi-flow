@@ -1,4 +1,4 @@
-import { GetWorkflowsForUser } from '@/lib/actions/workflows'
+import { getWorkflowsForUser } from '@/lib/actions/workflows'
 import {
   Alert,
   AlertDescription,
@@ -6,10 +6,11 @@ import {
 } from '@workspace/ui/components/alert'
 import { AlertCircle, InboxIcon } from 'lucide-react'
 import CreateWorkflowDialog from './create-workflow-dialog'
+import WorkflowCard from './workflow-card'
 
 export default async function UserWorkflows() {
   try {
-    const workflows = await GetWorkflowsForUser()
+    const workflows = await getWorkflowsForUser()
 
     if (!workflows) throw new Error()
 
@@ -30,7 +31,13 @@ export default async function UserWorkflows() {
       )
     }
 
-    return <div>UserWorkflows</div>
+    return (
+      <div className="grid grid-cols-1 gap-4">
+        {workflows.map((workflow, index) => (
+          <WorkflowCard key={workflow.id} workflow={workflow} />
+        ))}
+      </div>
+    )
   } catch (error) {
     return (
       <Alert variant="destructive">
