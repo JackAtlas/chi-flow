@@ -12,7 +12,7 @@ import {
   AlertDialogTitle
 } from '@workspace/ui/components/alert-dialog'
 import { Input } from '@workspace/ui/components/input'
-import { revalidatePath } from 'next/cache'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -31,13 +31,14 @@ export default function DeleteWorkflowDialog({
   workflow: { id, name }
 }: Props) {
   const [confirmText, setConfirmText] = useState('')
+  const router = useRouter()
 
   const deleteMutation = useMutation({
     mutationFn: DeleteWorkflow,
     onSuccess: () => {
       toast.success('Workflow deleted sucessfully', { id })
       setConfirmText('')
-      revalidatePath('/workflows')
+      router.replace('/workflows')
     },
     onError: () => {
       toast.error('Something went wrong', { id })
