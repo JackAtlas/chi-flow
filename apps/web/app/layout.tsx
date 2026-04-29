@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className="antialiased">
       <body>
         <AppProviders>{children}</AppProviders>
-        <Toaster />
+        <Toaster richColors />
       </body>
     </html>
   )
