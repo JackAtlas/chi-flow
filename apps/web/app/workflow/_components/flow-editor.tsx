@@ -8,12 +8,14 @@ import {
   useNodesState,
   useReactFlow,
   type Edge,
-  type Node,
   type ReactFlowJsonObject
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import NodeComponent from './nodes/node-component'
-import { useEffect } from 'react'
+import { useCallback, useEffect, type DragEvent } from 'react'
+import type { AppNode } from '@/types/appNode'
+import { CreateFlowNode } from '@/lib/workflow/node'
+import type { TaskType } from '@/types/task'
 
 const nodeTypes = {
   Node: NodeComponent
@@ -23,14 +25,14 @@ const snapGrid: [number, number] = [50, 50]
 const fitViewOptions = { padding: 1 }
 
 export default function FlowEditor({ workflow }: { workflow: Workflow }) {
-  const { setViewport } = useReactFlow()
+  const { screenToFlowPosition, setViewport } = useReactFlow()
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
-  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
+  const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>([])
 
   useEffect(() => {
     try {
       const flow = JSON.parse(workflow.definition) as ReactFlowJsonObject<
-        Node,
+        AppNode,
         Edge
       >
       if (!flow) return
@@ -44,6 +46,28 @@ export default function FlowEditor({ workflow }: { workflow: Workflow }) {
     }
   }, [workflow.definition, setEdges, setNodes, setViewport])
 
+  const onDragOver = useCallback((event: DragEvent) => {
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'move'
+  }, [])
+
+  const onDrop = useCallback(
+    (event: DragEvent) => {
+      event.preventDefault()
+      const taskType = event.dataTransfer.getData('application/reactflow')
+      if (typeof taskType === 'undefined' || !taskType) return
+
+      const position = screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY
+      })
+
+      const newNode = CreateFlowNode(taskType as TaskType, position)
+      setNodes((nds) => nds.concat(newNode))
+    },
+    [screenToFlowPosition, setNodes]
+  )
+
   return (
     <main className="h-full w-full">
       <ReactFlow
@@ -56,6 +80,8 @@ export default function FlowEditor({ workflow }: { workflow: Workflow }) {
         snapToGrid
         snapGrid={snapGrid}
         proOptions={{ hideAttribution: true }}
+        onDragOver={onDragOver}
+        onDrop={onDrop}
       >
         <Controls position="top-left" fitViewOptions={fitViewOptions} />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
