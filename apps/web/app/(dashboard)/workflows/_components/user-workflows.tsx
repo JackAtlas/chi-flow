@@ -1,4 +1,4 @@
-import { getWorkflowsForUser } from '@/lib/actions/workflows'
+import { getWorkflowsForUser } from '@/lib/workflow/workflow'
 import {
   Alert,
   AlertDescription,

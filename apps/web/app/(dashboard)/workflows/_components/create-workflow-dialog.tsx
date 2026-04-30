@@ -21,7 +21,7 @@ import {
 import { Input } from '@workspace/ui/components/input'
 import { Textarea } from '@workspace/ui/components/textarea'
 import { useMutation } from '@tanstack/react-query'
-import { createWorkflow } from '@/lib/actions/workflows'
+import { createWorkflow } from '@/lib/workflow/workflow'
 import { toast } from 'sonner'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 

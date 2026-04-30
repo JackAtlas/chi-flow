@@ -1,5 +1,5 @@
 'use client'
-import { DeleteWorkflow } from '@/lib/actions/workflows'
+import { DeleteWorkflow } from '@/lib/workflow/workflow'
 import { useMutation } from '@tanstack/react-query'
 import {
   AlertDialog,
