@@ -1,0 +1,54 @@
+'use client'
+
+import { TaskRegistry } from '@/lib/workflow/task/registry'
+import { TaskType } from '@/types/task'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from '@workspace/ui/components/accordion'
+import { Button } from '@workspace/ui/components/button'
+import type { DragEvent } from 'react'
+
+export default function TaskMenu() {
+  return (
+    <aside className="h-full w-85 max-w-85 min-w-85 border-separate overflow-auto border-r-2 px-4 py-2">
+      <Accordion
+        type="multiple"
+        className="w-full"
+        defaultValue={['extraction']}
+      >
+        <AccordionItem value="extraction">
+          <AccordionTrigger className="font-bold">
+            Data Extraction
+          </AccordionTrigger>
+          <AccordionContent className="flex flex-col gap-1">
+            <TaskMenuBtn taskType={TaskType.PAGE_TO_HTML} />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </aside>
+  )
+}
+
+function TaskMenuBtn({ taskType }: { taskType: TaskType }) {
+  const task = TaskRegistry[taskType]
+
+  const onDragStart = (event: DragEvent, type: TaskType) => {
+    event.dataTransfer.setData('application/reactflow', type)
+    event.dataTransfer.effectAllowed = 'move'
+  }
+
+  return (
+    <Button
+      variant="secondary"
+      className="flex w-full items-center justify-start gap-2 border"
+      draggable
+      onDragStart={(event) => onDragStart(event, taskType)}
+    >
+      <task.icon size={20}>{task.label}</task.icon>
+      {task.label}
+    </Button>
+  )
+}
