@@ -1,5 +1,5 @@
 import { Workflow } from '@/generated/prisma/client'
-import { CreateFlowNode } from '@/lib/workflow/create-flow-node'
+import { CreateFlowNode } from '@/lib/workflow/node'
 import { TaskType } from '@/types/task'
 import {
   Background,
