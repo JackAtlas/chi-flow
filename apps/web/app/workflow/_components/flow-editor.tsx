@@ -1,5 +1,6 @@
 import { Workflow } from '@/generated/prisma/client'
 import {
+  addEdge,
   Background,
   BackgroundVariant,
   Controls,
@@ -7,6 +8,7 @@ import {
   useEdgesState,
   useNodesState,
   useReactFlow,
+  type Connection,
   type Edge,
   type ReactFlowJsonObject
 } from '@xyflow/react'
@@ -16,9 +18,14 @@ import { useCallback, useEffect, type DragEvent } from 'react'
 import type { AppNode } from '@/types/appNode'
 import { CreateFlowNode } from '@/lib/workflow/node'
 import type { TaskType } from '@/types/task'
+import DeletableEdge from './edges/deletable-edge'
 
 const nodeTypes = {
   Node: NodeComponent
+}
+
+const edgeTypes = {
+  default: DeletableEdge
 }
 
 const snapGrid: [number, number] = [50, 50]
@@ -68,6 +75,13 @@ export default function FlowEditor({ workflow }: { workflow: Workflow }) {
     [screenToFlowPosition, setNodes]
   )
 
+  const onConnect = useCallback(
+    (connection: Connection) => {
+      setEdges((eds) => addEdge({ ...connection, animated: true }, eds))
+    },
+    [setEdges]
+  )
+
   return (
     <main className="h-full w-full">
       <ReactFlow
@@ -76,12 +90,14 @@ export default function FlowEditor({ workflow }: { workflow: Workflow }) {
         onEdgesChange={onEdgesChange}
         onNodesChange={onNodesChange}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         fitViewOptions={fitViewOptions}
         snapToGrid
         snapGrid={snapGrid}
         proOptions={{ hideAttribution: true }}
         onDragOver={onDragOver}
         onDrop={onDrop}
+        onConnect={onConnect}
       >
         <Controls position="top-left" fitViewOptions={fitViewOptions} />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
