@@ -6,6 +6,10 @@ import prisma from '../prisma'
 import { createWorkflowSchema, CreateWorkflowSchema } from '@/schema/workflow'
 import { WorkflowStatus } from '@/types/workflow'
 import { redirect } from 'next/navigation'
+import type { AppNode } from '@/types/appNode'
+import type { Edge } from '@xyflow/react'
+import { CreateFlowNode } from './node'
+import { TaskType } from '@/types/task'
 
 export async function getWorkflowsForUser() {
   const authData = await auth.api.getSession({
@@ -33,11 +37,18 @@ export async function createWorkflow(form: CreateWorkflowSchema) {
 
   if (!success) throw new Error('Invalid form data')
 
+  const initialFlow: { nodes: AppNode[]; edges: Edge[] } = {
+    nodes: [],
+    edges: []
+  }
+
+  initialFlow.nodes.push(CreateFlowNode(TaskType.LAUNCH_BROWSER))
+
   const result = await prisma.workflow.create({
     data: {
       name: data.name,
       description: data.description,
-      definition: 'TODO',
+      definition: JSON.stringify(initialFlow),
       status: WorkflowStatus.DRAFT,
       userId
     }
