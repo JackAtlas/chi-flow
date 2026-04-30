@@ -15,7 +15,7 @@ export default function NodeParamField({
 }) {
   const { updateNodeData, getNode } = useReactFlow()
   const node = getNode(nodeId) as AppNode
-  const value = node?.data.inputs?.[param.name] as string
+  const value = node?.data.inputs?.[param.name] ?? '' // TODO
 
   const updateNodeParamValue = useCallback(
     (newValue: string) => {
