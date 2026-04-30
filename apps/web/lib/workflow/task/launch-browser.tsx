@@ -1,7 +1,7 @@
-import { TaskParamType, TaskType } from '@/types/task'
+import { TaskParamType, TaskType, type TaskDescriptor } from '@/types/task'
 import { GlobeIcon, LucideProps } from 'lucide-react'
 
-export const LaunchBrowserTask = {
+export const LaunchBrowserTask: TaskDescriptor = {
   type: TaskType.LAUNCH_BROWSER,
   label: 'Launch browser',
   icon: (props: LucideProps) => (

@@ -1,6 +1,10 @@
+import type { LucideProps } from 'lucide-react'
+import type { ReactNode } from 'react'
+
 export enum TaskType {
   LAUNCH_BROWSER = 'LAUNCH_BROWSER',
-  PAGE_TO_HTML = 'PAGE_TO_HTML'
+  PAGE_TO_HTML = 'PAGE_TO_HTML',
+  EXTRACT_TEXT_FROM_ELEMENT = 'EXTRACT_TEXT_FROM_ELEMENT'
 }
 
 export enum TaskParamType {
@@ -16,4 +20,23 @@ export interface TaskParam {
   hideHandle?: boolean
   value?: string
   [key: string]: any
+}
+
+export interface TaskInput {
+  name: string
+  type: TaskParamType
+  helperText?: string
+  hideHandle?: boolean
+  required?: boolean
+}
+
+export type TaskOutput = Omit<TaskInput, 'required'>
+
+export interface TaskDescriptor {
+  type: TaskType
+  label: string
+  icon: (props: LucideProps) => ReactNode
+  isEntryPoint: boolean
+  inputs: TaskInput[]
+  outputs: TaskOutput[]
 }
