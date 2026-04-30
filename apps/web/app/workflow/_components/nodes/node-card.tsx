@@ -17,7 +17,7 @@ export default function NodeCard({
   return (
     <div
       className={cn(
-        'flex w-105 border-separate cursor-pointer flex-col gap-1 rounded-md border-2 bg-background text-xs',
+        'flex w-105 border-separate cursor-pointer flex-col gap-1 overflow-hidden rounded-md border-2 bg-background text-xs',
         isSelected && 'border-primary'
       )}
       onDoubleClick={() => {
