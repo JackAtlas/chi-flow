@@ -1,7 +1,7 @@
 import { TaskParamType, TaskType, type TaskDescriptor } from '@/types/task'
 import { CodeIcon, LucideProps } from 'lucide-react'
 
-export const PageToHtmlTask: TaskDescriptor = {
+export const PageToHtmlTask = {
   type: TaskType.PAGE_TO_HTML,
   label: 'Get html from page',
   icon: (props: LucideProps) => (
@@ -26,4 +26,4 @@ export const PageToHtmlTask: TaskDescriptor = {
       type: TaskParamType.BROWSER_INSTANCE
     }
   ]
-}
+} satisfies TaskDescriptor

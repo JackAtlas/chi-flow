@@ -1,7 +1,7 @@
 import { TaskParamType, TaskType, type TaskDescriptor } from '@/types/task'
 import { LucideProps, TextIcon } from 'lucide-react'
 
-export const ExtractTextFromElement: TaskDescriptor = {
+export const ExtractTextFromElement = {
   type: TaskType.EXTRACT_TEXT_FROM_ELEMENT,
   label: 'Extract text from element',
   icon: (props: LucideProps) => (
@@ -28,4 +28,4 @@ export const ExtractTextFromElement: TaskDescriptor = {
       type: TaskParamType.STRING
     }
   ]
-}
+} satisfies TaskDescriptor

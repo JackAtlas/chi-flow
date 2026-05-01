@@ -4,7 +4,7 @@ import { LaunchBrowserTask } from './launch-browser'
 import { PageToHtmlTask } from './page-to-html'
 
 type Registry = {
-  [K in TaskType]: TaskDescriptor
+  [K in TaskType]: TaskDescriptor & { type: K }
 }
 
 export const TaskRegistry: Registry = {
