@@ -28,6 +28,7 @@ export interface TaskInput {
   helperText?: string
   hideHandle?: boolean
   required?: boolean
+  variant?: string
 }
 
 export type TaskOutput = Omit<TaskInput, 'required'>
