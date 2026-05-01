@@ -34,7 +34,7 @@ export default function StringParam({
         id={id}
         disabled={disabled}
         value={internalValue}
-        className="border-primary"
+        className="border-primary bg-background"
         placeholder="Enter value here"
         onChange={(e: any) => setInternalValue(e.target.value)}
         onBlur={(e: any) => updateNodeParamValue(e.target.value)}
