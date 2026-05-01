@@ -4,6 +4,7 @@ import { Handle, Position, useEdges } from '@xyflow/react'
 import { ReactNode } from 'react'
 import NodeParamField from './node-param-field'
 import { ColorForHandle } from './common'
+import useFlowValidation from '@/hooks/use-flow-validation'
 
 export function NodeInputs({ children }: { children: ReactNode }) {
   return <div className="flex flex-col gap-2 divide-y">{children}</div>
@@ -16,12 +17,21 @@ export function NodeInput({
   input: TaskParam
   nodeId: string
 }) {
+  const { invalidInputs } = useFlowValidation()
   const edges = useEdges()
   const isConnected = edges.some(
     (edge) => edge.target === nodeId && edge.targetHandle === input.name
   )
+  const hasErrors = invalidInputs
+    .find((node) => node.nodeId === nodeId)
+    ?.inputs.find((invalidInput) => invalidInput === input.name)
   return (
-    <div className="relative flex w-full justify-start bg-secondary p-3">
+    <div
+      className={cn(
+        'relative flex w-full justify-start bg-secondary p-3',
+        hasErrors && 'bg-destructive/30'
+      )}
+    >
       <NodeParamField param={input} nodeId={nodeId} disabled={isConnected} />
       {!input.hideHandle && (
         <Handle
