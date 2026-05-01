@@ -4,12 +4,13 @@ import { headers } from 'next/headers'
 import { auth } from '../auth/auth'
 import prisma from '../prisma'
 import { createWorkflowSchema, CreateWorkflowSchema } from '@/schema/workflow'
-import { WorkflowStatus } from '@/types/workflow'
+import { WorkflowStatus, type WorkflowExecutionPlan } from '@/types/workflow'
 import { redirect } from 'next/navigation'
 import type { AppNode } from '@/types/appNode'
 import type { Edge } from '@xyflow/react'
 import { CreateFlowNode } from './node'
 import { TaskType } from '@/types/task'
+import { FlowToExecutionPlan } from './execution-plan'
 
 export async function getWorkflowsForUser() {
   const authData = await auth.api.getSession({
@@ -103,4 +104,39 @@ export async function UpdateWorkflow({
       definition
     }
   })
+}
+
+export async function RunWorkflow(form: {
+  workflowId: string
+  flowDefinition?: string
+}) {
+  const authData = await auth.api.getSession({
+    headers: await headers()
+  })
+  const userId = authData?.user?.id
+
+  if (!userId) throw new Error('Unauthenticated')
+
+  const { workflowId, flowDefinition } = form
+  if (!workflowId) {
+    throw new Error('WorkflowId is required')
+  }
+
+  const workflow = await prisma.workflow.findUnique({
+    where: { id: workflowId, userId }
+  })
+
+  let executionPlan: WorkflowExecutionPlan
+  if (!flowDefinition) {
+    throw new Error('flow definition is not defined')
+  }
+
+  const flow = JSON.parse(flowDefinition)
+  const result = FlowToExecutionPlan(flow.nodes, flow.edges)
+  if (result.error || !result.executionPlan) {
+    throw new Error('flow definition is not valid')
+  }
+
+  executionPlan = result.executionPlan
+  console.log('execution plan', executionPlan)
 }
