@@ -37,7 +37,8 @@ export interface TaskDescriptor {
   type: TaskType
   label: string
   icon: (props: LucideProps) => ReactNode
-  isEntryPoint: boolean
+  isEntryPoint?: boolean
+  credits: number
   inputs: TaskInput[]
   outputs: TaskOutput[]
 }
