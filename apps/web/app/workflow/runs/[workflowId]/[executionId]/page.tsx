@@ -16,14 +16,14 @@ export default async function RunPage({
 }) {
   const { executionId, workflowId } = await params
   return (
-    <div className="flex h-screen w-full flex-col overflow-hidden">
+    <>
       <Topbar
         workflowId={workflowId}
         title="Workflow run details"
         subTitle={`Run ID: ${executionId}`}
         hideButtons
       />
-      <section className="flex h-full">
+      <section className="flex flex-1 overflow-hidden">
         <Suspense
           fallback={
             <div className="flex w-full items-center justify-center">
@@ -34,7 +34,7 @@ export default async function RunPage({
           <ExecutionViewerWrapper executionId={executionId} />
         </Suspense>
       </section>
-    </div>
+    </>
   )
 }
 

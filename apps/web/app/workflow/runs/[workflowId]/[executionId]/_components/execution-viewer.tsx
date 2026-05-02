@@ -54,8 +54,8 @@ export default function ExecutionViewer({
 
   const creditsConsumed = GetPhasesTotalCost(query.data?.phases || [])
   return (
-    <div className="flex h-full w-full">
-      <aside className="flex w-110 max-w-110 min-w-110 grow border-separate flex-col overflow-hidden border-r-2">
+    <>
+      <aside className="flex w-110 max-w-110 min-w-110 grow border-separate flex-col overflow-y-auto border-r-2">
         <div className="px-2 py-4">
           <ExecutionLabel
             icon={CircleDashedIcon}
@@ -120,10 +120,10 @@ export default function ExecutionViewer({
           ))}
         </div>
       </aside>
-      <div className="flex h-full w-full">
+      <main className="min-h-0 flex-1 overflow-auto">
         <pre>{JSON.stringify(phaseDetails.data, null, 4)}</pre>
-      </div>
-    </div>
+      </main>
+    </>
   )
 }
 

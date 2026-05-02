@@ -5,7 +5,7 @@ import { ReactNode } from 'react'
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-screen w-full flex-col">
+    <div className="flex h-screen w-full flex-col overflow-hidden">
       {children}
       <Separator />
       <footer className="flex items-center justify-between p-2">

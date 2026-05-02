@@ -22,7 +22,7 @@ export default function Topbar({
 }: Props) {
   const router = useRouter()
   return (
-    <header className="sticky top-0 z-10 flex h-15 w-full border-separate justify-between border-b-2 bg-background p-2">
+    <header className="flex h-15 w-full border-separate justify-between border-b-2 bg-background p-2">
       <div className="flex flex-1 gap-1">
         <TooltipWrapper content="Back">
           <Button
