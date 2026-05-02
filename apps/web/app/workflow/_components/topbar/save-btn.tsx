@@ -16,7 +16,6 @@ export default function SaveBtn({ workflowId }: { workflowId: string }) {
     mutationFn: UpdateWorkflow,
     onSuccess: () => {
       toast.success('Flow saved successfully', { id: 'save-workflow' })
-      router.push('/workflows')
     },
     onError: () => {
       toast.error('Something went wrong', { id: 'save-workflow' })
