@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import { Button } from '@workspace/ui/components/button'
 import { useReactFlow } from '@xyflow/react'
 import { PlayIcon } from 'lucide-react'
+import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { toast } from 'sonner'
 
 export default function ExecuteBtn({ workflowId }: { workflowId: string }) {
@@ -17,14 +18,15 @@ export default function ExecuteBtn({ workflowId }: { workflowId: string }) {
     onSuccess: () => {
       toast.success('Execution started', { id: 'flow-execution' })
     },
-    onError: () => {
+    onError: (error) => {
+      if (isRedirectError(error)) return
       toast.error('Something went wrong', { id: 'flow-execution' })
     }
   })
   return (
     <Button
       variant="outline"
-      className="flex items-center gap-2"
+      className="flex cursor-pointer items-center gap-2"
       onClick={() => {
         const plan = generate()
         if (!plan) return
@@ -35,7 +37,7 @@ export default function ExecuteBtn({ workflowId }: { workflowId: string }) {
         })
       }}
     >
-      <PlayIcon size={16} className="cursor-pointer stroke-orange-400" />
+      <PlayIcon size={16} className="stroke-orange-400" />
       Execute
     </Button>
   )

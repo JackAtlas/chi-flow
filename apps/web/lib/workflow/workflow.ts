@@ -4,13 +4,20 @@ import { headers } from 'next/headers'
 import { auth } from '../auth/auth'
 import prisma from '../prisma'
 import { createWorkflowSchema, CreateWorkflowSchema } from '@/schema/workflow'
-import { WorkflowStatus, type WorkflowExecutionPlan } from '@/types/workflow'
+import {
+  ExecutionPhaseStatus,
+  WorkflowExecutionStatus,
+  WorkflowExecutionTrigger,
+  WorkflowStatus,
+  type WorkflowExecutionPlan
+} from '@/types/workflow'
 import { redirect } from 'next/navigation'
 import type { AppNode } from '@/types/appNode'
 import type { Edge } from '@xyflow/react'
 import { CreateFlowNode } from './node'
 import { TaskType } from '@/types/task'
 import { FlowToExecutionPlan } from './execution-plan'
+import { TaskRegistry } from './task/registry'
 
 export async function getWorkflowsForUser() {
   const authData = await auth.api.getSession({
@@ -122,14 +129,13 @@ export async function RunWorkflow(form: {
     throw new Error('WorkflowId is required')
   }
 
+  if (!flowDefinition) throw new Error('flow definition is not defined')
+
   const workflow = await prisma.workflow.findUnique({
     where: { id: workflowId, userId }
   })
 
-  let executionPlan: WorkflowExecutionPlan
-  if (!flowDefinition) {
-    throw new Error('flow definition is not defined')
-  }
+  if (!workflow) throw new Error('Workflow not found')
 
   const flow = JSON.parse(flowDefinition)
   const result = FlowToExecutionPlan(flow.nodes, flow.edges)
@@ -137,6 +143,76 @@ export async function RunWorkflow(form: {
     throw new Error('flow definition is not valid')
   }
 
-  executionPlan = result.executionPlan
-  console.log('execution plan', executionPlan)
+  const executionPlan: WorkflowExecutionPlan = result.executionPlan
+
+  const execution = await prisma.workflowExecution.create({
+    data: {
+      workflowId,
+      userId,
+      status: WorkflowExecutionStatus.PENDING,
+      startedAt: new Date(),
+      trigger: WorkflowExecutionTrigger.MANUAL,
+      phases: {
+        create: executionPlan.flatMap((phase) => {
+          return phase.nodes.flatMap((node) => {
+            return {
+              userId,
+              status: ExecutionPhaseStatus.CREATED,
+              number: phase.phase,
+              node: JSON.stringify(node),
+              name: TaskRegistry[node.data.type].label
+            }
+          })
+        })
+      }
+    },
+    select: {
+      id: true,
+      phases: true
+    }
+  })
+
+  if (!execution) {
+    throw new Error('Workflow execution not created')
+  }
+
+  redirect(`/workflow/runs/${workflowId}/${execution.id}`)
+}
+
+export async function GetWorkflowExecutionWithPhases(executionId: string) {
+  const authData = await auth.api.getSession({
+    headers: await headers()
+  })
+  const userId = authData?.user?.id
+
+  if (!userId) throw new Error('Unauthenticated')
+
+  return prisma.workflowExecution.findUnique({
+    where: { id: executionId, userId },
+    include: {
+      phases: {
+        orderBy: {
+          number: 'asc'
+        }
+      }
+    }
+  })
+}
+
+export async function GetWorkflowPhaseDetails(phaseId: string) {
+  const authData = await auth.api.getSession({
+    headers: await headers()
+  })
+  const userId = authData?.user?.id
+
+  if (!userId) throw new Error('Unauthenticated')
+
+  return prisma.executionPhase.findUnique({
+    where: {
+      id: phaseId,
+      execution: {
+        userId
+      }
+    }
+  })
 }
