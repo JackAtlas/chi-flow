@@ -1,0 +1,25 @@
+import type { Browser, Page } from 'puppeteer'
+import type { TaskDescriptor } from './task'
+
+export type Environment = {
+  browser?: Browser
+  page?: Page
+  phases: Record<
+    string, // key: nodeId/taskId
+    {
+      inputs: Record<string, string>
+      outputs: Record<string, string>
+    }
+  >
+}
+
+export type ExecutionEnvironment<T extends TaskDescriptor> = {
+  getInput(name: T['inputs'][number]['name']): string
+  setOutput(name: T['outputs'][number]['name'], value: string): void
+
+  getBrowser(): Browser | undefined
+  setBrowser: (browser: Browser) => void
+
+  getPage(): Page | undefined
+  setPage: (page: Page) => void
+}

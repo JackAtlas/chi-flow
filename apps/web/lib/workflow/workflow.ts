@@ -18,6 +18,7 @@ import { CreateFlowNode } from './node'
 import { TaskType } from '@/types/task'
 import { FlowToExecutionPlan } from './execution-plan'
 import { TaskRegistry } from './task/registry'
+import { ExecuteWorkflow } from './execute-workflow'
 
 export async function getWorkflowsForUser() {
   const authData = await auth.api.getSession({
@@ -152,6 +153,7 @@ export async function RunWorkflow(form: {
       status: WorkflowExecutionStatus.PENDING,
       startedAt: new Date(),
       trigger: WorkflowExecutionTrigger.MANUAL,
+      definition: flowDefinition,
       phases: {
         create: executionPlan.flatMap((phase) => {
           return phase.nodes.flatMap((node) => {
@@ -175,6 +177,8 @@ export async function RunWorkflow(form: {
   if (!execution) {
     throw new Error('Workflow execution not created')
   }
+
+  ExecuteWorkflow(execution.id)
 
   redirect(`/workflow/runs/${workflowId}/${execution.id}`)
 }
