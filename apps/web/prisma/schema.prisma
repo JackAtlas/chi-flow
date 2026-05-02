@@ -13,15 +13,15 @@ datasource db {
 }
 
 model User {
-  id            String    @id
+  id            String     @id
   name          String
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean    @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  role          String?   @default("user") // 默认是 user，可选 admin
-  banned        Boolean?  @default(false)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  role          String?    @default("user") // 默认是 user，可选 admin
+  banned        Boolean?   @default(false)
   banReason     String?
   banExpires    DateTime?
   sessions      Session[]
@@ -82,17 +82,22 @@ model Verification {
 }
 
 model Workflow {
-  id String @id @default(cuid())
-  name String
+  id          String  @id @default(cuid())
+  name        String
   description String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user   User   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   userId String
 
   definition String
-  status String
+  status     String // DRAFT | PUBLISHED
+
+  lastRunAt     DateTime?
+  lastRunId     String?
+  lastRunStatus String?
+
   createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  updateAt  DateTime @updatedAt
 
   executions WorkflowExecution[]
 
@@ -100,14 +105,16 @@ model Workflow {
 }
 
 model WorkflowExecution {
-  id          String @id @default(cuid())
+  id          String    @id @default(cuid())
   workflowId  String
   userId      String
   trigger     String
   status      String
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
   startedAt   DateTime?
   completedAt DateTime?
+
+  creditsConsumed Int @default(0)
 
   phases ExecutionPhase[]
 
@@ -115,19 +122,19 @@ model WorkflowExecution {
 }
 
 model ExecutionPhase {
-  id                  String @id @default(cuid())
-  userId              String
-  status              String
-  number              Int
-  node                String
-  name                String
-  startedAt           DateTime?
-  completedAt         DateTime?
-  inputs              String?
-  outputs             String?
+  id          String    @id @default(cuid())
+  userId      String
+  status      String
+  number      Int
+  node        String
+  name        String
+  startedAt   DateTime?
+  completedAt DateTime?
+  inputs      String?
+  outputs     String?
 
-  creditsConsumed     Int?
+  creditsConsumed Int?
 
   workflowExecutionId String
-  execution WorkflowExecution @relation(fields: [workflowExecutionId], references: [id], onDelete: Cascade)
+  execution           WorkflowExecution @relation(fields: [workflowExecutionId], references: [id], onDelete: Cascade)
 }
