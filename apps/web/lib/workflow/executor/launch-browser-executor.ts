@@ -8,13 +8,19 @@ export async function LaunchBrowserExecutor(
   try {
     const websiteUrl = environment.getInput('Website Url')
     const browser = await puppeteer.launch()
+    environment.log.info('Browser started successfully')
     environment.setBrowser(browser)
     const page = await browser.newPage()
     await page.goto(websiteUrl, { timeout: 0 })
     environment.setPage(page)
+    environment.log.info(`Open page at: ${websiteUrl}`)
     return true
-  } catch (error) {
-    console.error(error)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      environment.log.error(error.message)
+    } else {
+      environment.log.error('Unknown error')
+    }
     return false
   }
 }
