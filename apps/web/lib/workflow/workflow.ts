@@ -20,6 +20,8 @@ import { FlowToExecutionPlan } from './execution-plan'
 import { TaskRegistry } from './task/registry'
 import { ExecuteWorkflow } from './execute-workflow'
 import { CalculateWorkflowCost } from './helpers'
+import { CronExpressionParser } from 'cron-parser'
+import { revalidatePath } from 'next/cache'
 
 export async function getWorkflowsForUser() {
   const authData = await auth.api.getSession({
@@ -322,4 +324,56 @@ export async function UnpublishWorkflow(id: string) {
       creditsCost: 0
     }
   })
+}
+
+export async function UpdateWorkflowCron({
+  id,
+  cron
+}: {
+  id: string
+  cron: string
+}) {
+  const authData = await auth.api.getSession({
+    headers: await headers()
+  })
+  const userId = authData?.user?.id
+
+  if (!userId) throw new Error('Unauthenticated')
+
+  try {
+    const interval = CronExpressionParser.parse(cron)
+    await prisma.workflow.update({
+      where: { id, userId },
+      data: {
+        cron,
+        nextRunAt: interval.next().toDate()
+      }
+    })
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error('Invalid cron:', error.message)
+    }
+    throw new Error('Invalid cron expression')
+  }
+
+  revalidatePath('/workflows')
+}
+
+export async function RemoveWorkflowSchedule(id: string) {
+  const authData = await auth.api.getSession({
+    headers: await headers()
+  })
+  const userId = authData?.user?.id
+
+  if (!userId) throw new Error('Unauthenticated')
+
+  await prisma.workflow.update({
+    where: { id, userId },
+    data: {
+      cron: null,
+      nextRunAt: null
+    }
+  })
+
+  revalidatePath('/workflows')
 }
