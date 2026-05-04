@@ -7,19 +7,23 @@ import { useRouter } from 'next/navigation'
 import SaveBtn from './save-btn'
 import ExecuteBtn from './execute-btn'
 import NavigationTabs from './navigation-tabs'
+import PublishBtn from './publish-btn'
+import UnpublishBtn from './unpublish-btn'
 
 interface Props {
   title: string
   subTitle?: string
   workflowId: string
   hideButtons?: boolean
+  isPublished?: boolean
 }
 
 export default function Topbar({
   title,
   subTitle,
   workflowId,
-  hideButtons = false
+  hideButtons = false,
+  isPublished = false
 }: Props) {
   const router = useRouter()
   return (
@@ -51,7 +55,13 @@ export default function Topbar({
         {hideButtons === false && (
           <>
             <ExecuteBtn workflowId={workflowId} />
-            <SaveBtn workflowId={workflowId} />
+            {isPublished && <UnpublishBtn workflowId={workflowId} />}
+            {!isPublished && (
+              <>
+                <SaveBtn workflowId={workflowId} />
+                <PublishBtn workflowId={workflowId} />
+              </>
+            )}
           </>
         )}
       </div>

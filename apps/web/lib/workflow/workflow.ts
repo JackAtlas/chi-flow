@@ -19,6 +19,7 @@ import { TaskType } from '@/types/task'
 import { FlowToExecutionPlan } from './execution-plan'
 import { TaskRegistry } from './task/registry'
 import { ExecuteWorkflow } from './execute-workflow'
+import { CalculateWorkflowCost } from './helpers'
 
 export async function getWorkflowsForUser() {
   const authData = await auth.api.getSession({
@@ -130,21 +131,27 @@ export async function RunWorkflow(form: {
     throw new Error('WorkflowId is required')
   }
 
-  if (!flowDefinition) throw new Error('flow definition is not defined')
-
   const workflow = await prisma.workflow.findUnique({
     where: { id: workflowId, userId }
   })
 
   if (!workflow) throw new Error('Workflow not found')
 
-  const flow = JSON.parse(flowDefinition)
-  const result = FlowToExecutionPlan(flow.nodes, flow.edges)
-  if (result.error || !result.executionPlan) {
-    throw new Error('flow definition is not valid')
+  let executionPlan: WorkflowExecutionPlan
+  if (workflow.status === WorkflowStatus.PUBLISHED) {
+    if (!workflow.executionPlan) {
+      throw new Error('No execution plan found in published workflow')
+    }
+    executionPlan = JSON.parse(workflow.executionPlan)
+  } else {
+    if (!flowDefinition) throw new Error('flow definition is not defined')
+    const flow = JSON.parse(flowDefinition)
+    const result = FlowToExecutionPlan(flow.nodes, flow.edges)
+    if (result.error || !result.executionPlan) {
+      throw new Error('flow definition is not valid')
+    }
+    executionPlan = result.executionPlan
   }
-
-  const executionPlan: WorkflowExecutionPlan = result.executionPlan
 
   const execution = await prisma.workflowExecution.create({
     data: {
@@ -153,7 +160,7 @@ export async function RunWorkflow(form: {
       status: WorkflowExecutionStatus.PENDING,
       startedAt: new Date(),
       trigger: WorkflowExecutionTrigger.MANUAL,
-      definition: flowDefinition,
+      definition: flowDefinition ?? '',
       phases: {
         create: executionPlan.flatMap((phase) => {
           return phase.nodes.flatMap((node) => {
@@ -236,6 +243,80 @@ export async function GetWorkflowPhaseDetails(phaseId: string) {
     },
     include: {
       logs: { orderBy: { timestamp: 'asc' } }
+    }
+  })
+}
+
+export async function PublishWorkflow({
+  id,
+  flowDefinition
+}: {
+  id: string
+  flowDefinition: string
+}) {
+  const authData = await auth.api.getSession({
+    headers: await headers()
+  })
+  const userId = authData?.user?.id
+
+  if (!userId) throw new Error('Unauthenticated')
+
+  const workflow = await prisma.workflow.findUnique({
+    where: { id, userId }
+  })
+
+  if (!workflow) throw new Error('Workflow not found')
+
+  if (workflow.status !== WorkflowStatus.DRAFT) {
+    throw new Error('Workflow is not a draft')
+  }
+
+  const flow = JSON.parse(flowDefinition)
+  const result = FlowToExecutionPlan(flow.nodes, flow.edges)
+  if (result.error) {
+    throw new Error('Flow definition not valid')
+  }
+
+  if (!result.executionPlan) {
+    throw new Error('No execution plan generated')
+  }
+
+  const creditsCost = CalculateWorkflowCost(flow.nodes)
+  await prisma.workflow.update({
+    where: { id, userId },
+    data: {
+      definition: flowDefinition,
+      executionPlan: JSON.stringify(result.executionPlan),
+      creditsCost,
+      status: WorkflowStatus.PUBLISHED
+    }
+  })
+}
+
+export async function UnpublishWorkflow(id: string) {
+  const authData = await auth.api.getSession({
+    headers: await headers()
+  })
+  const userId = authData?.user?.id
+
+  if (!userId) throw new Error('Unauthenticated')
+
+  const workflow = await prisma.workflow.findUnique({
+    where: { id, userId }
+  })
+
+  if (!workflow) throw new Error('Workflow not found')
+
+  if (workflow.status !== WorkflowStatus.PUBLISHED) {
+    throw new Error('Workflow is not published')
+  }
+
+  await prisma.workflow.update({
+    where: { id, userId },
+    data: {
+      status: WorkflowStatus.DRAFT,
+      executionPlan: null,
+      creditsCost: 0
     }
   })
 }

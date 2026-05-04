@@ -89,8 +89,10 @@ model Workflow {
   user   User   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   userId String
 
-  definition String
-  status     String // DRAFT | PUBLISHED
+  definition    String
+  executionPlan String?
+  creditsCost   Int     @default(0)
+  status        String // DRAFT | PUBLISHED
 
   lastRunAt     DateTime?
   lastRunId     String?
