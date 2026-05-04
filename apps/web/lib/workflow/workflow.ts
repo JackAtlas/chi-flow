@@ -138,11 +138,13 @@ export async function RunWorkflow(form: {
   if (!workflow) throw new Error('Workflow not found')
 
   let executionPlan: WorkflowExecutionPlan
+  let workflowDefinition
   if (workflow.status === WorkflowStatus.PUBLISHED) {
     if (!workflow.executionPlan) {
       throw new Error('No execution plan found in published workflow')
     }
     executionPlan = JSON.parse(workflow.executionPlan)
+    workflowDefinition = workflow.definition
   } else {
     if (!flowDefinition) throw new Error('flow definition is not defined')
     const flow = JSON.parse(flowDefinition)
@@ -151,6 +153,7 @@ export async function RunWorkflow(form: {
       throw new Error('flow definition is not valid')
     }
     executionPlan = result.executionPlan
+    workflowDefinition = flowDefinition
   }
 
   const execution = await prisma.workflowExecution.create({
@@ -160,7 +163,7 @@ export async function RunWorkflow(form: {
       status: WorkflowExecutionStatus.PENDING,
       startedAt: new Date(),
       trigger: WorkflowExecutionTrigger.MANUAL,
-      definition: flowDefinition ?? '',
+      definition: workflowDefinition,
       phases: {
         create: executionPlan.flatMap((phase) => {
           return phase.nodes.flatMap((node) => {
