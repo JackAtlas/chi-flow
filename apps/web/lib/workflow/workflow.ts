@@ -183,6 +183,22 @@ export async function RunWorkflow(form: {
   redirect(`/workflow/runs/${workflowId}/${execution.id}`)
 }
 
+export async function GetWorkflowExecutions(workflowId: string) {
+  const authData = await auth.api.getSession({
+    headers: await headers()
+  })
+  const userId = authData?.user?.id
+
+  if (!userId) throw new Error('Unauthenticated')
+
+  return prisma.workflowExecution.findMany({
+    where: { workflowId, userId },
+    orderBy: {
+      createdAt: 'desc'
+    }
+  })
+}
+
 export async function GetWorkflowExecutionWithPhases(executionId: string) {
   const authData = await auth.api.getSession({
     headers: await headers()

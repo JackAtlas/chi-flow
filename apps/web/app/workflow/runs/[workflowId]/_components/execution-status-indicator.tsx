@@ -1,0 +1,19 @@
+import type { WorkflowExecutionStatus } from '@/types/workflow'
+import { cn } from '@workspace/ui/lib/utils'
+
+const indicatorColors: Record<WorkflowExecutionStatus, string> = {
+  PENDING: 'bg-slate-400',
+  RUNNING: 'bg-yellow-400',
+  FAILED: 'bg-red-400',
+  COMPLETED: 'bg-emerald-600'
+}
+
+export default function ExecutionStatusIndicator({
+  status
+}: {
+  status: WorkflowExecutionStatus
+}) {
+  return (
+    <div className={cn('size-2 rounded-full', indicatorColors[status])}></div>
+  )
+}
