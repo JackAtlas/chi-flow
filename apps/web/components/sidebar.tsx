@@ -19,6 +19,7 @@ import {
 import { usePathname } from 'next/navigation'
 import { cn } from '@workspace/ui/lib/utils'
 import { useState } from 'react'
+import UserAvailableBadge from './user-available-badge'
 
 type Route = {
   href: string
@@ -60,7 +61,9 @@ export default function DesktopSidebar() {
       <div className="flex border-separate items-center justify-center gap-2 border-b p-4">
         <Logo />
       </div>
-      <div className="p-2">TODO CREDITS</div>
+      <div className="p-2">
+        <UserAvailableBadge />
+      </div>
       <div className="flex flex-col p-2">
         {routes.map((route) => (
           <Link
@@ -101,6 +104,7 @@ export function MobileSidebar() {
           </SheetTrigger>
           <SheetContent className="w-100 space-y-4 sm:w-135" side="left">
             <Logo />
+            <UserAvailableBadge />
             <div className="flex flex-col gap-1">
               {routes.map((route) => (
                 <Link
