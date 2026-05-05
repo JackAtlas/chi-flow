@@ -11,7 +11,10 @@ import { Button } from '@workspace/ui/components/button'
 import { Layers2Icon, Loader2Icon } from 'lucide-react'
 import CustomDialogHeader from '@/components/custom-dialog-header'
 import { useForm } from '@tanstack/react-form'
-import { CreateWorkflowSchema, createWorkflowSchema } from '@/schema/workflow'
+import {
+  createWorkflowSchema,
+  type createWorkflowSchemaType
+} from '@/schema/workflow'
 import {
   Field,
   FieldDescription,
@@ -21,7 +24,7 @@ import {
 import { Input } from '@workspace/ui/components/input'
 import { Textarea } from '@workspace/ui/components/textarea'
 import { useMutation } from '@tanstack/react-query'
-import { createWorkflow } from '@/lib/workflow/workflow'
+import { CreateWorkflow } from '@/lib/workflow/workflow'
 import { toast } from 'sonner'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 
@@ -36,7 +39,7 @@ export default function CreateWorkflowDialog({
     defaultValues: {
       name: '',
       description: ''
-    } as CreateWorkflowSchema,
+    } as createWorkflowSchemaType,
     validators: {
       onSubmit: createWorkflowSchema
     },
@@ -47,7 +50,7 @@ export default function CreateWorkflowDialog({
   })
 
   const { mutate, isPending } = useMutation({
-    mutationFn: createWorkflow,
+    mutationFn: CreateWorkflow,
     onSuccess: () => {
       toast.success('Workflow created', { id: 'create-workflow' })
       form.reset()

@@ -3,7 +3,12 @@
 import { headers } from 'next/headers'
 import { auth } from '../auth/auth'
 import prisma from '../prisma'
-import { createWorkflowSchema, CreateWorkflowSchema } from '@/schema/workflow'
+import {
+  createWorkflowSchema,
+  duplicateWorkflowSchema,
+  type createWorkflowSchemaType,
+  type duplicateWorkflowSchemaType
+} from '@/schema/workflow'
 import {
   ExecutionPhaseStatus,
   WorkflowExecutionStatus,
@@ -23,7 +28,7 @@ import { CalculateWorkflowCost } from './helpers'
 import { CronExpressionParser } from 'cron-parser'
 import { revalidatePath } from 'next/cache'
 
-export async function getWorkflowsForUser() {
+export async function GetWorkflowsForUser() {
   const authData = await auth.api.getSession({
     headers: await headers()
   })
@@ -37,7 +42,7 @@ export async function getWorkflowsForUser() {
   })
 }
 
-export async function createWorkflow(form: CreateWorkflowSchema) {
+export async function CreateWorkflow(form: createWorkflowSchemaType) {
   const authData = await auth.api.getSession({
     headers: await headers()
   })
@@ -374,6 +379,40 @@ export async function RemoveWorkflowSchedule(id: string) {
       nextRunAt: null
     }
   })
+
+  revalidatePath('/workflows')
+}
+
+export async function DuplicateWorkflow(form: duplicateWorkflowSchemaType) {
+  const authData = await auth.api.getSession({
+    headers: await headers()
+  })
+  const userId = authData?.user?.id
+
+  if (!userId) throw new Error('Unauthenticated')
+
+  const { success, data } = duplicateWorkflowSchema.safeParse(form)
+  if (!success) throw new Error('Invalid form data')
+
+  const sourceWorkflow = await prisma.workflow.findUnique({
+    where: { id: data.workflowId, userId }
+  })
+
+  if (!sourceWorkflow) throw new Error('Workflow not found')
+
+  const result = await prisma.workflow.create({
+    data: {
+      userId,
+      name: data.name,
+      description: data.description,
+      status: WorkflowStatus.DRAFT,
+      definition: sourceWorkflow.definition
+    }
+  })
+
+  if (!result) {
+    throw new Error('Failed to duplicate workflow')
+  }
 
   revalidatePath('/workflows')
 }

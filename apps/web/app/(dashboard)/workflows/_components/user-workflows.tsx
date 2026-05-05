@@ -1,4 +1,4 @@
-import { getWorkflowsForUser } from '@/lib/workflow/workflow'
+import { GetWorkflowsForUser } from '@/lib/workflow/workflow'
 import {
   Alert,
   AlertDescription,
@@ -10,7 +10,7 @@ import WorkflowCard from './workflow-card'
 
 export default async function UserWorkflows() {
   try {
-    const workflows = await getWorkflowsForUser()
+    const workflows = await GetWorkflowsForUser()
 
     if (!workflows) throw new Error()
 
