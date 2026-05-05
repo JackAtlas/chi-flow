@@ -6,6 +6,7 @@ import { ExtractTextFromElementExecutor } from './extract-text-from-element-exec
 import { FillInputExecutor } from './fill-input-executor'
 import { ClickElementExecutor } from './click-element-executor'
 import { WaitForElementExecutor } from './wait-for-element-executor'
+import { DeliverViaWebhookExecutor } from './deliver-via-webhook'
 
 type ExecutorFn<T extends TaskDescriptor> = (
   environment: ExecutionEnvironment<T>
@@ -21,5 +22,6 @@ export const ExecutorRegistry: RegistryType = {
   [TaskType.EXTRACT_TEXT_FROM_ELEMENT]: ExtractTextFromElementExecutor,
   [TaskType.FILL_INPUT]: FillInputExecutor,
   [TaskType.CLICK_ELEMENT]: ClickElementExecutor,
-  [TaskType.WAIT_FOR_ELEMENT]: WaitForElementExecutor
+  [TaskType.WAIT_FOR_ELEMENT]: WaitForElementExecutor,
+  [TaskType.DELIVER_VIA_WEBHOOK]: DeliverViaWebhookExecutor
 }

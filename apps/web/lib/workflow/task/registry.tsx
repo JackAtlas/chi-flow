@@ -5,6 +5,7 @@ import { PageToHtmlTask } from './page-to-html'
 import { FillInputTask } from './fill-input'
 import { ClickElementTask } from './click-element'
 import { WaitForElementTask } from './wait-for-element'
+import { DeliverViaWebhookTask } from './deliver-via-webhook'
 
 type Registry = {
   [K in TaskType]: TaskDescriptor & { type: K }
@@ -16,5 +17,6 @@ export const TaskRegistry: Registry = {
   [TaskType.EXTRACT_TEXT_FROM_ELEMENT]: ExtractTextFromElementTask,
   [TaskType.FILL_INPUT]: FillInputTask,
   [TaskType.CLICK_ELEMENT]: ClickElementTask,
-  [TaskType.WAIT_FOR_ELEMENT]: WaitForElementTask
+  [TaskType.WAIT_FOR_ELEMENT]: WaitForElementTask,
+  [TaskType.DELIVER_VIA_WEBHOOK]: DeliverViaWebhookTask
 }
