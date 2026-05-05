@@ -5,6 +5,7 @@ import type { LaunchBrowserTask } from '../task/launch-browser'
 export async function LaunchBrowserExecutor(
   environment: ExecutionEnvironment<typeof LaunchBrowserTask>
 ): Promise<boolean> {
+  console.log('LaunchBrowserExecutor Start')
   try {
     const websiteUrl = environment.getInput('Website Url')
     const browser = await puppeteer.launch()
@@ -14,6 +15,7 @@ export async function LaunchBrowserExecutor(
     await page.goto(websiteUrl, { timeout: 0 })
     environment.setPage(page)
     environment.log.info(`Open page at: ${websiteUrl}`)
+    console.log('LaunchBrowserExecutor End')
     return true
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -21,6 +23,7 @@ export async function LaunchBrowserExecutor(
     } else {
       environment.log.error('Unknown error')
     }
+    console.log('LaunchBrowserExecutor End')
     return false
   }
 }
