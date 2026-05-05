@@ -20,7 +20,6 @@ import { CalendarIcon, ClockIcon, TriangleAlertIcon } from 'lucide-react'
 import { useDeferredValue, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import cronstrue from 'cronstrue'
-import { Separator } from '@workspace/ui/components/separator'
 
 export default function SchedulerDialog(props: {
   cron: string | null
@@ -105,7 +104,7 @@ export default function SchedulerDialog(props: {
           title="Schedule workflow execution"
           icon={CalendarIcon}
         />
-        <div className="space-y-4 p-6">
+        <div className="space-y-4 px-6">
           <DialogDescription>
             Specify a cron expression to schedule periodic workflow
             execution.All times are in UTC
@@ -141,7 +140,6 @@ export default function SchedulerDialog(props: {
               >
                 Remove current schedule
               </Button>
-              <Separator className="my-4" />
             </div>
           )}
         </div>
