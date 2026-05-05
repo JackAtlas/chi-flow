@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow
 } from '@workspace/ui/components/table'
-import ExecutionStatusIndicator from './execution-status-indicator'
+import { ExecutionStatusIndicator } from './execution-status'
 import type { WorkflowExecutionStatus } from '@/types/workflow'
 import { CoinsIcon } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
