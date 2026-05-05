@@ -1,9 +1,9 @@
 import type { ExecutionEnvironment } from '@/types/executor'
-import type { ExtractTextFromElement } from '../task/extract-text-from-element'
+import type { ExtractTextFromElementTask } from '../task/extract-text-from-element'
 import * as cheerio from 'cheerio'
 
 export async function ExtractTextFromElementExecutor(
-  environment: ExecutionEnvironment<typeof ExtractTextFromElement>
+  environment: ExecutionEnvironment<typeof ExtractTextFromElementTask>
 ): Promise<boolean> {
   console.log('ExtractTextFromElementExecutor Start')
   try {
@@ -40,6 +40,7 @@ export async function ExtractTextFromElementExecutor(
     console.log('ExtractTextFromElementExecutor, setOutput')
     environment.setOutput('Extracted text', extractedText)
 
+    console.log('ExtractTextFromElementExecutor End')
     return true
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -47,6 +48,7 @@ export async function ExtractTextFromElementExecutor(
     } else {
       environment.log.error('Unknown error')
     }
+    console.log('ExtractTextFromElementExecutor End')
     return false
   }
 }
