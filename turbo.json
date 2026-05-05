@@ -5,7 +5,8 @@
     "NODE_ENV",
     "NEXT_PUBLIC_DEMO_PASSWORD",
     "NEXT_PUBLIC_AVATAR_URL",
-    "API_SECRET"
+    "API_SECRET",
+    "ENCRYPTION_KEY"
   ],
   "ui": "tui",
   "tasks": {
