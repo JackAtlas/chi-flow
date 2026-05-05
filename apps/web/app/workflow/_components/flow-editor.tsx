@@ -115,7 +115,7 @@ export default function FlowEditor({ workflow }: { workflow: Workflow }) {
         (i) => i.name === connection.targetHandle
       )
 
-      if (input?.type !== output?.type || input?.name !== output?.name) {
+      if (input?.type !== output?.type) {
         console.warn('Invalid connection: type mismatch')
         return false
       }
