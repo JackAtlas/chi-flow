@@ -36,6 +36,10 @@ export async function ExecuteWorkflow(executionId: string, nextRunAt?: Date) {
 
   let creditsConsumed = 0
   let executionFailed = false
+  console.log(
+    'phases to execute:',
+    execution.phases.map((phase) => phase.name).join(', ')
+  )
   for (const phase of execution.phases) {
     const phaseExecution = await executeWorkflowPhase(
       phase,
@@ -140,6 +144,7 @@ async function executeWorkflowPhase(
   edges: Edge[],
   userId: string
 ) {
+  console.log('executeWorkflowPhase', phase.name)
   const logCollector = createLogCollector()
   const startedAt = new Date()
   const node = JSON.parse(phase.node) as AppNode
@@ -173,6 +178,7 @@ async function executePhase(
   environment: Environment,
   logCollector: LogCollector
 ): Promise<boolean> {
+  console.log('executePhase', phase.name)
   const runFn = ExecutorRegistry[node.data.type]
   if (!runFn) {
     logCollector.error(`Not found executor for ${node.data.type}`)
