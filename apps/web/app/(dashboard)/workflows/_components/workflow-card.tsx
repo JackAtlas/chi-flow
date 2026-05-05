@@ -27,6 +27,7 @@ import {
 } from '@/app/workflow/runs/[workflowId]/_components/execution-status'
 import { format, formatDistanceToNow } from 'date-fns'
 import { UTCDate } from '@date-fns/utc'
+import DuplicateWorkflowDialog from './duplicate-workflow-dialog'
 
 const statusColors = {
   [WorkflowStatus.DRAFT]: 'bg-yellow-400 text-yellow-600',
@@ -36,7 +37,7 @@ const statusColors = {
 export default function WorkflowCard({ workflow }: { workflow: Workflow }) {
   const isDraft = workflow.status === WorkflowStatus.DRAFT
   return (
-    <Card className="border-separate overflow-hidden rounded-lg border pb-0 shadow-sm hover:shadow-md dark:shadow-primary/30">
+    <Card className="group/card border-separate overflow-hidden rounded-lg border pb-0 shadow-sm hover:shadow-md dark:shadow-primary/30">
       <CardContent className="flex h-25 items-center justify-between p-4">
         <div className="flex items-center justify-end space-x-3">
           <div
@@ -66,6 +67,7 @@ export default function WorkflowCard({ workflow }: { workflow: Workflow }) {
                   Draft
                 </span>
               )}
+              <DuplicateWorkflowDialog workflowId={workflow.id} />
             </h3>
             <SchedulerSection
               creditsCost={workflow.creditsCost}
