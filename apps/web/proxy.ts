@@ -11,14 +11,20 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   const authPages = ['/signUp', '/signIn', '/adminSignIn']
+  const publicPages = ['/api/workflows/(.*)*']
 
   const isAuthPage = authPages.includes(pathname)
+  const isPublicPage = publicPages.includes(pathname)
 
   if (isAuthPage) {
     if (isLoggedIn) {
       return NextResponse.redirect(new URL('/', request.url))
     }
 
+    return NextResponse.next()
+  }
+
+  if (isPublicPage) {
     return NextResponse.next()
   }
 
