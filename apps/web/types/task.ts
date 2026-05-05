@@ -5,12 +5,15 @@ export enum TaskType {
   LAUNCH_BROWSER = 'LAUNCH_BROWSER',
   PAGE_TO_HTML = 'PAGE_TO_HTML',
   EXTRACT_TEXT_FROM_ELEMENT = 'EXTRACT_TEXT_FROM_ELEMENT',
-  FILL_INPUT = 'FILL_INPUT'
+  FILL_INPUT = 'FILL_INPUT',
+  CLICK_ELEMENT = 'CLICK_ELEMENT',
+  WAIT_FOR_ELEMENT = 'WAIT_FOR_ELEMENT'
 }
 
 export enum TaskParamType {
   STRING = 'STRING',
-  BROWSER_INSTANCE = 'BROWSER_INSTANCE'
+  BROWSER_INSTANCE = 'BROWSER_INSTANCE',
+  SELECT = 'SELECT'
 }
 
 export interface TaskParam {
@@ -30,6 +33,7 @@ export interface TaskInput {
   hideHandle?: boolean
   required?: boolean
   variant?: string
+  options?: { label: string; value: string }[]
 }
 
 export type TaskOutput = Omit<TaskInput, 'required'>
