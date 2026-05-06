@@ -16,7 +16,7 @@ import { createLogCollector } from '../log'
 export async function ExecuteWorkflow(executionId: string, nextRunAt?: Date) {
   const execution = await prisma.workflowExecution.findUnique({
     where: { id: executionId },
-    include: { workflow: true, phases: true }
+    include: { workflow: true, phases: { orderBy: { number: 'asc' } } }
   })
 
   if (!execution) {
