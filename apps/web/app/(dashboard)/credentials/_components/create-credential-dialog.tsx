@@ -68,13 +68,7 @@ export default function CreateCredentialDialog({
   })
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(open) => {
-        form.reset()
-        setOpen(open)
-      }}
-    >
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>{triggerText ?? 'Create credential'}</Button>
       </DialogTrigger>
@@ -131,7 +125,7 @@ export default function CreateCredentialDialog({
                   </FieldLabel>
                   <Textarea
                     id={field.name}
-                    className="resize-none"
+                    className="resize-none break-all"
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
