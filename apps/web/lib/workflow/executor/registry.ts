@@ -10,6 +10,7 @@ import { DeliverViaWebhookExecutor } from './deliver-via-webhook'
 import { ExtractDataWithAIExecutor } from './extract-data-with-ai-executor'
 import { ReadPropertyFromJSONExecutor } from './read-property-from-json-executor'
 import { AddPropertyToJSONExecutor } from './add-property-to-json-executor'
+import { NavigateUrlExecutor } from './navigate-url-executor'
 
 type ExecutorFn<T extends TaskDescriptor> = (
   environment: ExecutionEnvironment<T>
@@ -29,5 +30,6 @@ export const ExecutorRegistry: RegistryType = {
   [TaskType.DELIVER_VIA_WEBHOOK]: DeliverViaWebhookExecutor,
   [TaskType.EXTRACT_DATA_WITH_AI]: ExtractDataWithAIExecutor,
   [TaskType.READ_PROPERTY_FROM_JSON]: ReadPropertyFromJSONExecutor,
-  [TaskType.ADD_PROPERTY_TO_JSON]: AddPropertyToJSONExecutor
+  [TaskType.ADD_PROPERTY_TO_JSON]: AddPropertyToJSONExecutor,
+  [TaskType.NAVIGATE_URL]: NavigateUrlExecutor
 }
