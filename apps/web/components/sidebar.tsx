@@ -4,7 +4,6 @@ import {
   CoinsIcon,
   HomeIcon,
   Layers2Icon,
-  LucideIcon,
   MenuIcon,
   ShieldCheckIcon
 } from 'lucide-react'
@@ -21,41 +20,42 @@ import { cn } from '@workspace/ui/lib/utils'
 import { useState } from 'react'
 import UserAvailableBadge from './user-available-badge'
 
-type Route = {
-  href: string
-  label: string
-  icon: LucideIcon
-}
-
 const routes = [
   {
-    href: '',
+    href: '/',
     label: 'Home',
     icon: HomeIcon
   },
   {
-    href: 'workflows',
+    href: '/workflows',
     label: 'Workflows',
     icon: Layers2Icon
   },
   {
-    href: 'credentials',
+    href: '/credentials',
     label: 'Credentials',
     icon: ShieldCheckIcon
   },
   {
-    href: 'billing',
+    href: '/billing',
     label: 'Billing',
     icon: CoinsIcon
   }
 ] as const
 
+function getActiveRoute(pathname: string) {
+  if (pathname === '/') return routes[0]
+
+  return (
+    routes.find(
+      (route) => route.href !== '/' && pathname.startsWith(route.href)
+    ) || routes[0]
+  )
+}
+
 export default function DesktopSidebar() {
   const pathname = usePathname()
-  const activeRoute: Route =
-    routes.find(
-      (route) => route.href.length > 0 && pathname.includes(route.href)
-    ) || routes[0]
+  const activeRoute = getActiveRoute(pathname)
   return (
     <div className="relative hidden h-screen w-full max-w-70 border-separate overflow-hidden border-r-2 bg-primary/5 text-muted-foreground md:block dark:bg-secondary/30 dark:text-foreground">
       <div className="flex border-separate items-center justify-center gap-2 border-b p-4">
@@ -72,7 +72,7 @@ export default function DesktopSidebar() {
             className={cn(
               buttonVariants(),
               'justify-start gap-2',
-              activeRoute!.href === route.href
+              activeRoute.href === route.href
                 ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                 : 'bg-transparent text-secondary-foreground hover:bg-primary/80 hover:text-primary-foreground'
             )}
@@ -89,10 +89,7 @@ export default function DesktopSidebar() {
 export function MobileSidebar() {
   const [isOpen, setOpen] = useState(false)
   const pathname = usePathname()
-  const activeRoute: Route =
-    routes.find(
-      (routes) => routes.href.length > 0 && pathname.includes(routes.href)
-    ) || routes[0]
+  const activeRoute = getActiveRoute(pathname)
   return (
     <div className="block border-separate bg-background md:hidden">
       <nav className="container flex items-center justify-between px-8">
@@ -113,7 +110,7 @@ export function MobileSidebar() {
                   className={cn(
                     buttonVariants(),
                     'justify-start gap-2',
-                    activeRoute!.href === route.href
+                    activeRoute.href === route.href
                       ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                       : 'bg-transparent text-secondary-foreground hover:bg-primary/80 hover:text-primary-foreground'
                   )}
