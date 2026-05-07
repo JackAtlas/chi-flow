@@ -1,17 +1,18 @@
 packages:
-  - "apps/*"
-  - "packages/*"
+  - 'apps/*'
+  - 'packages/*'
 
 catalogs:
   default:
     lucide-react: ^1
     react: ^19
     react-dom: ^19
+    recharts: ^3
     sonner: ^2
     typescript: ^6
 
-    "@types/node": ^25
-    "@types/react": ^19
-    "@types/react-dom": ^19
+    '@types/node': ^25
+    '@types/react': ^19
+    '@types/react-dom': ^19
 
     eslint: ^9
