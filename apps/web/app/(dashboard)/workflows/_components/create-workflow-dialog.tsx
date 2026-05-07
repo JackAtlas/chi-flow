@@ -130,7 +130,7 @@ export default function CreateWorkflowDialog({
                   </FieldLabel>
                   <Textarea
                     id={field.name}
-                    className="resize-none"
+                    className="resize-none break-all"
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
