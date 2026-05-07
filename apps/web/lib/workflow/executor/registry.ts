@@ -11,6 +11,7 @@ import { ExtractDataWithAIExecutor } from './extract-data-with-ai-executor'
 import { ReadPropertyFromJSONExecutor } from './read-property-from-json-executor'
 import { AddPropertyToJSONExecutor } from './add-property-to-json-executor'
 import { NavigateUrlExecutor } from './navigate-url-executor'
+import { ScrollToElementExecutor } from './scroll-to-element-executor'
 
 type ExecutorFn<T extends TaskDescriptor> = (
   environment: ExecutionEnvironment<T>
@@ -31,5 +32,6 @@ export const ExecutorRegistry: RegistryType = {
   [TaskType.EXTRACT_DATA_WITH_AI]: ExtractDataWithAIExecutor,
   [TaskType.READ_PROPERTY_FROM_JSON]: ReadPropertyFromJSONExecutor,
   [TaskType.ADD_PROPERTY_TO_JSON]: AddPropertyToJSONExecutor,
-  [TaskType.NAVIGATE_URL]: NavigateUrlExecutor
+  [TaskType.NAVIGATE_URL]: NavigateUrlExecutor,
+  [TaskType.SCROLL_TO_ELEMENT]: ScrollToElementExecutor
 }

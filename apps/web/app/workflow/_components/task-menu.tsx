@@ -8,7 +8,9 @@ import {
   AccordionItem,
   AccordionTrigger
 } from '@workspace/ui/components/accordion'
+import { Badge } from '@workspace/ui/components/badge'
 import { Button } from '@workspace/ui/components/button'
+import { CoinsIcon } from 'lucide-react'
 import type { DragEvent } from 'react'
 
 export default function TaskMenu() {
@@ -33,6 +35,7 @@ export default function TaskMenu() {
             <TaskMenuBtn taskType={TaskType.NAVIGATE_URL} />
             <TaskMenuBtn taskType={TaskType.FILL_INPUT} />
             <TaskMenuBtn taskType={TaskType.CLICK_ELEMENT} />
+            <TaskMenuBtn taskType={TaskType.SCROLL_TO_ELEMENT} />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="extraction">
@@ -84,12 +87,18 @@ function TaskMenuBtn({ taskType }: { taskType: TaskType }) {
   return (
     <Button
       variant="secondary"
-      className="flex w-full items-center justify-start gap-2 border"
+      className="flex w-full items-center justify-between gap-2 border"
       draggable
       onDragStart={(event) => onDragStart(event, taskType)}
     >
-      <task.icon size={20}>{task.label}</task.icon>
-      {task.label}
+      <div className="flex gap-2">
+        <task.icon size={20}>{task.label}</task.icon>
+        {task.label}
+      </div>
+      <Badge className="flex items-center gap-2" variant="outline">
+        <CoinsIcon size={16} />
+        {task.credits}
+      </Badge>
     </Button>
   )
 }
