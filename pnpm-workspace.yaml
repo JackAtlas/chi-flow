@@ -2,6 +2,15 @@ packages:
   - 'apps/*'
   - 'packages/*'
 
+allowBuilds:
+  '@prisma/engines': true
+  core-js-pure: true
+  esbuild: true
+  msw: true
+  prisma: true
+  puppeteer: true
+  sharp: true
+
 catalogs:
   default:
     lucide-react: ^1
