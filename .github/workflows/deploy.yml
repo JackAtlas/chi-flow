@@ -36,8 +36,6 @@ jobs:
           mkdir -p deploy/.next
           cp -r apps/web/.next/static deploy/.next/static
 
-          cp -r apps/web/public deploy/public
-
           mkdir -p deploy/prisma
           cp -r prisma deploy/
           cp -r prisma.config.ts deploy/
