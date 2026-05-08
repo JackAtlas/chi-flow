@@ -63,6 +63,6 @@ jobs:
 
             pm2 delete chi-flow || true
 
-            pm2 start server.js --name chi-flow
+            pm2 start ./deploy/apps/web/server.js --name chi-flow
 
             pm2 save
