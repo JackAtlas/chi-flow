@@ -37,8 +37,8 @@ jobs:
           cp -r apps/web/.next/static deploy/.next/static
 
           mkdir -p deploy/prisma
-          cp -r prisma deploy/
-          cp -r prisma.config.ts deploy/
+          cp -r apps/web/prisma deploy/
+          cp -r apps/web/prisma.config.ts deploy/
 
       - name: Upload to Server via SSH
         uses: appleboy/scp-action@v0.1.7
