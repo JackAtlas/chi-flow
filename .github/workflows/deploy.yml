@@ -60,9 +60,8 @@ jobs:
             cd /var/www/chi-flow
 
             export NODE_ENV=production
+            export PORT=3002
 
-            pm2 delete chi-flow || true
-
-            pm2 start ./deploy/apps/web/server.js --name chi-flow
+            pm2 restart chi-flow || pm2 start ./deploy/apps/web/server.js --name chi-flow
 
             pm2 save
