@@ -33,8 +33,8 @@ jobs:
           mkdir -p deploy
           cp -r apps/web/.next/standalone/* deploy/
 
-          mkdir -p deploy/.next
-          cp -r apps/web/.next/static deploy/.next/static
+          mkdir -p deploy/apps/web/.next
+          cp -r apps/web/.next/static deploy/apps/web/.next/static
 
           mkdir -p deploy/prisma
           cp -r apps/web/prisma deploy/
