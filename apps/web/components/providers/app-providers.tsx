@@ -1,7 +1,7 @@
 'use client'
 
 import { ReactNode, useState } from 'react'
-import { ThemeProvider } from '../theme-provider'
+import { ThemeProvider } from './theme-provider'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NextTopLoader from 'nextjs-toploader'
 
