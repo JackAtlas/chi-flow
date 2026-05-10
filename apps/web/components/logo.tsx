@@ -1,6 +1,6 @@
+import { Link } from '@/i18n/navigation'
 import { cn } from '@workspace/ui/lib/utils'
 import { SquareDashedMousePointerIcon } from 'lucide-react'
-import Link from 'next/link'
 
 export default function Logo({
   fontSize = '2xl',

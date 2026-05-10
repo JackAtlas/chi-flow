@@ -1,6 +1,5 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,6 +9,7 @@ import {
 } from '@workspace/ui/components/breadcrumb'
 import { Fragment } from 'react'
 import { MobileSidebar } from './sidebar'
+import { usePathname } from '@/i18n/navigation'
 
 export default function BreadcrumbHeader() {
   const pathname = usePathname()

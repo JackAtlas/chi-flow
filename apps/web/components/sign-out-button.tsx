@@ -1,8 +1,8 @@
 'use client'
 
+import { useRouter } from '@/i18n/navigation'
 import { authClient } from '@/lib/auth/auth-client'
 import { Button } from '@workspace/ui/components/button'
-import { useRouter } from 'next/navigation'
 
 export function SignOutButton() {
   const router = useRouter()

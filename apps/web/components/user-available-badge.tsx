@@ -4,9 +4,9 @@ import { GetAvailableCredits } from '@/lib/workflow/billing'
 import { useQuery } from '@tanstack/react-query'
 import { cn } from '@workspace/ui/lib/utils'
 import { CoinsIcon, Loader2Icon } from 'lucide-react'
-import Link from 'next/link'
 import ReactCountUpWrapper from './react-count-up-wrapper'
 import { buttonVariants } from '@workspace/ui/components/button'
+import { Link } from '@/i18n/navigation'
 
 export default function UserAvailableBadge() {
   const query = useQuery({

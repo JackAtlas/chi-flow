@@ -8,37 +8,37 @@ import {
   ShieldCheckIcon
 } from 'lucide-react'
 import Logo from './logo'
-import Link from 'next/link'
 import { Button, buttonVariants } from '@workspace/ui/components/button'
 import {
   Sheet,
   SheetContent,
   SheetTrigger
 } from '@workspace/ui/components/sheet'
-import { usePathname } from 'next/navigation'
 import { cn } from '@workspace/ui/lib/utils'
 import { useState } from 'react'
 import UserAvailableBadge from './user-available-badge'
+import { Link, usePathname } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
 const routes = [
   {
     href: '/',
-    label: 'Home',
+    label: 'home',
     icon: HomeIcon
   },
   {
     href: '/workflows',
-    label: 'Workflows',
+    label: 'workflows',
     icon: Layers2Icon
   },
   {
     href: '/credentials',
-    label: 'Credentials',
+    label: 'credentials',
     icon: ShieldCheckIcon
   },
   {
     href: '/billing',
-    label: 'Billing',
+    label: 'billing',
     icon: CoinsIcon
   }
 ] as const
@@ -54,6 +54,7 @@ function getActiveRoute(pathname: string) {
 }
 
 export default function DesktopSidebar() {
+  const t = useTranslations('nav')
   const pathname = usePathname()
   const activeRoute = getActiveRoute(pathname)
   return (
@@ -78,7 +79,7 @@ export default function DesktopSidebar() {
             )}
           >
             <route.icon size={20} />
-            {route.label}
+            {t(route.label)}
           </Link>
         ))}
       </div>
