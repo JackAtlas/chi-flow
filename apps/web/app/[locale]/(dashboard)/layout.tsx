@@ -3,7 +3,7 @@ import { Separator } from '@workspace/ui/components/separator'
 import DesktopSidebar from '@/components/sidebar'
 import BreadcrumbHeader from '@/components/breadcrumb-header'
 import { ModeToggler } from '@/components/mode-toggler'
-import { SignOutButton } from '@/components/sign-out-button'
+import { UserDropdownMenu } from '@/components/user-dropdown-menu'
 import { I18NSwitcher } from '@/components/i18n-switcher'
 
 export default function layout({ children }: { children: ReactNode }) {
@@ -16,7 +16,7 @@ export default function layout({ children }: { children: ReactNode }) {
           <div className="flex items-center gap-2">
             <I18NSwitcher />
             <ModeToggler />
-            <SignOutButton />
+            <UserDropdownMenu />
           </div>
         </header>
         <Separator />
