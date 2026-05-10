@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { Separator } from '@workspace/ui/components/separator'
 import DesktopSidebar from '@/components/sidebar'
 import BreadcrumbHeader from '@/components/breadcrumb-header'
-import { ModeToggle } from '@/components/theme-mode-switcher'
+import { ModeToggler } from '@/components/mode-toggler'
 import { SignOutButton } from '@/components/sign-out-button'
 import { I18NSwitcher } from '@/components/i18n-switcher'
 
@@ -15,7 +15,7 @@ export default function layout({ children }: { children: ReactNode }) {
           <BreadcrumbHeader />
           <div className="flex items-center gap-2">
             <I18NSwitcher />
-            <ModeToggle />
+            <ModeToggler />
             <SignOutButton />
           </div>
         </header>
