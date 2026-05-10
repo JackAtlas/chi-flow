@@ -18,7 +18,7 @@ export async function proxy(request: NextRequest) {
 
   // auth pages
   const authPages = ['/signIn', '/signUp', '/adminSignIn']
-  const isAuthPage = authPages.includes(pathname)
+  const isAuthPage = authPages.some((page) => pathname.endsWith(page))
 
   // session
   const session = await auth.api.getSession({
@@ -32,7 +32,7 @@ export async function proxy(request: NextRequest) {
   }
 
   // protected routes
-  if (!isLoggedIn) {
+  if (!isAuthPage && !isLoggedIn) {
     return NextResponse.redirect(new URL('/signIn', request.url))
   }
 
