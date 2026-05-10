@@ -54,7 +54,7 @@ function getActiveRoute(pathname: string) {
 }
 
 export default function DesktopSidebar() {
-  const t = useTranslations('nav')
+  const t = useTranslations('Nav')
   const pathname = usePathname()
   const activeRoute = getActiveRoute(pathname)
   return (
