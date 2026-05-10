@@ -16,7 +16,6 @@ import {
   WorkflowStatus,
   type WorkflowExecutionPlan
 } from '@/types/workflow'
-import { redirect } from 'next/navigation'
 import type { AppNode } from '@/types/appNode'
 import type { Edge } from '@xyflow/react'
 import { CreateFlowNode } from './node'
@@ -27,6 +26,8 @@ import { ExecuteWorkflow } from './execute-workflow'
 import { CalculateWorkflowCost } from './helpers'
 import { CronExpressionParser } from 'cron-parser'
 import { revalidatePath } from 'next/cache'
+import { redirect } from '@/i18n/navigation'
+import { getLocale } from 'next-intl/server'
 
 export async function GetWorkflowsForUser() {
   const authData = await auth.api.getSession({
@@ -75,7 +76,12 @@ export async function CreateWorkflow(form: createWorkflowSchemaType) {
     throw new Error('Failed to create workflow')
   }
 
-  redirect(`/workflow/editor/${result.id}`)
+  const locale = await getLocale()
+
+  redirect({
+    href: `/workflow/editor/${result.id}`,
+    locale
+  })
 }
 
 export async function DeleteWorkflow(workflowId: string) {
@@ -197,7 +203,12 @@ export async function RunWorkflow(form: {
 
   ExecuteWorkflow(execution.id)
 
-  redirect(`/workflow/runs/${workflowId}/${execution.id}`)
+  const locale = await getLocale()
+
+  redirect({
+    href: `/workflow/runs/${workflowId}/${execution.id}`,
+    locale
+  })
 }
 
 export async function GetWorkflowExecutions(workflowId: string) {
