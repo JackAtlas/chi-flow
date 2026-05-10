@@ -10,8 +10,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@workspace/ui/components/dropdown-menu'
+import { useTranslations } from 'next-intl'
 
 export function UserDropdownMenu() {
+  const t = useTranslations('Auth')
   const router = useRouter()
   const session = authClient.useSession()
 
@@ -34,7 +36,7 @@ export function UserDropdownMenu() {
         <DropdownMenuContent align="end">
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => clickHandler()}>
-              Sign out
+              {t('signOut')}
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

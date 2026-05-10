@@ -4,5 +4,10 @@
     "workflows": "工作流",
     "credentials": "AI 凭证",
     "billing": "账单"
+  },
+  "Auth": {
+    "signIn": "登入",
+    "signOut": "登出",
+    "signUp": "注册"
   }
 }

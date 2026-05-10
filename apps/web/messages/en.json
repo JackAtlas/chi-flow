@@ -4,5 +4,10 @@
     "workflows": "Workflows",
     "credentials": "Credentials",
     "billing": "Billing"
+  },
+  "Auth": {
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "signUp": "Sign up"
   }
 }
