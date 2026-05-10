@@ -1,38 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server'
+import createNextIntlMiddleware from 'next-intl/middleware'
+import { routing } from './i18n/routing'
 import { auth } from './lib/auth/auth'
-import { headers } from 'next/headers'
+
+const intlMiddleware = createNextIntlMiddleware(routing)
 
 export async function proxy(request: NextRequest) {
-  const session = await auth.api.getSession({
-    headers: await headers()
-  })
+  const pathname = request.nextUrl.pathname
 
-  const isLoggedIn = !!session?.user
-  const { pathname } = request.nextUrl
+  // next-intl middleware
+  const response = intlMiddleware(request)
 
-  const authPages = ['/signUp', '/signIn', '/adminSignIn']
-  const publicPages = ['/api/workflows/(.*)*']
+  // public routes
+  const publicPages = ['/api/workflows']
+  const isPublicPage = publicPages.some((page) => pathname.startsWith(page))
+  if (isPublicPage) return response
 
+  // auth pages
+  const authPages = ['/signIn', '/signUp', '/adminSignIn']
   const isAuthPage = authPages.includes(pathname)
-  const isPublicPage = publicPages.includes(pathname)
 
-  if (isAuthPage) {
-    if (isLoggedIn) {
-      return NextResponse.redirect(new URL('/', request.url))
-    }
+  // session
+  const session = await auth.api.getSession({
+    headers: request.headers
+  })
+  const isLoggedIn = !!session?.user
 
-    return NextResponse.next()
+  // logged in user visits auth page
+  if (isAuthPage && isLoggedIn) {
+    return NextResponse.redirect(new URL('/', request.url))
   }
 
-  if (isPublicPage) {
-    return NextResponse.next()
-  }
-
+  // protected routes
   if (!isLoggedIn) {
     return NextResponse.redirect(new URL('/signIn', request.url))
   }
 
-  return NextResponse.next()
+  return response
 }
 
 export const config = {

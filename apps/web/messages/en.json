@@ -1,0 +1,8 @@
+{
+  "nav": {
+    "home": "Home",
+    "workflows": "Workflows",
+    "credentials": "Credentials",
+    "billing": "Billing"
+  }
+}
