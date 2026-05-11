@@ -26,7 +26,11 @@ export default function BreadcrumbHeader() {
             <Fragment key={index}>
               <BreadcrumbItem>
                 <BreadcrumbLink className="capitalize" href={`/${path}`}>
-                  {path === '' ? t('home') : t(path)}
+                  {path === ''
+                    ? t('home')
+                    : t.has(path as never)
+                      ? t(path as never)
+                      : path}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               {index !== paths.length - 1 && <BreadcrumbSeparator />}
