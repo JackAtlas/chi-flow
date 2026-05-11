@@ -1,6 +1,10 @@
 'use client'
 
-import { DialogHeader, DialogTitle } from '@workspace/ui/components/dialog'
+import {
+  DialogDescription,
+  DialogHeader,
+  DialogTitle
+} from '@workspace/ui/components/dialog'
 import { cn } from '@workspace/ui/lib/utils'
 import { LucideIcon } from 'lucide-react'
 
@@ -30,18 +34,18 @@ export default function CustomDialogHeader(props: Props) {
               {props.title}
             </p>
           )}
-          {props.subTitle && (
-            <p
-              className={cn(
-                'text-sm text-muted-foreground',
-                props.subtitleClassNames
-              )}
-            >
-              {props.subTitle}
-            </p>
-          )}
         </div>
       </DialogTitle>
+      {props.subTitle && (
+        <DialogDescription
+          className={cn(
+            'text-sm text-muted-foreground',
+            props.subtitleClassNames
+          )}
+        >
+          {props.subTitle}
+        </DialogDescription>
+      )}
     </DialogHeader>
   )
 }
