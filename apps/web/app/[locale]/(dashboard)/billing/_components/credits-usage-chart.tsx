@@ -16,20 +16,10 @@ import {
   ChartTooltipContent
 } from '@workspace/ui/components/chart'
 import { ChartColumnStackedIcon } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
 
 type ChartData = Awaited<ReturnType<typeof GetCreditsUsageIntPeriod>>
-
-const chartConfig = {
-  success: {
-    label: 'Successfull phases credits',
-    color: 'hsl(var(--chart-3))'
-  },
-  failed: {
-    label: 'Failed phases credits',
-    color: 'hsl(var(--chart-2))'
-  }
-}
 
 export default function CreditsUsageChart({
   data,
@@ -40,6 +30,18 @@ export default function CreditsUsageChart({
   description: string
   title: string
 }) {
+  const locale = useLocale()
+  const t = useTranslations('Static.credits')
+  const chartConfig = {
+    success: {
+      label: t('key.success'),
+      color: 'hsl(var(--chart-3))'
+    },
+    failed: {
+      label: t('key.failed'),
+      color: 'hsl(var(--chart-2))'
+    }
+  }
   return (
     <Card>
       <CardHeader>
@@ -66,7 +68,7 @@ export default function CreditsUsageChart({
               minTickGap={32}
               tickFormatter={(value) => {
                 const date = new Date(value)
-                return date.toLocaleDateString('zh', {
+                return date.toLocaleDateString(locale, {
                   month: 'short',
                   day: 'numeric'
                 })

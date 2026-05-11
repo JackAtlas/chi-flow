@@ -12,12 +12,14 @@ import { CirclePlayIcon, CoinsIcon, WaypointsIcon } from 'lucide-react'
 import StatsCard from './_components/stats-card'
 import ExecutionStatusChart from './_components/execution-status-chart'
 import CreditsUsageChart from '../billing/_components/credits-usage-chart'
+import { getTranslations } from 'next-intl/server'
 
 export default async function HomePage({
   searchParams
 }: {
   searchParams: Promise<{ month?: string; year?: string }>
 }) {
+  const t = await getTranslations('Static')
   const currentDate = new Date()
   const { month, year } = await searchParams
   const period: Period = {
@@ -27,7 +29,7 @@ export default async function HomePage({
   return (
     <div className="flex h-full flex-1 flex-col">
       <div className="flex justify-between px-6">
-        <h1 className="text-3xl font-bold">Home</h1>
+        <h1 className="text-3xl font-bold">{t('title')}</h1>
         <Suspense fallback={<Skeleton className="h-5 w-45" />}>
           <PeriodSelectorWrapper selectedPeriod={period} />
         </Suspense>
@@ -57,21 +59,22 @@ async function PeriodSelectorWrapper({
 }
 
 async function StatsCards({ selectedPeriod }: { selectedPeriod: Period }) {
+  const t = await getTranslations('Static.cards')
   const data = await GetStatsCardsValues(selectedPeriod)
   return (
     <div className="grid min-h-30 gap-3 lg:grid-cols-3 lg:gap-8">
       <StatsCard
-        title="Workflow executions"
+        title={t('workflow executions')}
         value={data.workflowExecutions}
         icon={CirclePlayIcon}
       />
       <StatsCard
-        title="Phase executions"
+        title={t('phase executions')}
         value={data.phaseExecutions}
         icon={WaypointsIcon}
       />
       <StatsCard
-        title="Credits consumed"
+        title={t('credits consumed')}
         value={data.creditsConsumed}
         icon={CoinsIcon}
       />
@@ -103,12 +106,13 @@ async function CreditsUsageInPeriod({
 }: {
   selectedPeriod: Period
 }) {
+  const t = await getTranslations('Static')
   const data = await GetCreditsUsageIntPeriod(selectedPeriod)
   return (
     <CreditsUsageChart
       data={data}
-      title="Daily credits spent"
-      description="Daily credit consumed in selected period"
+      title={t('credits.title')}
+      description={t('credits.desc')}
     />
   )
 }

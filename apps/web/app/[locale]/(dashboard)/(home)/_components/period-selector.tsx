@@ -9,22 +9,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '@workspace/ui/components/select'
+import { useLocale } from 'next-intl'
 import { useSearchParams } from 'next/navigation'
-
-const MONTH_NAMES = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-] as const
 
 export default function PeriodSelector({
   periods,
@@ -34,6 +20,7 @@ export default function PeriodSelector({
   selectedPeriod: Period
 }) {
   const router = useRouter()
+  const locale = useLocale()
   const searchParams = useSearchParams()
   return (
     <Select
@@ -52,7 +39,10 @@ export default function PeriodSelector({
       <SelectContent>
         {periods.map((period, index) => (
           <SelectItem key={index} value={`${period.month}-${period.year}`}>
-            {MONTH_NAMES[period.month]} {period.year}
+            {new Intl.DateTimeFormat(locale, {
+              year: 'numeric',
+              month: 'short'
+            }).format(new Date(period.year, period.month))}
           </SelectItem>
         ))}
       </SelectContent>

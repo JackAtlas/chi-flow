@@ -9,5 +9,29 @@
     "signIn": "Sign in",
     "signOut": "Sign out",
     "signUp": "Sign up"
+  },
+  "Static": {
+    "title": "Statics",
+    "cards": {
+      "workflow executions": "Workflow executions",
+      "phase executions": "Phase executions",
+      "credits consumed": "Credits consumed"
+    },
+    "executions": {
+      "title": "Workflow execution status",
+      "desc": "Daily number of successful and failed workflow executions",
+      "key": {
+        "success": "success",
+        "failed": "failed"
+      }
+    },
+    "credits": {
+      "title": "Daily credits spent",
+      "desc": "Daily credit consumed in selected period",
+      "key": {
+        "success": "success",
+        "failed": "failed"
+      }
+    }
   }
 }

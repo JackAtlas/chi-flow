@@ -16,32 +16,32 @@ import {
   ChartTooltipContent
 } from '@workspace/ui/components/chart'
 import { Layers2Icon } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
 type ChartData = Awaited<ReturnType<typeof GetWorkflowExecutionStats>>
 
-const chartConfig = {
-  success: {
-    label: 'Success',
-    color: 'hsl(var(--chart-3))'
-  },
-  failed: {
-    label: 'Failed',
-    color: 'hsl(var(--chart-2))'
-  }
-}
-
 export default function ExecutionStatusChart({ data }: { data: ChartData }) {
+  const locale = useLocale()
+  const t = useTranslations('Static.executions')
+  const chartConfig = {
+    success: {
+      label: t('key.success'),
+      color: 'hsl(var(--chart-3))'
+    },
+    failed: {
+      label: t('key.failed'),
+      color: 'hsl(var(--chart-2))'
+    }
+  }
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-2xl font-bold">
           <Layers2Icon className="size-6 text-primary" />
-          Workflow execution status
+          {t('title')}
         </CardTitle>
-        <CardDescription>
-          Daily number of successfull and failed workflow executions
-        </CardDescription>
+        <CardDescription>{t('desc')}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="max-h-50 w-full">
@@ -60,7 +60,7 @@ export default function ExecutionStatusChart({ data }: { data: ChartData }) {
               minTickGap={32}
               tickFormatter={(value) => {
                 const date = new Date(value)
-                return date.toLocaleDateString('zh', {
+                return date.toLocaleDateString(locale, {
                   month: 'short',
                   day: 'numeric'
                 })

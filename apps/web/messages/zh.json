@@ -9,5 +9,29 @@
     "signIn": "登入",
     "signOut": "登出",
     "signUp": "注册"
+  },
+  "Static": {
+    "title": "统计信息",
+    "cards": {
+      "workflow executions": "执行工作流",
+      "phase executions": "执行阶段数",
+      "credits consumed": "消耗点数"
+    },
+    "executions": {
+      "title": "工作流执行数据",
+      "desc": "每日统计成功和失败的工作流",
+      "key": {
+        "success": "成功",
+        "failed": "失败"
+      }
+    },
+    "credits": {
+      "title": "每日花费点数",
+      "desc": "选定时段内每日花费的点数统计",
+      "key": {
+        "success": "成功",
+        "failed": "失败"
+      }
+    }
   }
 }
