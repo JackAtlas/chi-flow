@@ -27,12 +27,17 @@ import { useMutation } from '@tanstack/react-query'
 import { CreateWorkflow } from '@/lib/workflow/workflow'
 import { toast } from 'sonner'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
+import { useTranslations } from 'next-intl'
+import { capitalize } from '@/lib/utils'
 
 export default function CreateWorkflowDialog({
   triggerText
 }: {
   triggerText?: string
 }) {
+  const t = useTranslations('Workflows.createWorkflowDialog')
+  const f = useTranslations('Form')
+
   const [open, setOpen] = useState(false)
 
   const form = useForm({
@@ -76,13 +81,13 @@ export default function CreateWorkflowDialog({
       }}
     >
       <DialogTrigger asChild>
-        <Button>{triggerText ?? 'Create workflow'}</Button>
+        <Button>{triggerText ?? t('createBtn')}</Button>
       </DialogTrigger>
       <DialogContent>
         <CustomDialogHeader
           icon={Layers2Icon}
-          title="Create workflow"
-          subTitle="Start building your workflow"
+          title={t('title')}
+          subTitle={t('desc')}
         ></CustomDialogHeader>
         <form
           id="create-workflow-form"
@@ -100,7 +105,8 @@ export default function CreateWorkflowDialog({
               return (
                 <Field data-invalid={isInvalid}>
                   <FieldLabel htmlFor={field.name}>
-                    Name<p className="text-xs text-primary">(required)</p>
+                    {t('fields.name.label')}
+                    <p className="text-xs text-primary">({f('required')})</p>
                   </FieldLabel>
                   <Input
                     id={field.name}
@@ -110,9 +116,7 @@ export default function CreateWorkflowDialog({
                     onChange={(e) => field.handleChange(e.target.value)}
                     aria-invalid={isInvalid}
                   />
-                  <FieldDescription>
-                    Choose a descriptive and unique name
-                  </FieldDescription>
+                  <FieldDescription>{t('fields.name.desc')}</FieldDescription>
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
               )
@@ -125,8 +129,10 @@ export default function CreateWorkflowDialog({
               return (
                 <Field data-invalid={isInvalid}>
                   <FieldLabel htmlFor={field.name}>
-                    Description
-                    <p className="text-xs text-muted-foreground">(optional)</p>
+                    {t('fields.desc.label')}
+                    <p className="text-xs text-muted-foreground">
+                      ({f('optional')})
+                    </p>
                   </FieldLabel>
                   <Textarea
                     id={field.name}
@@ -138,10 +144,9 @@ export default function CreateWorkflowDialog({
                     aria-invalid={isInvalid}
                   />
                   <FieldDescription>
-                    Provide a brief description of what your workflow does.
-                    <br />
-                    This is optional but can help you remember the
-                    workflow&apos;s purpose.
+                    {t.rich('fields.desc.desc', {
+                      br: () => <br />
+                    })}
                   </FieldDescription>
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
@@ -157,7 +162,11 @@ export default function CreateWorkflowDialog({
               className="w-full"
               disabled={isPending}
             >
-              {isPending ? <Loader2Icon className="animate-spin" /> : 'Proceed'}
+              {isPending ? (
+                <Loader2Icon className="animate-spin" />
+              ) : (
+                capitalize(f('proceed'))
+              )}
             </Button>
           </Field>
         </DialogFooter>

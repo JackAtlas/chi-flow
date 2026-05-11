@@ -11,6 +11,8 @@ import {
 import { MoreVerticalIcon, TrashIcon } from 'lucide-react'
 import { useState } from 'react'
 import DeleteWorkflowDialog from './delete-workflow-dialog'
+import { useLocale, useTranslations } from 'next-intl'
+import { capitalize } from '@/lib/utils'
 
 export default function WorkflowActions({
   workflow
@@ -20,6 +22,8 @@ export default function WorkflowActions({
     name: string
   }
 }) {
+  const locale = useLocale()
+  const t = useTranslations('Workflows.operations')
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   return (
     <>
@@ -31,7 +35,7 @@ export default function WorkflowActions({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm">
-            <TooltipWrapper content="More actions">
+            <TooltipWrapper content={capitalize(t('more'))}>
               <div className="flex h-full w-full items-center justify-center">
                 <MoreVerticalIcon size={18} />
               </div>
@@ -39,7 +43,7 @@ export default function WorkflowActions({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuLabel>{capitalize(t('actions'))}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="flex cursor-pointer items-center gap-2 text-destructive"
@@ -48,7 +52,7 @@ export default function WorkflowActions({
             }}
           >
             <TrashIcon size={16} />
-            Delete
+            {capitalize(t('delete'))}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

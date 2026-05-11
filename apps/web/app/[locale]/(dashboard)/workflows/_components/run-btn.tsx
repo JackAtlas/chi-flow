@@ -1,13 +1,16 @@
 'use client'
 
+import { capitalize } from '@/lib/utils'
 import { RunWorkflow } from '@/lib/workflow/workflow'
 import { useMutation } from '@tanstack/react-query'
 import { Button } from '@workspace/ui/components/button'
 import { PlayIcon } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { toast } from 'sonner'
 
 export default function RunBtn({ workflowId }: { workflowId: string }) {
+  const t = useTranslations('Workflows.operations')
   const mutation = useMutation({
     mutationFn: RunWorkflow,
     onSuccess: () => {
@@ -33,7 +36,7 @@ export default function RunBtn({ workflowId }: { workflowId: string }) {
       }}
     >
       <PlayIcon size={16} />
-      Run
+      {capitalize(t('run'))}
     </Button>
   )
 }

@@ -28,12 +28,17 @@ import { DuplicateWorkflow } from '@/lib/workflow/workflow'
 import { toast } from 'sonner'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { cn } from '@workspace/ui/lib/utils'
+import { useTranslations } from 'next-intl'
+import { capitalize } from '@/lib/utils'
 
 export default function DuplicateWorkflowDialog({
   workflowId
 }: {
   workflowId: string
 }) {
+  const t = useTranslations('Workflows.createWorkflowDialog')
+  const f = useTranslations('Form')
+
   const [open, setOpen] = useState(false)
 
   const form = useForm({
@@ -82,7 +87,7 @@ export default function DuplicateWorkflowDialog({
           variant="ghost"
           size="icon"
           className={cn(
-            'ml-2 opacity-0 transition-opacity duration-200 group-hover/card:opacity-100'
+            'ml-2 cursor-pointer opacity-0 transition-opacity duration-200 group-hover/card:opacity-100'
           )}
         >
           <CopyIcon className="size-4 cursor-pointer text-muted-foreground" />
@@ -91,7 +96,7 @@ export default function DuplicateWorkflowDialog({
       <DialogContent>
         <CustomDialogHeader
           icon={Layers2Icon}
-          title="Duplicate workflow"
+          title={t('duplicate')}
         ></CustomDialogHeader>
         <form
           id="duplicate-workflow-form"
@@ -109,7 +114,8 @@ export default function DuplicateWorkflowDialog({
               return (
                 <Field data-invalid={isInvalid}>
                   <FieldLabel htmlFor={field.name}>
-                    Name<p className="text-xs text-primary">(required)</p>
+                    {capitalize(t('fields.name.label'))}
+                    <p className="text-xs text-primary">({f('required')})</p>
                   </FieldLabel>
                   <Input
                     id={field.name}
@@ -119,9 +125,7 @@ export default function DuplicateWorkflowDialog({
                     onChange={(e) => field.handleChange(e.target.value)}
                     aria-invalid={isInvalid}
                   />
-                  <FieldDescription>
-                    Choose a descriptive and unique name
-                  </FieldDescription>
+                  <FieldDescription>{t('fields.name.desc')}</FieldDescription>
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
               )
@@ -134,8 +138,10 @@ export default function DuplicateWorkflowDialog({
               return (
                 <Field data-invalid={isInvalid}>
                   <FieldLabel htmlFor={field.name}>
-                    Description
-                    <p className="text-xs text-muted-foreground">(optional)</p>
+                    {capitalize(t('fields.desc.label'))}
+                    <p className="text-xs text-muted-foreground">
+                      ({f('optional')})
+                    </p>
                   </FieldLabel>
                   <Textarea
                     id={field.name}
@@ -147,10 +153,9 @@ export default function DuplicateWorkflowDialog({
                     aria-invalid={isInvalid}
                   />
                   <FieldDescription>
-                    Provide a brief description of what your workflow does.
-                    <br />
-                    This is optional but can help you remember the
-                    workflow&apos;s purpose.
+                    {t.rich('fields.desc.desc', {
+                      br: () => <br />
+                    })}
                   </FieldDescription>
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
@@ -166,7 +171,11 @@ export default function DuplicateWorkflowDialog({
               className="w-full"
               disabled={isPending}
             >
-              {isPending ? <Loader2Icon className="animate-spin" /> : 'Proceed'}
+              {isPending ? (
+                <Loader2Icon className="animate-spin" />
+              ) : (
+                capitalize(f('proceed'))
+              )}
             </Button>
           </Field>
         </DialogFooter>

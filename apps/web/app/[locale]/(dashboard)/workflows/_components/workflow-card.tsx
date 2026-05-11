@@ -25,9 +25,12 @@ import {
   ExecutionStatusLabel
 } from '@/app/[locale]/workflow/runs/[workflowId]/_components/execution-status'
 import { format, formatDistanceToNow } from 'date-fns'
+import { enUS, zhCN } from 'date-fns/locale'
 import { UTCDate } from '@date-fns/utc'
 import DuplicateWorkflowDialog from './duplicate-workflow-dialog'
 import { Link } from '@/i18n/navigation'
+import { useLocale, useTranslations } from 'next-intl'
+import { capitalize } from '@/lib/utils'
 
 const statusColors = {
   [WorkflowStatus.DRAFT]: 'bg-yellow-400 text-yellow-600',
@@ -35,6 +38,7 @@ const statusColors = {
 }
 
 export default function WorkflowCard({ workflow }: { workflow: Workflow }) {
+  const t = useTranslations('Workflows')
   const isDraft = workflow.status === WorkflowStatus.DRAFT
   return (
     <Card className="group/card border-separate overflow-hidden rounded-lg border pb-0 shadow-sm hover:shadow-md dark:shadow-primary/30">
@@ -64,7 +68,7 @@ export default function WorkflowCard({ workflow }: { workflow: Workflow }) {
               </TooltipWrapper>
               {isDraft && (
                 <span className="ml-2 rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-800">
-                  Draft
+                  {capitalize(t('status.draft'))}
                 </span>
               )}
               <DuplicateWorkflowDialog workflowId={workflow.id} />
@@ -90,7 +94,7 @@ export default function WorkflowCard({ workflow }: { workflow: Workflow }) {
             )}
           >
             <ShuffleIcon size={16} />
-            Edit
+            {capitalize(t('operations.edit'))}
           </Link>
           <WorkflowActions
             workflow={{ id: workflow.id, name: workflow.name }}
@@ -113,6 +117,7 @@ function SchedulerSection({
   isDraft: boolean
   workflowId: string
 }) {
+  const t = useTranslations('Workflows.scheduleDialog')
   if (isDraft) return null
   return (
     <div className="flex items-center gap-2">
@@ -123,7 +128,7 @@ function SchedulerSection({
         key={`${cron}-${workflowId}`}
       />
       <MoveRightIcon className="size-4 text-muted-foreground" />
-      <TooltipWrapper content="Credit consumption for full run">
+      <TooltipWrapper content={t('credits')}>
         <div className="flex items-center gap-3">
           <Badge
             variant="outline"
@@ -139,11 +144,22 @@ function SchedulerSection({
 }
 
 function LastRunDetails({ workflow }: { workflow: Workflow }) {
+  const locale = useLocale()
+  const t = useTranslations('Workflows')
   const isDraft = workflow.status === WorkflowStatus.DRAFT
   if (isDraft) return null
   const { lastRunAt, lastRunId, lastRunStatus, nextRunAt } = workflow
+  let timeLocale
+  switch (locale) {
+    case 'zh':
+      timeLocale = zhCN
+      break
+    default:
+      timeLocale = enUS
+  }
   const formattedStartedAt =
-    lastRunAt && formatDistanceToNow(lastRunAt, { addSuffix: true })
+    lastRunAt &&
+    formatDistanceToNow(lastRunAt, { addSuffix: true, locale: timeLocale })
   const nextSchedule = nextRunAt && format(nextRunAt, 'yyyy-MM-dd HH:mm')
   const nextScheduleUTC = nextRunAt && format(new UTCDate(nextRunAt), 'HH:mm')
   return (
@@ -154,7 +170,7 @@ function LastRunDetails({ workflow }: { workflow: Workflow }) {
             href={`/workflow/runs/${workflow.id}/${lastRunId}`}
             className="group flex items-center gap-2 text-sm"
           >
-            <span>Last run:</span>
+            <span>{t('lastRun.label')}</span>
             <ExecutionStatusIndicator
               status={lastRunStatus as WorkflowExecutionStatus}
             />
@@ -173,7 +189,7 @@ function LastRunDetails({ workflow }: { workflow: Workflow }) {
       {nextRunAt && (
         <div className="flex items-center gap-2 text-sm">
           <ClockIcon size={12} />
-          <span>Next run at:</span>
+          <span>{t('nextRun.label')}</span>
           <span>{nextSchedule}</span>
           <span className="text-xs">({nextScheduleUTC} UTC)</span>
         </div>

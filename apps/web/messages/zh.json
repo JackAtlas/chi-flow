@@ -33,5 +33,90 @@
         "failed": "失败"
       }
     }
+  },
+  "Workflows": {
+    "title": "工作流",
+    "desc": "管理你的工作流",
+    "createWorkflowDialog": {
+      "createBtn": "创建工作流",
+      "title": "创建工作流",
+      "duplicate": "复制工作流",
+      "desc": "开始打造你的工作流",
+      "fields": {
+        "name": {
+          "label": "名称",
+          "desc": "选择一个具有描述性且唯一的名称。"
+        },
+        "desc": {
+          "label": "描述",
+          "desc": "提供一个简短描述，说明你的工作流是做什么的。<br></br>这是可选的，但可以帮助你记住该工作流的用途。"
+        }
+      }
+    },
+    "deleteWorkflowDialog": {
+      "title": "您真的确定吗？",
+      "desc": "工作流删除后将无法恢复。",
+      "surePrefix": "确定的话，输入 ",
+      "sureSuffix": " 以继续："
+    },
+    "scheduleDialog": {
+      "button": "设置时间表",
+      "title": "定时执行工作流",
+      "desc": "输入一条 Cron 表达式，用来定期执行工作流。所有时间均为 UTC 时间。",
+      "remove": "去除现有时间表",
+      "credits": "完整运行所消耗的点数"
+    },
+    "lastRun": {
+      "label": "上次运行："
+    },
+    "nextRun": {
+      "label": "下次运行："
+    },
+    "empty": {
+      "title": "还没创建工作流",
+      "desc": "点击下面的按钮开始创建你的第一个工作流",
+      "createBtn": "创建你的第一个工作流"
+    },
+    "status": {
+      "draft": "草稿",
+      "published": "已发布"
+    },
+    "operations": {
+      "actions": "操作",
+      "edit": "编辑",
+      "run": "运行",
+      "more": "更多操作",
+      "delete": "删除"
+    },
+    "cron": {
+      "message": {
+        "empty": "输入 cron 表达式",
+        "invalid": "不是合法的 cron 表达式",
+        "success": "时间表更新成功",
+        "error": "出错了，请稍后再试。"
+      }
+    }
+  },
+  "Execution": {
+    "status": {
+      "PENDING": "等待中",
+      "RUNNING": "执行中",
+      "COMPLETED": "完成",
+      "FAILED": "失败"
+    }
+  },
+  "Form": {
+    "optional": "选填",
+    "required": "必填",
+    "proceed": "继续",
+    "save": "保存",
+    "cancel": "取消"
+  },
+  "Messages": {
+    "Common": {
+      "Error": {
+        "later": "出错了，请稍后再试。"
+      }
+    }
   }
 }

@@ -7,8 +7,11 @@ import {
 import { AlertCircle, InboxIcon } from 'lucide-react'
 import CreateWorkflowDialog from './create-workflow-dialog'
 import WorkflowCard from './workflow-card'
+import { getTranslations } from 'next-intl/server'
 
 export default async function UserWorkflows() {
+  const t = await getTranslations('Workflows.empty')
+  const m = await getTranslations('Messages')
   try {
     const workflows = await GetWorkflowsForUser()
 
@@ -21,19 +24,17 @@ export default async function UserWorkflows() {
             <InboxIcon size={40} className="stroke-primary" />
           </div>
           <div className="flex flex-col gap-1 text-center">
-            <p className="font-bold">No workflow created yet</p>
-            <p className="text-sm text-muted-foreground">
-              Click the button below to create your first workflow
-            </p>
+            <p className="font-bold">{t('title')}</p>
+            <p className="text-sm text-muted-foreground">{t('desc')}</p>
           </div>
-          <CreateWorkflowDialog triggerText="Create your first workflow" />
+          <CreateWorkflowDialog triggerText={t('createBtn')} />
         </div>
       )
     }
 
     return (
       <div className="grid grid-cols-1 gap-4">
-        {workflows.map((workflow, index) => (
+        {workflows.map((workflow) => (
           <WorkflowCard key={workflow.id} workflow={workflow} />
         ))}
       </div>
@@ -44,9 +45,7 @@ export default async function UserWorkflows() {
         <AlertCircle className="size-4" />
         <AlertTitle>Error</AlertTitle>
         <AlertDescription>
-          {error instanceof Error
-            ? error.message
-            : `Something went wrong. Please try again later.`}
+          {error instanceof Error ? error.message : m('Common.Error.later')}
         </AlertDescription>
       </Alert>
     )

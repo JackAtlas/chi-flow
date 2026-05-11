@@ -1,5 +1,6 @@
 import type { WorkflowExecutionStatus } from '@/types/workflow'
 import { cn } from '@workspace/ui/lib/utils'
+import { useTranslations } from 'next-intl'
 
 const indicatorColors: Record<WorkflowExecutionStatus, string> = {
   PENDING: 'bg-slate-400',
@@ -30,5 +31,8 @@ export function ExecutionStatusLabel({
 }: {
   status: WorkflowExecutionStatus
 }) {
-  return <span className={cn('lowercase', labelColors[status])}>{status}</span>
+  const t = useTranslations('Execution.status')
+  return (
+    <span className={cn('lowercase', labelColors[status])}>{t(status)}</span>
+  )
 }

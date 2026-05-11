@@ -20,33 +20,46 @@ import { CalendarIcon, ClockIcon, TriangleAlertIcon } from 'lucide-react'
 import { useDeferredValue, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import cronstrue from 'cronstrue'
+import 'cronstrue/locales/en'
+import 'cronstrue/locales/zh_CN'
+import { useLocale, useTranslations } from 'next-intl'
 
 export default function SchedulerDialog(props: {
   cron: string | null
   workflowId: string
 }) {
+  const locale = useLocale()
+  const t = useTranslations('Workflows')
+  const f = useTranslations('Form')
+
   const [open, setOpen] = useState(false)
   const [cron, setCron] = useState(props.cron || '')
 
   const setScheduleMutation = useMutation({
     mutationFn: UpdateWorkflowCron,
     onSuccess: () => {
-      toast.success('Schedule updated successfully', { id: 'cron' })
+      toast.success(t('cron.message.success'), { id: 'cron' })
       setOpen(false)
     },
-    onError: () => {
-      toast.error('Something went wrong', { id: 'cron' })
+    onError: (error) => {
+      toast.error(
+        error instanceof Error ? error.message : t('cron.message.error'),
+        { id: 'cron' }
+      )
     }
   })
 
   const removeScheduleMutation = useMutation({
     mutationFn: RemoveWorkflowSchedule,
     onSuccess: () => {
-      toast.success('Schedule updated successfully', { id: 'cron' })
+      toast.success(t('cron.message.success'), { id: 'cron' })
       setOpen(false)
     },
-    onError: () => {
-      toast.error('Something went wrong', { id: 'cron' })
+    onError: (error) => {
+      toast.error(
+        error instanceof Error ? error.message : t('cron.message.error'),
+        { id: 'cron' }
+      )
     }
   })
 
@@ -54,26 +67,32 @@ export default function SchedulerDialog(props: {
 
   const { validCron, readableCron } = useMemo(() => {
     if (!deferredCron) {
-      return { validCron: false, readableCron: 'Enter a cron expression' }
+      return { validCron: false, readableCron: t('cron.message.empty') }
     }
     try {
       return {
         validCron: true,
-        readableCron: cronstrue.toString(deferredCron)
+        readableCron: cronstrue.toString(deferredCron, {
+          locale: locale === 'en' ? 'en' : 'zh_CN'
+        })
       }
     } catch {
-      return { validCron: false, readableCron: 'Not a valid cron expression' }
+      return { validCron: false, readableCron: t('cron.message.invalid') }
     }
-  }, [deferredCron])
+  }, [deferredCron, t, locale])
 
   const workflowHasValidCron = props.cron && props.cron.length > 0
   const readableSavedCron = useMemo(() => {
     try {
-      return props.cron ? cronstrue.toString(props.cron) : null
+      return props.cron
+        ? cronstrue.toString(props.cron, {
+            locale: locale === 'en' ? 'en' : 'zh_CN'
+          })
+        : null
     } catch {
       return null
     }
-  }, [props.cron])
+  }, [props.cron, locale])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -94,23 +113,21 @@ export default function SchedulerDialog(props: {
           )}
           {!workflowHasValidCron && (
             <div className="flex items-center gap-1">
-              <TriangleAlertIcon className="size-3" /> Set schedule
+              <TriangleAlertIcon className="size-3" />
+              {t('scheduleDialog.button')}
             </div>
           )}
         </Button>
       </DialogTrigger>
       <DialogContent className="px-0">
         <CustomDialogHeader
-          title="Schedule workflow execution"
+          title={t('scheduleDialog.title')}
           icon={CalendarIcon}
         />
         <div className="space-y-4 px-6">
-          <DialogDescription>
-            Specify a cron expression to schedule periodic workflow
-            execution.All times are in UTC
-          </DialogDescription>
+          <DialogDescription>{t('scheduleDialog.desc')}</DialogDescription>
           <Input
-            placeholder="E.g. * * * * *"
+            placeholder="E.g. 0 * * * *"
             value={cron}
             onChange={(e) => setCron(e.target.value)}
           />
@@ -138,7 +155,7 @@ export default function SchedulerDialog(props: {
                   removeScheduleMutation.mutate(props.workflowId)
                 }}
               >
-                Remove current schedule
+                {t('scheduleDialog.remove')}
               </Button>
             </div>
           )}
@@ -150,7 +167,7 @@ export default function SchedulerDialog(props: {
             variant="secondary"
             onClick={() => setOpen(false)}
           >
-            Cancel
+            {f('cancel')}
           </Button>
           <Button
             className="cursor-pointer"
@@ -160,7 +177,7 @@ export default function SchedulerDialog(props: {
               setScheduleMutation.mutate({ cron, id: props.workflowId })
             }}
           >
-            Save
+            {f('save')}
           </Button>
         </DialogFooter>
       </DialogContent>

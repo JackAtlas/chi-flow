@@ -33,5 +33,90 @@
         "failed": "failed"
       }
     }
+  },
+  "Workflows": {
+    "title": "Workflows",
+    "desc": "Manage your workflows",
+    "createWorkflowDialog": {
+      "createBtn": "Create workflow",
+      "title": "Create workflow",
+      "duplicate": "Duplicate workflow",
+      "desc": "Start building your workflow",
+      "fields": {
+        "name": {
+          "label": "name",
+          "desc": "Choose a descriptive and unique name"
+        },
+        "desc": {
+          "label": "Description",
+          "desc": "Provide a brief description of what your workflow does.<br></br>This is optional but can help you remember the workflow's purpose."
+        }
+      }
+    },
+    "deleteWorkflowDialog": {
+      "title": "Are you absolutely sure?",
+      "desc": "If you delete this workflow, you will not be able to recover it.",
+      "surePrefix": "If you are sure, enter ",
+      "sureSuffix": " to confirm:"
+    },
+    "scheduleDialog": {
+      "button": "Set schedule",
+      "title": "Schedule workflow execution",
+      "desc": "Specify a cron expression to schedule periodic workflow execution.All times are in UTC",
+      "remove": "Remove current schedule",
+      "credits": "Credit consumption for full run"
+    },
+    "lastRun": {
+      "label": "Last run:"
+    },
+    "nextRun": {
+      "label": "Next run at:"
+    },
+    "empty": {
+      "title": "No workflow created yet",
+      "desc": "Click the button below to create your first workflow",
+      "createBtn": "Create your first workflow"
+    },
+    "status": {
+      "draft": "draft",
+      "published": "published"
+    },
+    "operations": {
+      "actions": "actions",
+      "edit": "edit",
+      "run": "run",
+      "more": "more actions",
+      "delete": "delete"
+    },
+    "cron": {
+      "message": {
+        "empty": "Enter a cron expression",
+        "invalid": "Not a valid cron expression",
+        "success": "Schedule updated successfully",
+        "error": "Something went wrong"
+      }
+    }
+  },
+  "Execution": {
+    "status": {
+      "PENDING": "PENDING",
+      "RUNNING": "RUNNING",
+      "COMPLETED": "COMPLETED",
+      "FAILED": "FAILED"
+    }
+  },
+  "Form": {
+    "optional": "optional",
+    "required": "required",
+    "proceed": "proceed",
+    "save": "save",
+    "cancel": "cancel"
+  },
+  "Messages": {
+    "Common": {
+      "Error": {
+        "later": "Something went wrong. Please try again later."
+      }
+    }
   }
 }
