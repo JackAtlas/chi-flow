@@ -10,8 +10,10 @@ import {
 import { Fragment } from 'react'
 import { MobileSidebar } from './sidebar'
 import { usePathname } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
 export default function BreadcrumbHeader() {
+  const t = useTranslations('Nav')
   const pathname = usePathname()
   const paths = pathname === '/' ? [''] : pathname?.split('/')
 
@@ -24,7 +26,7 @@ export default function BreadcrumbHeader() {
             <Fragment key={index}>
               <BreadcrumbItem>
                 <BreadcrumbLink className="capitalize" href={`/${path}`}>
-                  {path === '' ? 'home' : path}
+                  {path === '' ? t('home') : t(path)}
                 </BreadcrumbLink>
               </BreadcrumbItem>
               {index !== paths.length - 1 && <BreadcrumbSeparator />}
