@@ -105,6 +105,28 @@
       "FAILED": "失败"
     }
   },
+  "Credentials": {
+    "title": "AI 凭证",
+    "desc": "管理您的凭证",
+    "statement": {
+      "title": "加密声明",
+      "desc": "所有信息都会被安全加密，确保您的数据安全。"
+    },
+    "createCredentialDialog": {
+      "button": "创建凭证",
+      "title": "创建凭证",
+      "fields": {
+        "name": {
+          "label": "名称",
+          "desc": "输入一个唯一且易于识别的凭证名称。<br></br>该名称将用于标识此凭证。"
+        },
+        "value": {
+          "label": "值",
+          "desc": "输入此凭证对应的值。<br></br>该值会被安全加密并存储。"
+        }
+      }
+    }
+  },
   "Billing": {
     "title": "账单",
     "alert": {

@@ -105,6 +105,28 @@
       "FAILED": "FAILED"
     }
   },
+  "Credentials": {
+    "title": "Credentials",
+    "desc": "Manage your credentials",
+    "statement": {
+      "title": "Encryption",
+      "desc": "All information is securely encrypted, ensuring your data remains safe."
+    },
+    "createCredentialDialog": {
+      "button": "Create credential",
+      "title": "Create credential",
+      "fields": {
+        "name": {
+          "label": "Name",
+          "desc": "Enter a unique and descriptive name for the credential.<br></br>This name will be used to identify the credential."
+        },
+        "value": {
+          "label": "Value",
+          "desc": "Enter the value associated with this credential.<br></br>This value will be securely encrypted and stored."
+        }
+      }
+    }
+  },
   "Billing": {
     "title": "Billing",
     "alert": {

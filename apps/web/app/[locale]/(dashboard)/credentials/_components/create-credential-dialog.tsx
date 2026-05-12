@@ -27,12 +27,17 @@ import {
   type createCredentialSchemaType
 } from '@/schema/credential'
 import { CreateCredential } from '@/lib/credentials'
+import { useTranslations } from 'next-intl'
+import { capitalize } from '@/lib/utils'
 
 export default function CreateCredentialDialog({
   triggerText
 }: {
   triggerText?: string
 }) {
+  const t = useTranslations('Credentials.createCredentialDialog')
+  const f = useTranslations('Form')
+
   const [open, setOpen] = useState(false)
 
   const form = useForm({
@@ -70,12 +75,12 @@ export default function CreateCredentialDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>{triggerText ?? 'Create credential'}</Button>
+        <Button>{triggerText ?? t('button')}</Button>
       </DialogTrigger>
       <DialogContent>
         <CustomDialogHeader
           icon={Layers2Icon}
-          title="Create credential"
+          title={t('title')}
         ></CustomDialogHeader>
         <form
           id="create-credential-form"
@@ -93,7 +98,8 @@ export default function CreateCredentialDialog({
               return (
                 <Field data-invalid={isInvalid}>
                   <FieldLabel htmlFor={field.name}>
-                    Name<p className="text-xs text-primary">(required)</p>
+                    {t('fields.name.label')}
+                    <p className="text-xs text-primary">({f('required')})</p>
                   </FieldLabel>
                   <Input
                     id={field.name}
@@ -104,9 +110,9 @@ export default function CreateCredentialDialog({
                     aria-invalid={isInvalid}
                   />
                   <FieldDescription>
-                    Enter a unique and descriptive name for the credential.
-                    <br />
-                    This name will be used to identify the credential.
+                    {t.rich('fields.name.desc', {
+                      br: () => <br></br>
+                    })}
                   </FieldDescription>
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
@@ -120,8 +126,8 @@ export default function CreateCredentialDialog({
               return (
                 <Field data-invalid={isInvalid}>
                   <FieldLabel htmlFor={field.name}>
-                    Value
-                    <p className="text-xs text-primary">(required)</p>
+                    {t('fields.value.label')}
+                    <p className="text-xs text-primary">({f('required')})</p>
                   </FieldLabel>
                   <Textarea
                     id={field.name}
@@ -133,9 +139,9 @@ export default function CreateCredentialDialog({
                     aria-invalid={isInvalid}
                   />
                   <FieldDescription>
-                    Enter the value associated with this credential.
-                    <br />
-                    This value will be securely encrypted and stored.
+                    {t.rich('fields.value.desc', {
+                      br: () => <br></br>
+                    })}
                   </FieldDescription>
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
                 </Field>
@@ -151,7 +157,11 @@ export default function CreateCredentialDialog({
               className="w-full"
               disabled={isPending}
             >
-              {isPending ? <Loader2Icon className="animate-spin" /> : 'Proceed'}
+              {isPending ? (
+                <Loader2Icon className="animate-spin" />
+              ) : (
+                capitalize(f('proceed'))
+              )}
             </Button>
           </Field>
         </DialogFooter>

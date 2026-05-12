@@ -6,33 +6,38 @@ import {
 } from '@workspace/ui/components/alert'
 import { Card } from '@workspace/ui/components/card'
 import { Skeleton } from '@workspace/ui/components/skeleton'
-import { LockKeyholeIcon, ShieldIcon, ShieldOffIcon } from 'lucide-react'
+import {
+  FolderClosedIcon,
+  LockKeyholeIcon,
+  ShieldIcon,
+  ShieldOffIcon
+} from 'lucide-react'
 import { Suspense } from 'react'
 import CreateCredentialDialog from './_components/create-credential-dialog'
 import { formatDistanceToNow } from 'date-fns'
 import DeleteCredentialDialog from './_components/delete-credential-dialog'
+import { useTranslations } from 'next-intl'
 
 export default function CredentialsPage() {
+  const t = useTranslations('Credentials')
+
   return (
-    <div className="flex h-full flex-1 flex-col px-6">
+    <div className="flex h-full flex-1 flex-col gap-6 px-6">
       <div className="flex justify-between">
         <div className="flex flex-col">
-          <h1 className="text-3xl font-bold">Credentials</h1>
-          <p className="text-muted-foreground">Manage your credentials</p>
+          <h1 className="text-3xl font-bold">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('desc')}</p>
         </div>
         <CreateCredentialDialog />
       </div>
 
-      <div className="h-full space-y-8 py-6">
-        <Alert>
-          <ShieldIcon className="size-4 stroke-primary" />
-          <AlertTitle className="text-primary">Encryption</AlertTitle>
-          <AlertDescription>
-            All information is securely encrypted, ensuring your data remains
-            safe
-          </AlertDescription>
-        </Alert>
+      <Alert>
+        <ShieldIcon className="size-4 stroke-primary" />
+        <AlertTitle className="text-primary">{t('statement.title')}</AlertTitle>
+        <AlertDescription>{t('statement.desc')}</AlertDescription>
+      </Alert>
 
+      <div className="pb-6">
         <Suspense fallback={<Skeleton className="h-75 w-full" />}>
           <UserCredentials />
         </Suspense>
