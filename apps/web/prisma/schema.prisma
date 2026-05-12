@@ -175,10 +175,17 @@ model Credential {
 }
 
 model UserPurchase {
-  id          String   @id @default(cuid())
-  userId      String
+  id     String @id @default(cuid())
+  userId String
+
+  locale String
+
+  // product
+  title       String
   description String
-  amount      Int
-  currency    String
-  date        DateTime @default(now())
+  credits     Int
+
+  amount   Int
+  currency String
+  date     DateTime @default(now())
 }
