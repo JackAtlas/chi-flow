@@ -1,11 +1,17 @@
 'use server'
 
-import { getCreditsPack, PackId } from '@/types/billing'
+import { getCreditsPack, PackId, TranslatedCreditsPack } from '@/types/billing'
 import { auth } from './auth/auth'
 import { headers } from 'next/headers'
 import prisma from './prisma'
 
-export async function PurchaseCredits(packId: PackId) {
+export async function PurchaseCredits({
+  locale,
+  packId
+}: {
+  locale: string
+  packId: PackId
+}) {
   const authData = await auth.api.getSession({
     headers: await headers()
   })
@@ -29,9 +35,15 @@ export async function PurchaseCredits(packId: PackId) {
     }
   })
 
+  const name =
+    TranslatedCreditsPack[locale]?.[selectedPack.id] || selectedPack.name
+
   await prisma.userPurchase.create({
     data: {
       userId,
+      locale,
+      title: name,
+      credits: selectedPack.credits,
       description: `${selectedPack.name} - ${selectedPack.credits} credits`,
       amount: selectedPack.price,
       currency: 'usd'

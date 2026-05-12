@@ -80,7 +80,7 @@ export default function CreditsPurchase() {
           className="w-full"
           disabled={mutation.isPending}
           onClick={() => {
-            mutation.mutate(selectedPack)
+            mutation.mutate({ packId: selectedPack, locale })
           }}
         >
           <CreditCardIcon className="mr-2 size-5" />
