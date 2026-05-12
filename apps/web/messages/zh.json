@@ -105,6 +105,37 @@
       "FAILED": "失败"
     }
   },
+  "Billing": {
+    "title": "账单",
+    "alert": {
+      "title": "演示站点",
+      "desc": "本站仅作功能演示（Demo）使用。站内所有资源包均可免费随意购买，仅用于流程测试，不会产生任何实际费用，也不会扣除您的真实货币。如发现需要您支付，<strong>请勿支付并退出本站</strong>。"
+    },
+    "balance": {
+      "title": "可用点数",
+      "desc": "余额不足时，您的工作流就会停止。"
+    },
+    "purchase": {
+      "title": "购买点数",
+      "desc": "选择您要购买的点数包",
+      "label": "点数",
+      "button": "购买点数"
+    },
+    "usage": {
+      "title": "消耗点数",
+      "desc": "本月每日点数消耗"
+    },
+    "history": {
+      "title": "交易记录",
+      "desc": "查看交易记录，下载发票",
+      "empty": "未进行过交易",
+      "invoice": "发票",
+      "fake": "这是个假按钮"
+    },
+    "messages": {
+      "success": "成功购买"
+    }
+  },
   "Form": {
     "optional": "选填",
     "required": "必填",

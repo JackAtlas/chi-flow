@@ -36,5 +36,13 @@ export const CreditsPack: CreditsPack[] = [
   }
 ]
 
+export const TranslatedCreditsPack: Record<string, Record<PackId, string>> = {
+  zh: {
+    [PackId.SMALL]: '小包',
+    [PackId.MEDIUM]: '中包',
+    [PackId.LARGE]: '大包'
+  }
+}
+
 export const getCreditsPack = (id: PackId) =>
   CreditsPack.find((p) => p.id === id)

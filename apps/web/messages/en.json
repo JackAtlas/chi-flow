@@ -105,6 +105,37 @@
       "FAILED": "FAILED"
     }
   },
+  "Billing": {
+    "title": "Billing",
+    "alert": {
+      "title": "Demonstration Only",
+      "desc": "This is a demo site for functional testing. All items are free to \"purchase\" with no real-world cost. No real money will be charged. If the system asks for an actual payment, please <strong>disregard it and leave the site</strong>."
+    },
+    "balance": {
+      "title": "Available Credits",
+      "desc": "When your credit balance reaches zero, your workflow will stop working"
+    },
+    "purchase": {
+      "title": "Purchase Credits",
+      "desc": "Select the number of credits you want to purchase",
+      "label": "credits",
+      "button": "Purchase credits"
+    },
+    "usage": {
+      "title": "Credits consumed",
+      "desc": "Daily credit consumed in the current month"
+    },
+    "history": {
+      "title": "Transaction History",
+      "desc": "View your transaction history and download invoices",
+      "empty": "No transactions yet",
+      "invoice": "invoice",
+      "fake": "Invoice button is fake"
+    },
+    "messages": {
+      "success": "Successfully purchased"
+    }
+  },
   "Form": {
     "optional": "optional",
     "required": "required",
