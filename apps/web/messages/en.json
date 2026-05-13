@@ -97,6 +97,44 @@
       }
     }
   },
+  "Workflow": {
+    "button": {
+      "back": "Back to list",
+      "execute": "Execute",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "save": "Save"
+    },
+    "message": {
+      "executing": "Execution started",
+      "published": "Workflow published",
+      "publishing": "Publishing workflow...",
+      "unpublished": "Workflow unpublished",
+      "unpublishing": "Unpublishing workflow...",
+      "saved": "Workflow saved successfully",
+      "saving": "Saving workflow..."
+    },
+    "tabs": {
+      "editor": "Editor",
+      "runs": "Runs"
+    },
+    "editor": {
+      "empty": {
+        "prefix": "Neither does the workflow (id:",
+        "midfix": ") exist for user",
+        "suffix": " nor does the user have permission to access it."
+      },
+      "tab": "Editor",
+      "title": "Workflow Editor",
+      "tasks": {
+        "ui": "User Interactions",
+        "de": "Data Extraction",
+        "ds": "Data Storage",
+        "tc": "Timing Controls",
+        "results": "Results"
+      }
+    }
+  },
   "Execution": {
     "status": {
       "PENDING": "PENDING",

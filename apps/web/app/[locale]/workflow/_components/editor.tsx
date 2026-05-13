@@ -7,14 +7,16 @@ import Topbar from './topbar/topbar'
 import TaskMenu from './task-menu'
 import { FlowValidationContextProvider } from '@/components/context/flow-validation-context'
 import { WorkflowStatus } from '@/types/workflow'
+import { useTranslations } from 'next-intl'
 
 export default function Editor({ workflow }: { workflow: Workflow }) {
+  const t = useTranslations('Workflow.editor')
   return (
     <FlowValidationContextProvider>
       <ReactFlowProvider>
         <div className="flex h-full w-full flex-col overflow-hidden">
           <Topbar
-            title="Workflow Editor"
+            title={t('title')}
             subTitle={workflow.name}
             workflowId={workflow.id}
             isPublished={workflow.status === WorkflowStatus.PUBLISHED}

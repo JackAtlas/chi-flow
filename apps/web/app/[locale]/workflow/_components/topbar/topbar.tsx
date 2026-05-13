@@ -9,6 +9,7 @@ import NavigationTabs from './navigation-tabs'
 import PublishBtn from './publish-btn'
 import UnpublishBtn from './unpublish-btn'
 import { useRouter } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
 interface Props {
   title: string
@@ -25,17 +26,20 @@ export default function Topbar({
   hideButtons = false,
   isPublished = false
 }: Props) {
+  const t = useTranslations('Workflow.button')
+
   const router = useRouter()
+
   return (
     <header className="flex h-15 w-full border-separate justify-between border-b-2 bg-background p-2">
       <div className="flex flex-1 gap-1">
-        <TooltipWrapper content="Back">
+        <TooltipWrapper content={t('back')}>
           <Button
             className="cursor-pointer"
             variant="ghost"
             size="icon"
             onClick={() => {
-              router.back()
+              router.push('/workflows')
             }}
           >
             <ChevronLeftIcon size={20} />

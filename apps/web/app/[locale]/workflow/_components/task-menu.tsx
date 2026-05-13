@@ -11,9 +11,11 @@ import {
 import { Badge } from '@workspace/ui/components/badge'
 import { Button } from '@workspace/ui/components/button'
 import { CoinsIcon } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import type { DragEvent } from 'react'
 
 export default function TaskMenu() {
+  const t = useTranslations('Workflow.editor.tasks')
   return (
     <aside className="h-full w-85 max-w-85 min-w-85 border-separate overflow-auto border-r-2 px-4 py-2">
       <Accordion
@@ -28,9 +30,7 @@ export default function TaskMenu() {
         ]}
       >
         <AccordionItem value="interactions">
-          <AccordionTrigger className="font-bold">
-            User Interactions
-          </AccordionTrigger>
+          <AccordionTrigger className="font-bold">{t('ui')}</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-1">
             <TaskMenuBtn taskType={TaskType.NAVIGATE_URL} />
             <TaskMenuBtn taskType={TaskType.FILL_INPUT} />
@@ -39,9 +39,7 @@ export default function TaskMenu() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="extraction">
-          <AccordionTrigger className="font-bold">
-            Data Extraction
-          </AccordionTrigger>
+          <AccordionTrigger className="font-bold">{t('de')}</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-1">
             <TaskMenuBtn taskType={TaskType.PAGE_TO_HTML} />
             <TaskMenuBtn taskType={TaskType.EXTRACT_TEXT_FROM_ELEMENT} />
@@ -49,24 +47,22 @@ export default function TaskMenu() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="storage">
-          <AccordionTrigger className="font-bold">
-            Data storage
-          </AccordionTrigger>
+          <AccordionTrigger className="font-bold">{t('ds')}</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-1">
             <TaskMenuBtn taskType={TaskType.READ_PROPERTY_FROM_JSON} />
             <TaskMenuBtn taskType={TaskType.ADD_PROPERTY_TO_JSON} />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="timing">
-          <AccordionTrigger className="font-bold">
-            Timing controls
-          </AccordionTrigger>
+          <AccordionTrigger className="font-bold">{t('tc')}</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-1">
             <TaskMenuBtn taskType={TaskType.WAIT_FOR_ELEMENT} />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="results">
-          <AccordionTrigger className="font-bold">Results</AccordionTrigger>
+          <AccordionTrigger className="font-bold">
+            {t('results')}
+          </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-1">
             <TaskMenuBtn taskType={TaskType.DELIVER_VIA_WEBHOOK} />
           </AccordionContent>

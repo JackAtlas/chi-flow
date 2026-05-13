@@ -6,21 +6,25 @@ import { useMutation } from '@tanstack/react-query'
 import { Button } from '@workspace/ui/components/button'
 import { useReactFlow } from '@xyflow/react'
 import { PlayIcon } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { toast } from 'sonner'
 
 export default function ExecuteBtn({ workflowId }: { workflowId: string }) {
+  const t = useTranslations('Workflow')
+  const m = useTranslations('Messages')
+
   const generate = useExecutionPlan()
   const { toObject } = useReactFlow()
 
   const mutation = useMutation({
     mutationFn: RunWorkflow,
     onSuccess: () => {
-      toast.success('Execution started', { id: 'flow-execution' })
+      toast.success(t('message.executing'), { id: 'flow-execution' })
     },
     onError: (error) => {
       if (isRedirectError(error)) return
-      toast.error('Something went wrong', { id: 'flow-execution' })
+      toast.error(m('Common.Error.later'), { id: 'flow-execution' })
     }
   })
   return (
@@ -38,7 +42,7 @@ export default function ExecuteBtn({ workflowId }: { workflowId: string }) {
       }}
     >
       <PlayIcon size={16} className="stroke-orange-400" />
-      Execute
+      {t('button.execute')}
     </Button>
   )
 }

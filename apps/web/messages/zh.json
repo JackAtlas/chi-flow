@@ -97,6 +97,43 @@
       }
     }
   },
+  "Workflow": {
+    "button": {
+      "back": "返回列表",
+      "execute": "执行",
+      "publish": "发布",
+      "unpublish": "取消发布",
+      "save": "保存"
+    },
+    "message": {
+      "executing": "工作流开始执行",
+      "published": "工作流已发布",
+      "publishing": "正在发布工作流……",
+      "unpublished": "工作流已取消发布",
+      "unpublishing": "正在取消发布……",
+      "saved": "工作流已保存",
+      "saving": "工作流保存中"
+    },
+    "tabs": {
+      "editor": "编辑器",
+      "runs": "运行"
+    },
+    "editor": {
+      "empty": {
+        "prefix": "工作流（ID：",
+        "midfix": "）不存在，或用户",
+        "suffix": "无权访问该工作流。"
+      },
+      "title": "工作流编辑器",
+      "tasks": {
+        "ui": "用户交互",
+        "de": "数据提取",
+        "ds": "数据存储",
+        "tc": "时间控制",
+        "results": "结果"
+      }
+    }
+  },
   "Execution": {
     "status": {
       "PENDING": "等待中",

@@ -5,20 +5,22 @@ import { useMutation } from '@tanstack/react-query'
 import { Button } from '@workspace/ui/components/button'
 import { useReactFlow } from '@xyflow/react'
 import { CheckIcon } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 export default function SaveBtn({ workflowId }: { workflowId: string }) {
-  const router = useRouter()
+  const t = useTranslations('Workflow')
+  const m = useTranslations('Messages')
+
   const { toObject } = useReactFlow()
 
   const saveMutation = useMutation({
     mutationFn: UpdateWorkflow,
     onSuccess: () => {
-      toast.success('Flow saved successfully', { id: 'save-workflow' })
+      toast.success(t('message.saved'), { id: 'save-workflow' })
     },
     onError: () => {
-      toast.error('Something went wrong', { id: 'save-workflow' })
+      toast.error(m('Common.Error.later'), { id: 'save-workflow' })
     }
   })
 
@@ -29,7 +31,7 @@ export default function SaveBtn({ workflowId }: { workflowId: string }) {
       className="flex cursor-pointer items-center gap-2"
       onClick={() => {
         const workflowDefinition = JSON.stringify(toObject())
-        toast.loading('Saving workflow...', { id: 'save-workflow' })
+        toast.loading(t('message.saving'), { id: 'save-workflow' })
         saveMutation.mutate({
           id: workflowId,
           definition: workflowDefinition
@@ -37,7 +39,7 @@ export default function SaveBtn({ workflowId }: { workflowId: string }) {
       }}
     >
       <CheckIcon size={16} className="stroke-gray-400" />
-      Save
+      {t('button.save')}
     </Button>
   )
 }
