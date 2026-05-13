@@ -124,7 +124,6 @@
         "midfix": ") exist for user",
         "suffix": " nor does the user have permission to access it."
       },
-      "tab": "Editor",
       "title": "Workflow Editor",
       "tasks": {
         "ui": "User Interactions",
