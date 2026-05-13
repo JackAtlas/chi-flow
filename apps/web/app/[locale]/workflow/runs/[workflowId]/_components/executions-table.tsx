@@ -16,7 +16,9 @@ import { ExecutionStatusIndicator } from './execution-status'
 import type { WorkflowExecutionStatus } from '@/types/workflow'
 import { CoinsIcon } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
+import { enUS, zhCN } from 'date-fns/locale'
 import { useRouter } from '@/i18n/navigation'
+import { useLocale, useTranslations } from 'next-intl'
 
 type InitialDataType = Awaited<ReturnType<typeof GetWorkflowExecutions>>
 
@@ -27,6 +29,10 @@ export default function ExecutionsTable({
   initialData: InitialDataType
   workflowId: string
 }) {
+  const locale = useLocale()
+  const t = useTranslations('Workflow.runs')
+  const e = useTranslations('Execution.status')
+
   const router = useRouter()
   const query = useQuery({
     queryKey: ['executions', workflowId],
@@ -41,10 +47,10 @@ export default function ExecutionsTable({
           <TableHeader className="bg-muted">
             <TableRow>
               <TableHead>Id</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Consumed</TableHead>
+              <TableHead>{t('header.status')}</TableHead>
+              <TableHead>{t('header.consumed')}</TableHead>
               <TableHead className="text-right text-xs text-muted-foreground">
-                Started at (desc)
+                {t('header.time')}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -54,9 +60,20 @@ export default function ExecutionsTable({
                 execution.completedAt,
                 execution.startedAt
               )
+              let timeLocale
+              switch (locale) {
+                case 'zh':
+                  timeLocale = zhCN
+                  break
+                default:
+                  timeLocale = enUS
+              }
               const formattedStartedAt =
                 execution.startedAt &&
-                formatDistanceToNow(execution.startedAt, { addSuffix: true })
+                formatDistanceToNow(execution.startedAt, {
+                  addSuffix: true,
+                  locale: timeLocale
+                })
               return (
                 <TableRow
                   key={execution.id}
@@ -70,9 +87,19 @@ export default function ExecutionsTable({
                   <TableCell>
                     <div className="flex flex-col">
                       <span className="font-semibold">{execution.id}</span>
-                      <div className="text-xs text-muted-foreground">
-                        <span>Triggered via</span>
-                        <Badge variant="outline">{execution.trigger}</Badge>
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <span>{t('trigger.via')}</span>
+                        <Badge variant="outline">
+                          {execution.trigger === 'CRON' ? (
+                            <span className="text-blue-600">
+                              {t('trigger.CRON')}
+                            </span>
+                          ) : (
+                            <span className="text-amber-600">
+                              {t('trigger.MANUAL')}
+                            </span>
+                          )}
+                        </Badge>
                       </div>
                     </div>
                   </TableCell>
@@ -83,7 +110,7 @@ export default function ExecutionsTable({
                           status={execution.status as WorkflowExecutionStatus}
                         />
                         <span className="font-semibold capitalize">
-                          {execution.status}
+                          {e(execution.status as never)}
                         </span>
                       </div>
                       <div className="mx-5 text-xs text-muted-foreground">
@@ -98,9 +125,6 @@ export default function ExecutionsTable({
                         <span className="font-semibold capitalize">
                           {execution.creditsConsumed}
                         </span>
-                      </div>
-                      <div className="mx-5 text-xs text-muted-foreground">
-                        Credits
                       </div>
                     </div>
                   </TableCell>

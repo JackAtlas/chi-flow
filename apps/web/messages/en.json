@@ -132,6 +132,24 @@
         "tc": "Timing Controls",
         "results": "Results"
       }
+    },
+    "runs": {
+      "title": "All runs",
+      "desc": "List of all your workflow runs",
+      "empty": {
+        "desc": "No runs have been triggered yet for this workflow",
+        "text": "You can trigger a new run in the editor page"
+      },
+      "header": {
+        "status": "Status",
+        "consumed": "Consumed Credits",
+        "time": "Started at (desc)"
+      },
+      "trigger": {
+        "via": "Triggered via",
+        "MANUAL": "MANUAL",
+        "CRON": "CRON"
+      }
     }
   },
   "Execution": {

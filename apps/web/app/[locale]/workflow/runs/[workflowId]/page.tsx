@@ -3,18 +3,21 @@ import Topbar from '../../_components/topbar/topbar'
 import { Suspense } from 'react'
 import { InboxIcon, Loader2Icon } from 'lucide-react'
 import ExecutionsTable from './_components/executions-table'
+import { getTranslations } from 'next-intl/server'
 
 export default async function ExecutionPage({
   params
 }: {
   params: Promise<{ workflowId: string }>
 }) {
+  const t = await getTranslations('Workflow.runs')
+
   const { workflowId } = await params
   return (
     <div className="h-full w-full overflow-auto">
       <Topbar
-        title="All runs"
-        subTitle="List of all your workflow runs"
+        title={t('title')}
+        subTitle={t('desc')}
         workflowId={workflowId}
         hideButtons
       />
@@ -32,6 +35,8 @@ export default async function ExecutionPage({
 }
 
 async function ExecutionsTableWrapper({ workflowId }: { workflowId: string }) {
+  const t = await getTranslations('Workflow.runs.empty')
+
   const executions = await GetWorkflowExecutions(workflowId)
   if (!executions) return <div>No data</div>
 
@@ -43,12 +48,8 @@ async function ExecutionsTableWrapper({ workflowId }: { workflowId: string }) {
             <InboxIcon size={40} className="stroke-primary" />
           </div>
           <div className="flex flex-col gap-1 text-center">
-            <p className="font-bold">
-              No runs have been triggered yet for this workflow
-            </p>
-            <p className="text-sm text-muted-foreground">
-              You can trigger a new run in the editor page
-            </p>
+            <p className="font-bold">{t('desc')}</p>
+            <p className="text-sm text-muted-foreground">{t('text')}</p>
           </div>
         </div>
       </div>
