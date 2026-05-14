@@ -19,6 +19,7 @@ import {
   type LucideIcon
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
+import { enUS, zhCN } from 'date-fns/locale'
 import { useEffect, useState, type ReactNode } from 'react'
 import { Separator } from '@workspace/ui/components/separator'
 import { Button } from '@workspace/ui/components/button'
@@ -47,6 +48,7 @@ import { cn } from '@workspace/ui/lib/utils'
 import type { LogLevel } from '@/types/log'
 import PhaseStatusBadge from './phase-status-badge'
 import ReactCountUpWrapper from '@/components/react-count-up-wrapper'
+import { useLocale, useTranslations } from 'next-intl'
 
 type ExecutionData = Awaited<ReturnType<typeof GetWorkflowExecutionWithPhases>>
 
@@ -55,6 +57,10 @@ export default function ExecutionViewer({
 }: {
   initialData: ExecutionData
 }) {
+  const locale = useLocale()
+  const t = useTranslations('Execution')
+  const s = useTranslations('Execution.status')
+
   const [selectedPhase, setSelectedPhase] = useState<string | null>(null)
   const query = useQuery({
     queryKey: ['execution', initialData?.id],
@@ -69,6 +75,15 @@ export default function ExecutionViewer({
     enabled: selectedPhase !== null,
     queryFn: () => GetWorkflowPhaseDetails(selectedPhase!)
   })
+
+  let timeLocale
+  switch (locale) {
+    case 'zh':
+      timeLocale = zhCN
+      break
+    default:
+      timeLocale = enUS
+  }
 
   const isRunning = query.data?.status === WorkflowExecutionStatus.RUNNING
 
@@ -101,24 +116,25 @@ export default function ExecutionViewer({
         <div className="px-2 py-4">
           <ExecutionLabel
             icon={CircleDashedIcon}
-            label="Status"
+            label={t('detail.label.status')}
             value={
               <div className="flex items-center gap-2 font-semibold capitalize">
                 <PhaseStatusBadge
                   status={query.data?.status as ExecutionPhaseStatus}
                 />
-                <span>{query.data?.status}</span>
+                <span>{s(query.data?.status as never)}</span>
               </div>
             }
           />
           <ExecutionLabel
             icon={CalendarIcon}
-            label="Started at"
+            label={t('detail.label.started')}
             value={
               <span className="lowercase">
                 {query.data?.startedAt
                   ? formatDistanceToNow(new Date(query.data.createdAt), {
-                      addSuffix: true
+                      addSuffix: true,
+                      locale: timeLocale
                     })
                   : '-'}
               </span>
@@ -126,7 +142,7 @@ export default function ExecutionViewer({
           />
           <ExecutionLabel
             icon={ClockIcon}
-            label="Duration"
+            label={t('detail.label.duration')}
             value={
               duration ? (
                 duration
@@ -137,7 +153,7 @@ export default function ExecutionViewer({
           />
           <ExecutionLabel
             icon={CoinsIcon}
-            label="Credits consumed"
+            label={t('detail.label.consumed')}
             value={<ReactCountUpWrapper value={creditsConsumed} />}
           />
         </div>
@@ -145,7 +161,7 @@ export default function ExecutionViewer({
         <div className="flex items-center justify-center px-4 py-2">
           <div className="flex items-center gap-2 text-muted-foreground">
             <WorkflowIcon size={20} className="stroke-muted-foreground/80" />
-            <span className="font-semibold">Phases</span>
+            <span className="font-semibold">{t('detail.label.phases')}</span>
           </div>
         </div>
         <Separator />
@@ -172,7 +188,7 @@ export default function ExecutionViewer({
       <main className="min-h-0 flex-1 overflow-auto">
         {isRunning && (
           <div className="flex h-full w-full items-center justify-center gap-2">
-            <p className="font-bold">Run is in progress, please wait</p>
+            <p className="font-bold">{t('detail.running')}</p>
           </div>
         )}
         {!isRunning && !selectedPhase && (
@@ -191,14 +207,14 @@ export default function ExecutionViewer({
               <Badge variant="outline" className="space-x-4">
                 <div className="flex items-center gap-1">
                   <CoinsIcon size={14} className="stroke-muted-foreground" />
-                  <span>Credits</span>
+                  <span>{t('detail.label.credits')}</span>
                 </div>
                 <span>{phaseDetails.data.creditsConsumed}</span>
               </Badge>
               <Badge variant="outline" className="space-x-4">
                 <div className="flex items-center gap-1">
                   <ClockIcon size={14} className="stroke-muted-foreground" />
-                  <span>Duration</span>
+                  <span>{t('detail.label.duration')}</span>
                 </div>
                 <span>
                   {DatesToDurationString(
@@ -210,14 +226,14 @@ export default function ExecutionViewer({
             </div>
 
             <ParameterViewer
-              title="Inputs"
-              subTitle="Inputs used for this phone"
+              title={t('detail.inputs.title')}
+              subTitle={t('detail.inputs.desc')}
               paramsJSON={phaseDetails.data.inputs}
             />
 
             <ParameterViewer
-              title="Outputs"
-              subTitle="Outputs generated by this phase"
+              title={t('detail.outputs.title')}
+              subTitle={t('detail.outputs.desc')}
               paramsJSON={phaseDetails.data.outputs}
             />
 
@@ -260,6 +276,7 @@ function ParameterViewer({
   subTitle: string
   paramsJSON: string | null
 }) {
+  const t = useTranslations('Execution.detail')
   const params = paramsJSON
     ? (JSON.parse(paramsJSON) as AppNodeData['inputs'])
     : undefined
@@ -274,7 +291,7 @@ function ParameterViewer({
       <CardContent className="py-4">
         <div className="flex flex-col gap-2">
           {(!params || Object.keys(params).length === 0) && (
-            <p>No parameters generated by this phase</p>
+            <p>{t('emptyParam')}</p>
           )}
           {params &&
             Object.entries(params).map(([key, value]) => (

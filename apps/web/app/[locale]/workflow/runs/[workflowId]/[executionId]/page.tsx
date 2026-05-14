@@ -5,6 +5,7 @@ import { Loader2Icon } from 'lucide-react'
 import { headers } from 'next/headers'
 import { Suspense } from 'react'
 import ExecutionViewer from './_components/execution-viewer'
+import { getTranslations } from 'next-intl/server'
 
 export default async function RunPage({
   params
@@ -14,13 +15,15 @@ export default async function RunPage({
     workflowId: string
   }>
 }) {
+  const t = await getTranslations('Execution')
+
   const { executionId, workflowId } = await params
   return (
     <>
       <Topbar
         workflowId={workflowId}
-        title="Workflow run details"
-        subTitle={`Run ID: ${executionId}`}
+        title={t('detail.title')}
+        subTitle={`${t('detail.desc')}${executionId}`}
         hideButtons
       />
       <section className="flex flex-1 overflow-hidden">

@@ -153,6 +153,28 @@
     }
   },
   "Execution": {
+    "detail": {
+      "title": "工作流运行详情",
+      "desc": "运行 ID：",
+      "running": "运行中，请耐心等待",
+      "emptyParam": "没有相关参数",
+      "label": {
+        "status": "状态",
+        "started": "起始时间",
+        "duration": "时长",
+        "consumed": "消耗点数",
+        "phases": "阶段",
+        "credits": "点数"
+      },
+      "inputs": {
+        "title": "输入",
+        "desc": "本阶段获得的输入"
+      },
+      "outputs": {
+        "title": "输出",
+        "desc": "本阶段生成的输出"
+      }
+    },
     "status": {
       "PENDING": "等待中",
       "RUNNING": "执行中",
