@@ -1,7 +1,7 @@
 import '../styles.css'
 import { AppProviders } from '@/components/providers/app-providers'
 import { Metadata } from 'next'
-import { getMessages, setRequestLocale } from 'next-intl/server'
+import { getMessages, getTimeZone, setRequestLocale } from 'next-intl/server'
 import { Toaster } from 'sonner'
 
 export const metadata: Metadata = {
@@ -17,6 +17,7 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>
 }>) {
   const { locale } = await params
+  const timeZone = await getTimeZone()
 
   setRequestLocale(locale)
 
@@ -25,7 +26,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning className="antialiased">
       <body>
-        <AppProviders locale={locale} messages={messages}>
+        <AppProviders locale={locale} timeZone={timeZone} messages={messages}>
           {children}
         </AppProviders>
         <Toaster richColors />
