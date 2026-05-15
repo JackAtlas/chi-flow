@@ -12,6 +12,7 @@ export async function proxy(request: NextRequest) {
     forwardedHost: request.headers.get('x-forwarded-host'),
     proto: request.headers.get('x-forwarded-proto')
   })
+  const origin = `${request.headers.get('x-forwarded-proto') || 'https'}://${request.headers.get('x-forwarded-host') || request.headers.get('host')}`
   const pathname = request.nextUrl.pathname
 
   // next-intl middleware
@@ -34,12 +35,12 @@ export async function proxy(request: NextRequest) {
 
   // logged in user visits auth page
   if (isAuthPage && isLoggedIn) {
-    return NextResponse.redirect(new URL('/', request.url))
+    return NextResponse.redirect(new URL('/', origin))
   }
 
   // protected routes
   if (!isAuthPage && !isLoggedIn) {
-    return NextResponse.redirect(new URL('/signIn', request.url))
+    return NextResponse.redirect(new URL('/signIn', origin))
   }
 
   return response
