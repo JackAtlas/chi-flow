@@ -40,7 +40,11 @@ export async function proxy(request: NextRequest) {
       redirectUrl = new URL(location, baseUrl)
     }
 
-    return NextResponse.redirect(redirectUrl, { status: response.status })
+    if (redirectUrl.href !== location) {
+      return NextResponse.redirect(redirectUrl, { status: response.status })
+    }
+
+    return response
   }
 
   const locale =
