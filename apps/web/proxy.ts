@@ -27,6 +27,7 @@ export async function proxy(request: NextRequest) {
 
   // 如果 next-intl 要求重定向
   const location = response.headers.get('location')
+  console.log('@@location', location)
   if (location) {
     // 获取当前请求对应的 baseUrl
     const baseUrl = getRequestURL(request)
