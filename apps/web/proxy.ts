@@ -15,16 +15,32 @@ function getRequestURL(request: NextRequest) {
     request.nextUrl.pathname + request.nextUrl.search,
     `${proto}://${host}`
   )
+  // 生产环境：X-Forwarded-Host: chi-flow.jackatlas.xyz -> https://chi-flow.jackatlas.xyz/...
+  // 开发环境：没有 X-Forwarded-Host，Host 头 localhost:3002 -> http://localhost:3002/...
 }
 
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
-  // next-intl middleware
+  // next-intl 中间件
   const response = intlMiddleware(request)
 
-  if (response.headers.get('location')) {
-    return response
+  // 如果 next-intl 要求重定向
+  const location = response.headers.get('location')
+  if (location) {
+    // 获取当前请求对应的 baseUrl
+    const baseUrl = getRequestURL(request)
+
+    let redirectUrl: URL
+    if (location.startsWith('http')) {
+      redirectUrl = new URL(location)
+      redirectUrl.protocol = baseUrl.protocol
+      redirectUrl.host = baseUrl.host
+    } else {
+      redirectUrl = new URL(location, baseUrl)
+    }
+
+    return NextResponse.redirect(redirectUrl, { status: response.status })
   }
 
   const locale =
@@ -32,8 +48,8 @@ export async function proxy(request: NextRequest) {
 
   // public routes
   const publicApiPaths = ['/api/workflows']
-  const isPublicPage = publicApiPaths.some((page) => pathname.startsWith(page))
-  if (isPublicPage) return response
+  const isPublicApi = publicApiPaths.some((page) => pathname.startsWith(page))
+  if (isPublicApi) return response
 
   // auth pages
   const authPages = ['/signIn', '/signUp', '/adminSignIn']
