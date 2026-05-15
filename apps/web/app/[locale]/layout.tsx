@@ -1,3 +1,4 @@
+import { routing } from '@/i18n/routing'
 import '../styles.css'
 import { AppProviders } from '@/components/providers/app-providers'
 import { Metadata } from 'next'
@@ -7,6 +8,10 @@ import { Toaster } from 'sonner'
 export const metadata: Metadata = {
   title: 'ChiFlow',
   description: '一款工作流管理工具'
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
 }
 
 export default async function RootLayout({
