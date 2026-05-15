@@ -14,6 +14,8 @@ export function I18NSwitcher() {
   const router = useRouter()
   const pathname = usePathname()
 
+  console.log('@@pathname', pathname)
+
   function setLocale(locale: string) {
     router.replace(pathname, { locale })
   }
