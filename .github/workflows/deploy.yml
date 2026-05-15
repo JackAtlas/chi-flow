@@ -31,25 +31,22 @@ jobs:
           NEXT_PUBLIC_DEMO_PASSWORD: ${{ vars.NEXT_PUBLIC_DEMO_PASSWORD }}
           NEXT_PUBLIC_AVATAR_URL: ${{ vars.NEXT_PUBLIC_AVATAR_URL }}
 
-      - name: Package files
-        run: |
-          mkdir -p deploy
-          cp -r apps/web/.next/standalone/* deploy/
-
-          mkdir -p deploy/apps/web/.next
-          cp -r apps/web/.next/static deploy/apps/web/.next/static
-
-          mkdir -p deploy/prisma
-          cp -r apps/web/prisma deploy/
-          cp -r apps/web/prisma.config.ts deploy/
-
       - name: Upload to Server via SSH
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: 'deploy/*'
+          source: |
+            apps/web/.next
+            apps/web/public
+            apps/web/package.json
+            apps/web/next.config.ts
+            apps/web/prisma
+            packages
+            package.json
+            pnpm-lock.yaml
+            pnpm-workspace.yaml
           target: '/var/www/chi-flow'
 
       - name: Deploy on Server
@@ -63,8 +60,11 @@ jobs:
             cd /var/www/chi-flow
 
             export NODE_ENV=production
-            export PORT=3002
 
-            pm2 restart chi-flow || pm2 start ./deploy/apps/web/server.js --name chi-flow
+            pnpm install --prod --frozen-lockfile
+
+            pm2 restart chi-flow || \
+            pm2 start "pnpm --filter web start -- --port 3002" \
+              --name chi-flow
 
             pm2 save
