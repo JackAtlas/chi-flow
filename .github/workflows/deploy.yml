@@ -36,6 +36,7 @@ jobs:
           tar -czf release.tar.gz \
             apps/web/.next \
             apps/web/prisma \
+            apps/web/prisma.config.ts \
             apps/web/package.json \
             apps/web/next.config.mjs \
             package.json \
