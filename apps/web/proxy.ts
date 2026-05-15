@@ -32,20 +32,13 @@ export async function proxy(request: NextRequest) {
     // 获取当前请求对应的 baseUrl
     const baseUrl = getRequestURL(request)
 
-    let redirectUrl: URL
-    if (location.startsWith('http')) {
-      redirectUrl = new URL(location)
-      redirectUrl.protocol = baseUrl.protocol
-      redirectUrl.host = baseUrl.host
-    } else {
-      redirectUrl = new URL(location, baseUrl)
-    }
+    const redirectUrl = new URL(location, baseUrl)
+    redirectUrl.protocol = new URL(baseUrl).protocol
+    redirectUrl.host = new URL(baseUrl).host
 
-    if (redirectUrl.href !== location) {
-      return NextResponse.redirect(redirectUrl, { status: response.status })
-    }
-
-    return response
+    return NextResponse.redirect(redirectUrl, {
+      status: response.status as 301 | 302 | 303 | 307 | 308
+    })
   }
 
   const locale =
