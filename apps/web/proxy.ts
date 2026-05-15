@@ -35,12 +35,24 @@ export async function proxy(request: NextRequest) {
 
   // logged in user visits auth page
   if (isAuthPage && isLoggedIn) {
-    return NextResponse.redirect(new URL('/', origin))
+    const redirectResponse = NextResponse.redirect(new URL('/', origin))
+
+    response.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie)
+    })
+
+    return redirectResponse
   }
 
   // protected routes
   if (!isAuthPage && !isLoggedIn) {
-    return NextResponse.redirect(new URL('/signIn', origin))
+    const redirectResponse = NextResponse.redirect(new URL('/signIn', origin))
+
+    response.cookies.getAll().forEach((cookie) => {
+      redirectResponse.cookies.set(cookie)
+    })
+
+    return redirectResponse
   }
 
   return response
