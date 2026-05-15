@@ -33,18 +33,15 @@ jobs:
 
       - name: Package files
         run: |
-          mkdir -p deploy
-          cp -r apps/web/.next deploy/
-          cp -r apps/web/prisma deploy/
-
-          cp apps/web/package.json deploy/
-          cp apps/web/next.config.mjs deploy/
-
-          cp package.json deploy/
-          cp pnpm-lock.yaml deploy/
-          cp pnpm-workspace.yaml deploy/
-
-          cp -r packages deploy/
+          tar -czf release.tar.gz \
+            apps/web/.next \
+            apps/web/prisma \
+            apps/web/package.json \
+            apps/web/next.config.mjs \
+            package.json \
+            pnpm-lock.yaml \
+            pnpm-workspace.yaml \
+            packages
 
       - name: Upload to Server via SSH
         uses: appleboy/scp-action@v0.1.7
@@ -52,7 +49,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: 'deploy'
+          source: 'release.tar.gz'
           target: '/var/www/chi-flow'
 
       - name: Deploy on Server
@@ -65,8 +62,20 @@ jobs:
             set -e
             cd /var/www/chi-flow
 
+            tar -xzf release.tar.gz
+
+            pnpm install --frozen-lockfile
+
+            cd ./apps/web
+            pnpm prisma generate
+
+            pnpm prisma migrate deploy
+
+            cd ../../
             export NODE_ENV=production
 
             pm2 restart chi-flow || pm2 start "pnpm --filter web start -- --port 3002" --name chi-flow
 
             pm2 save
+
+            rm release.tar.gz
