@@ -5,69 +5,62 @@ import { auth } from './lib/auth/auth'
 
 const intlMiddleware = createNextIntlMiddleware(routing)
 
-function getRequestURL(request: NextRequest) {
+// 获取请求对应的正确基础 URL（生产用域名，开发保留 localhost:端口）
+function getRequestBase(request: NextRequest): string {
   const proto = request.headers.get('x-forwarded-proto') || 'https'
   const host =
     request.headers.get('x-forwarded-host') ||
     request.headers.get('host') ||
     request.nextUrl.host
-  return new URL(
-    request.nextUrl.pathname + request.nextUrl.search,
-    `${proto}://${host}`
-  )
-  // 生产环境：X-Forwarded-Host: chi-flow.jackatlas.xyz -> https://chi-flow.jackatlas.xyz/...
-  // 开发环境：没有 X-Forwarded-Host，Host 头 localhost:3002 -> http://localhost:3002/...
+  return `${proto}://${host}`
 }
 
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
-  // next-intl 中间件
+  // 1. 先执行 next-intl 中间件（可能触发语言补全重定向）
   const response = intlMiddleware(request)
 
-  // 如果 next-intl 要求重定向
+  // 2. 关键：如果存在 Location 头，强制将其转换为基于正确域名的绝对 URL
   const location = response.headers.get('location')
-  console.log('@@location', location)
   if (location) {
-    // 获取当前请求对应的 baseUrl
-    const baseUrl = getRequestURL(request)
-
-    const redirectUrl = new URL(location, baseUrl)
-    redirectUrl.protocol = new URL(baseUrl).protocol
-    redirectUrl.host = new URL(baseUrl).host
+    const base = getRequestBase(request)
+    const redirectUrl = new URL(location, base)
+    // 强制覆盖协议和主机（避免 relative URL 解析出 localhost:3002）
+    redirectUrl.protocol = new URL(base).protocol
+    redirectUrl.host = new URL(base).host
 
     return NextResponse.redirect(redirectUrl, {
       status: response.status as 301 | 302 | 303 | 307 | 308
     })
   }
 
-  const locale =
-    response.headers.get('x-next-intl-locale') || routing.defaultLocale
-
-  // public routes
+  // 3. 公开 API 直接放行
   const publicApiPaths = ['/api/workflows']
-  const isPublicApi = publicApiPaths.some((page) => pathname.startsWith(page))
+  const isPublicApi = publicApiPaths.some((p) => pathname.startsWith(p))
   if (isPublicApi) return response
 
-  // auth pages
+  // 4. 认证相关页面
   const authPages = ['/signIn', '/signUp', '/adminSignIn']
   const isAuthPage = authPages.some((page) => pathname.endsWith(page))
 
-  // session
-  const session = await auth.api.getSession({
-    headers: request.headers
-  })
+  // 5. 获取会话
+  const session = await auth.api.getSession({ headers: request.headers })
   const isLoggedIn = !!session?.user
 
-  // logged in user visits auth page
+  // 6. 当前语言（优先取 next-intl 响应头中的 locale）
+  const locale =
+    response.headers.get('x-next-intl-locale') || routing.defaultLocale
+
+  // 7. 已登录访问登录页 → 回首页
   if (isAuthPage && isLoggedIn) {
-    const homeUrl = new URL(`/${locale}`, getRequestURL(request))
+    const homeUrl = new URL(`/${locale}`, getRequestBase(request))
     return NextResponse.redirect(homeUrl)
   }
 
-  // protected routes
+  // 8. 未登录访问保护页 → 去登录页
   if (!isAuthPage && !isLoggedIn) {
-    const signInUrl = new URL(`/${locale}/signIn`, getRequestURL(request))
+    const signInUrl = new URL(`/${locale}/signIn`, getRequestBase(request))
     return NextResponse.redirect(signInUrl)
   }
 
