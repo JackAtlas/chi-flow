@@ -5,6 +5,18 @@ import { auth } from './lib/auth/auth'
 
 const intlMiddleware = createNextIntlMiddleware(routing)
 
+function getRequestURL(request: NextRequest) {
+  const proto = request.headers.get('x-forwarded-proto') || 'https'
+  const host =
+    request.headers.get('x-forwarded-host') ||
+    request.headers.get('host') ||
+    request.nextUrl.host
+  return new URL(
+    request.nextUrl.pathname + request.nextUrl.search,
+    `${proto}://${host}`
+  )
+}
+
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
@@ -14,6 +26,9 @@ export async function proxy(request: NextRequest) {
   if (response.headers.get('location')) {
     return response
   }
+
+  const locale =
+    response.headers.get('x-next-intl-locale') || routing.defaultLocale
 
   // public routes
   const publicApiPaths = ['/api/workflows']
@@ -32,17 +47,13 @@ export async function proxy(request: NextRequest) {
 
   // logged in user visits auth page
   if (isAuthPage && isLoggedIn) {
-    const locale =
-      response.headers.get('x-next-intl-locale') || routing.defaultLocale
-    const homeUrl = new URL(`/${locale}`, request.url)
+    const homeUrl = new URL(`/${locale}`, getRequestURL(request))
     return NextResponse.redirect(homeUrl)
   }
 
   // protected routes
   if (!isAuthPage && !isLoggedIn) {
-    const locale =
-      response.headers.get('x-next-intl-locale') || routing.defaultLocale
-    const signInUrl = new URL(`/${locale}/signIn`, request.url)
+    const signInUrl = new URL(`/${locale}/signIn`, getRequestURL(request))
     return NextResponse.redirect(signInUrl)
   }
 
