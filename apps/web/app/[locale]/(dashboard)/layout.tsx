@@ -7,7 +7,6 @@ import { UserDropdownMenu } from '@/components/user-dropdown-menu'
 import { I18NSwitcher } from '@/components/i18n-switcher'
 
 export default function layout({ children }: { children: ReactNode }) {
-  console.log('@@href', window?.location.href)
   return (
     <div className="flex h-screen">
       <DesktopSidebar />
