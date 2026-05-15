@@ -6,6 +6,12 @@ import { auth } from './lib/auth/auth'
 const intlMiddleware = createNextIntlMiddleware(routing)
 
 export async function proxy(request: NextRequest) {
+  console.log({
+    url: request.url,
+    host: request.headers.get('host'),
+    forwardedHost: request.headers.get('x-forwarded-host'),
+    proto: request.headers.get('x-forwarded-proto')
+  })
   const pathname = request.nextUrl.pathname
 
   // next-intl middleware
