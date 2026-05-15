@@ -6,20 +6,18 @@ import { auth } from './lib/auth/auth'
 const intlMiddleware = createNextIntlMiddleware(routing)
 
 export async function proxy(request: NextRequest) {
-  console.log({
-    url: request.url,
-    host: request.headers.get('host'),
-    forwardedHost: request.headers.get('x-forwarded-host'),
-    proto: request.headers.get('x-forwarded-proto')
-  })
   const pathname = request.nextUrl.pathname
 
   // next-intl middleware
   const response = intlMiddleware(request)
 
+  if (response.headers.get('location')) {
+    return response
+  }
+
   // public routes
-  const publicPages = ['/api/workflows']
-  const isPublicPage = publicPages.some((page) => pathname.startsWith(page))
+  const publicApiPaths = ['/api/workflows']
+  const isPublicPage = publicApiPaths.some((page) => pathname.startsWith(page))
   if (isPublicPage) return response
 
   // auth pages
@@ -34,28 +32,18 @@ export async function proxy(request: NextRequest) {
 
   // logged in user visits auth page
   if (isAuthPage && isLoggedIn) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/'
-    const redirectResponse = NextResponse.redirect(url)
-
-    response.cookies.getAll().forEach((cookie) => {
-      redirectResponse.cookies.set(cookie)
-    })
-
-    return redirectResponse
+    const locale =
+      response.headers.get('x-next-intl-locale') || routing.defaultLocale
+    const homeUrl = new URL(`/${locale}`, request.url)
+    return NextResponse.redirect(homeUrl)
   }
 
   // protected routes
   if (!isAuthPage && !isLoggedIn) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/signIn'
-    const redirectResponse = NextResponse.redirect(url)
-
-    response.cookies.getAll().forEach((cookie) => {
-      redirectResponse.cookies.set(cookie)
-    })
-
-    return redirectResponse
+    const locale =
+      response.headers.get('x-next-intl-locale') || routing.defaultLocale
+    const signInUrl = new URL(`/${locale}/signIn`, request.url)
+    return NextResponse.redirect(signInUrl)
   }
 
   return response

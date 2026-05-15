@@ -9,13 +9,17 @@ import {
   DropdownMenuTrigger
 } from '@workspace/ui/components/dropdown-menu'
 import { LanguagesIcon } from 'lucide-react'
+import { useTransition } from 'react'
 
 export function I18NSwitcher() {
   const router = useRouter()
   const pathname = usePathname()
+  const [isPending, startTransition] = useTransition()
 
   function setLocale(locale: string) {
-    router.replace(pathname, { locale })
+    startTransition(() => {
+      router.replace(pathname, { locale })
+    })
   }
 
   return (
