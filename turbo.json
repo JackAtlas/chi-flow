@@ -6,7 +6,8 @@
     "NEXT_PUBLIC_DEMO_PASSWORD",
     "NEXT_PUBLIC_AVATAR_URL",
     "API_SECRET",
-    "ENCRYPTION_KEY"
+    "ENCRYPTION_KEY",
+    "BETTER_AUTH_URL"
   ],
   "ui": "tui",
   "tasks": {

@@ -5,6 +5,7 @@ import prisma from '../prisma'
 import { admin } from 'better-auth/plugins'
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL,
   plugins: [admin(), nextCookies()],
   emailAndPassword: {
     enabled: true
