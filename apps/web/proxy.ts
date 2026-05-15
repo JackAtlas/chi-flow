@@ -12,7 +12,6 @@ export async function proxy(request: NextRequest) {
     forwardedHost: request.headers.get('x-forwarded-host'),
     proto: request.headers.get('x-forwarded-proto')
   })
-  const origin = `${request.headers.get('x-forwarded-proto') || 'https'}://${request.headers.get('x-forwarded-host') || request.headers.get('host')}`
   const pathname = request.nextUrl.pathname
 
   // next-intl middleware
@@ -35,7 +34,9 @@ export async function proxy(request: NextRequest) {
 
   // logged in user visits auth page
   if (isAuthPage && isLoggedIn) {
-    const redirectResponse = NextResponse.redirect(new URL('/', origin))
+    const url = request.nextUrl.clone()
+    url.pathname = '/'
+    const redirectResponse = NextResponse.redirect(url)
 
     response.cookies.getAll().forEach((cookie) => {
       redirectResponse.cookies.set(cookie)
@@ -46,7 +47,9 @@ export async function proxy(request: NextRequest) {
 
   // protected routes
   if (!isAuthPage && !isLoggedIn) {
-    const redirectResponse = NextResponse.redirect(new URL('/signIn', origin))
+    const url = request.nextUrl.clone()
+    url.pathname = '/signIn'
+    const redirectResponse = NextResponse.redirect(url)
 
     response.cookies.getAll().forEach((cookie) => {
       redirectResponse.cookies.set(cookie)
