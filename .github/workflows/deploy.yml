@@ -43,7 +43,7 @@ jobs:
             pnpm-lock.yaml \
             pnpm-workspace.yaml \
             packages \
-            ecosystem.config.mjs
+            ecosystem.config.cjs
 
       - name: Upload to Server via SSH
         uses: appleboy/scp-action@v0.1.7
