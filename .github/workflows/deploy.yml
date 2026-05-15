@@ -73,6 +73,7 @@ jobs:
 
             cd ../../
             export NODE_ENV=production
+            export PUPPETEER_SKIP_DOWNLOAD=true
 
             pm2 restart chi-flow || pm2 start "pnpm --filter web start -- --port 3002" --name chi-flow
 
