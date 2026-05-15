@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   apps: [
     {
       name: 'chi-flow',
@@ -8,8 +8,7 @@ export default {
       env: {
         NODE_ENV: 'production',
         HOSTNAME: 'chi-flow.jackatlas.xyz',
-        PORT: 3002,
-        PUPPETEER_SKIP_DOWNLOAD: 'true'
+        PORT: 3002
       }
     }
   ]

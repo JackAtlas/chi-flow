@@ -66,6 +66,7 @@ jobs:
 
             tar -xzf release.tar.gz
 
+            export PUPPETEER_SKIP_DOWNLOAD=true
             pnpm install --frozen-lockfile
 
             cd ./apps/web
@@ -75,7 +76,7 @@ jobs:
 
             cd ../../
 
-            pm2 restart ecosystem.config.mjs || pm2 start ecosystem.config.mjs
+            pm2 restart ecosystem.config.cjs || pm2 start ecosystem.config.cjs
 
             pm2 save
 
