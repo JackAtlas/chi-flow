@@ -78,4 +78,5 @@ jobs:
 
             pm2 save
 
+            cd ../../
             rm release.tar.gz
