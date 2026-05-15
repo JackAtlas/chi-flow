@@ -1,6 +1,7 @@
 'use client'
 
 import useExecutionPlan from '@/hooks/use-execution-plan'
+import { useRouter } from '@/i18n/navigation'
 import { PublishWorkflow } from '@/lib/workflow/workflow'
 import { useMutation } from '@tanstack/react-query'
 import { Button } from '@workspace/ui/components/button'
@@ -8,7 +9,6 @@ import { useReactFlow } from '@xyflow/react'
 import { UploadIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
-import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 export default function PublishBtn({ workflowId }: { workflowId: string }) {
