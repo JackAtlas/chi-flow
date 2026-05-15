@@ -38,7 +38,7 @@ jobs:
           cp -r apps/web/prisma deploy/
 
           cp apps/web/package.json deploy/
-          cp apps/web/next.config.ts deploy/
+          cp apps/web/next.config.mjs deploy/
 
           cp package.json deploy/
           cp pnpm-lock.yaml deploy/
