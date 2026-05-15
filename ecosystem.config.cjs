@@ -7,8 +7,7 @@ module.exports = {
       args: '--filter web start',
       env: {
         NODE_ENV: 'production',
-        HOSTNAME: 'chi-flow.jackatlas.xyz',
-        PORT: 3002
+        HOSTNAME: 'chi-flow.jackatlas.xyz'
       }
     }
   ]
