@@ -6,17 +6,13 @@ import {
 } from '@workspace/ui/components/alert'
 import { Card } from '@workspace/ui/components/card'
 import { Skeleton } from '@workspace/ui/components/skeleton'
-import {
-  FolderClosedIcon,
-  LockKeyholeIcon,
-  ShieldIcon,
-  ShieldOffIcon
-} from 'lucide-react'
+import { LockKeyholeIcon, ShieldIcon, ShieldOffIcon } from 'lucide-react'
 import { Suspense } from 'react'
 import CreateCredentialDialog from './_components/create-credential-dialog'
 import { formatDistanceToNow } from 'date-fns'
 import DeleteCredentialDialog from './_components/delete-credential-dialog'
 import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
 export default function CredentialsPage() {
   const t = useTranslations('Credentials')
@@ -47,6 +43,8 @@ export default function CredentialsPage() {
 }
 
 async function UserCredentials() {
+  const t = await getTranslations('Credentials.empty')
+
   const credentials = await GetCredentialsForUser()
   if (!credentials) {
     return <div>Something went wrong</div>
@@ -60,16 +58,15 @@ async function UserCredentials() {
             <ShieldOffIcon size={40} className="stroke-primary" />
           </div>
           <div className="flex flex-col gap-1 text-center">
-            <p className="text-bold">No credentials created yet</p>
-            <p className="text-sm text-muted-foreground">
-              Click the button below to create your first credential
-            </p>
+            <p className="text-bold">{t('title')}</p>
+            <p className="text-sm text-muted-foreground">{t('desc')}</p>
           </div>
-          <CreateCredentialDialog triggerText="Create your first credential" />
+          <CreateCredentialDialog triggerText={t('button')} />
         </div>
       </Card>
     )
   }
+
   return (
     <div className="flex flex-wrap gap-2">
       {credentials.map((credential) => {

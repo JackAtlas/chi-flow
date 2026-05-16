@@ -189,6 +189,11 @@
       "title": "Encryption",
       "desc": "All information is securely encrypted, ensuring your data remains safe."
     },
+    "empty": {
+      "title": "No credentials created yet",
+      "desc": "Click the button below to create your first credential",
+      "button": "Create your first credential"
+    },
     "createCredentialDialog": {
       "button": "Create credential",
       "title": "Create credential",

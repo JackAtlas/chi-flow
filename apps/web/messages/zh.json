@@ -189,6 +189,11 @@
       "title": "加密声明",
       "desc": "所有信息都会被安全加密，确保您的数据安全。"
     },
+    "empty": {
+      "title": "还没有凭证",
+      "desc": "点击下方按钮创建您的第一个凭证",
+      "button": "创建您的第一个凭证"
+    },
     "createCredentialDialog": {
       "button": "创建凭证",
       "title": "创建凭证",
