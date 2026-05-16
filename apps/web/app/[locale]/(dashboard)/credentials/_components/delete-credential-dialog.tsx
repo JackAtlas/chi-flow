@@ -33,7 +33,7 @@ export default function DeleteCredentialDialog({ name }: Props) {
     onSuccess: () => {
       toast.success('Credential deleted sucessfully', { id: name })
       setConfirmText('')
-      router.replace('/workflows')
+      router.refresh()
     },
     onError: () => {
       toast.error('Something went wrong', { id: name })

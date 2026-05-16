@@ -29,6 +29,7 @@ import {
 import { CreateCredential } from '@/lib/credentials'
 import { useTranslations } from 'next-intl'
 import { capitalize } from '@/lib/utils'
+import { useRouter } from '@/i18n/navigation'
 
 export default function CreateCredentialDialog({
   triggerText
@@ -37,6 +38,7 @@ export default function CreateCredentialDialog({
 }) {
   const t = useTranslations('Credentials.createCredentialDialog')
   const f = useTranslations('Form')
+  const router = useRouter()
 
   const [open, setOpen] = useState(false)
 
@@ -59,6 +61,7 @@ export default function CreateCredentialDialog({
     onSuccess: () => {
       toast.success('Credential created', { id: 'create-credential' })
       form.reset()
+      router.refresh()
       setOpen(false)
     },
     onError: (error) => {
