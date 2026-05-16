@@ -6,7 +6,12 @@ import {
 } from '@workspace/ui/components/alert'
 import { Card } from '@workspace/ui/components/card'
 import { Skeleton } from '@workspace/ui/components/skeleton'
-import { LockKeyholeIcon, ShieldIcon, ShieldOffIcon } from 'lucide-react'
+import {
+  FolderKeyIcon,
+  LockKeyholeIcon,
+  ShieldIcon,
+  ShieldOffIcon
+} from 'lucide-react'
 import { Suspense } from 'react'
 import CreateCredentialDialog from './_components/create-credential-dialog'
 import { formatDistanceToNow } from 'date-fns'
@@ -31,6 +36,16 @@ export default async function CredentialsPage() {
         <ShieldIcon className="size-4 stroke-primary" />
         <AlertTitle className="text-primary">{t('statement.title')}</AlertTitle>
         <AlertDescription>{t('statement.desc')}</AlertDescription>
+      </Alert>
+
+      <Alert>
+        <FolderKeyIcon className="stroke-primary" />
+        <AlertTitle className="text-primary">{t('alert.title')}</AlertTitle>
+        <AlertDescription>
+          {t.rich('alert.desc', {
+            strong: (chunk) => <strong>{chunk}</strong>
+          })}
+        </AlertDescription>
       </Alert>
 
       <div className="pb-6">

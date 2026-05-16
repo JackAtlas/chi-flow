@@ -189,6 +189,10 @@
       "title": "Encryption",
       "desc": "All information is securely encrypted, ensuring your data remains safe."
     },
+    "alert": {
+      "title": "Demonstration Only",
+      "desc": "This site is intended for demo purposes only. It currently integrates only with the OpenRouter API and is configured to use free models. You can either using the credentials provided by this site or use your own credentials."
+    },
     "empty": {
       "title": "No credentials created yet",
       "desc": "Click the button below to create your first credential",
