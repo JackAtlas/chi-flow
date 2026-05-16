@@ -10,12 +10,12 @@ import { LockKeyholeIcon, ShieldIcon, ShieldOffIcon } from 'lucide-react'
 import { Suspense } from 'react'
 import CreateCredentialDialog from './_components/create-credential-dialog'
 import { formatDistanceToNow } from 'date-fns'
+import { enUS, zhCN } from 'date-fns/locale'
 import DeleteCredentialDialog from './_components/delete-credential-dialog'
-import { useTranslations } from 'next-intl'
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 
-export default function CredentialsPage() {
-  const t = useTranslations('Credentials')
+export default async function CredentialsPage() {
+  const t = await getTranslations('Credentials')
 
   return (
     <div className="flex h-full flex-1 flex-col gap-6 px-6">
@@ -43,6 +43,7 @@ export default function CredentialsPage() {
 }
 
 async function UserCredentials() {
+  const locale = await getLocale()
   const t = await getTranslations('Credentials.empty')
 
   const credentials = await GetCredentialsForUser()
@@ -70,9 +71,19 @@ async function UserCredentials() {
   return (
     <div className="flex flex-wrap gap-2">
       {credentials.map((credential) => {
+        let dateLocale
+        switch (locale) {
+          case 'zh':
+            dateLocale = zhCN
+            break
+          default:
+            dateLocale = enUS
+        }
         const createdAt = formatDistanceToNow(credential.createdAt, {
-          addSuffix: true
+          addSuffix: true,
+          locale: dateLocale
         })
+
         return (
           <Card
             key={credential.id}
