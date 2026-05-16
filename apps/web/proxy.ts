@@ -5,54 +5,41 @@ import { auth } from './lib/auth/auth'
 
 const intlMiddleware = createNextIntlMiddleware(routing)
 
-function getRequestURL(request: NextRequest) {
-  const proto = request.headers.get('x-forwarded-proto') || 'https'
-  const host =
-    request.headers.get('x-forwarded-host') ||
-    request.headers.get('host') ||
-    request.nextUrl.host
-  return new URL(
-    request.nextUrl.pathname + request.nextUrl.search,
-    `${proto}://${host}`
-  )
-  // 生产环境：X-Forwarded-Host: chi-flow.jackatlas.xyz -> https://chi-flow.jackatlas.xyz/...
-  // 开发环境：没有 X-Forwarded-Host，Host 头 localhost:3002 -> http://localhost:3002/...
-}
-
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
-  // next-intl 中间件
+  // 1. next-intl 处理国际化路由（包括重定向）
   const response = intlMiddleware(request)
 
-  const locale =
-    response.headers.get('x-next-intl-locale') || routing.defaultLocale
+  // 如果 next-intl 已经返回了重定向，直接返回
+  if (response.headers.get('location')) {
+    return response
+  }
 
-  // public routes
+  // 2. 公开 API 放行
   const publicApiPaths = ['/api/workflows']
-  const isPublicApi = publicApiPaths.some((page) => pathname.startsWith(page))
-  if (isPublicApi) return response
+  if (publicApiPaths.some((p) => pathname.startsWith(p))) {
+    return response
+  }
 
-  // auth pages
+  // 3. 认证页面判断
   const authPages = ['/signIn', '/signUp', '/adminSignIn']
   const isAuthPage = authPages.some((page) => pathname.endsWith(page))
 
-  // session
-  const session = await auth.api.getSession({
-    headers: request.headers
-  })
+  // 4. 会话检查
+  const session = await auth.api.getSession({ headers: request.headers })
   const isLoggedIn = !!session?.user
 
-  // logged in user visits auth page
-  if (isAuthPage && isLoggedIn) {
-    const homeUrl = new URL(`/${locale}`, getRequestURL(request))
-    return NextResponse.redirect(homeUrl)
-  }
+  // 5. 获取当前语言
+  const locale =
+    response.headers.get('x-next-intl-locale') || routing.defaultLocale
 
-  // protected routes
+  // 6. 登录状态路由保护
+  if (isAuthPage && isLoggedIn) {
+    return NextResponse.redirect(new URL(`/${locale}`, request.url))
+  }
   if (!isAuthPage && !isLoggedIn) {
-    const signInUrl = new URL(`/${locale}/signIn`, getRequestURL(request))
-    return NextResponse.redirect(signInUrl)
+    return NextResponse.redirect(new URL(`/${locale}/signIn`, request.url))
   }
 
   return response
