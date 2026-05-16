@@ -20,17 +20,10 @@ function getRequestURL(request: NextRequest) {
 }
 
 export async function proxy(request: NextRequest) {
-  const port = request.headers.get('x-forwarded-port')
-  console.log({ port })
-
   const pathname = request.nextUrl.pathname
 
   // next-intl 中间件
   const response = intlMiddleware(request)
-
-  // 如果 next-intl 要求重定向
-  const location = response.headers.get('location')
-  console.log('@@location', location)
 
   const locale =
     response.headers.get('x-next-intl-locale') || routing.defaultLocale
